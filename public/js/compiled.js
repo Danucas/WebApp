@@ -1,4 +1,4 @@
-var version =  'debug=0.0.1.3.5';
+var version =  'debug=0.0.1.3.6';
 
 var focused = false;
 var sw;
