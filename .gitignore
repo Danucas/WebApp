@@ -1,0 +1,16 @@
+.firebase/
+.firebaserc
+Nueva carpeta/
+ad/
+beta/
+deploy_all.bat
+deploy_functions.bat
+deploy_hosting.bat
+firebase.json
+functions/
+notification_sample.psd
+publicaciones.json
+rulesDb.json
+setup
+src.rar
+src/

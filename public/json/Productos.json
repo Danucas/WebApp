@@ -1,0 +1,240 @@
+{
+  "Categorias" : {
+    "Aliñados" : {
+      "Pan Mantequilla grande" : {
+        "DescPaq" : "sin descripcion",
+        "DescPro" : "x 440 gramos",
+        "posibleDown" : 20,
+        "precioPaquete" : "0",
+        "precioUnidad" : "2900",
+        "stock" : 10,
+        "undPorPaq" : "13",
+        "uri" : 2130837702,
+        "url" : "mantequilla_480",
+        "weburl" : "/src/prods/mantequilla_480.png"
+      },
+      "Pan Mantequilla media" : {
+        "DescPaq" : "sin descripcion",
+        "DescPro" : "x 220 gramos",
+        "posibleDown" : 0,
+        "precioPaquete" : "0",
+        "precioUnidad" : "1500",
+        "stock" : 10,
+        "undPorPaq" : "8",
+        "uri" : 2130837701,
+        "url" : "mantequilla_248",
+        "weburl" : "/src/prods/mantequilla_248.png"
+      },
+      "Pan cuajada grande" : {
+        "DescPaq" : "sin descripcion",
+        "DescPro" : "x 400 gramos",
+        "posibleDown" : 0,
+        "precioPaquete" : "0",
+        "precioUnidad" : "3900",
+        "stock" : 10,
+        "undPorPaq" : "13",
+        "uri" : 2130837648,
+        "url" : "cuajada_480",
+        "weburl" : "/src/prods/cuajada_480.png"
+      },
+      "Pan cuajada media" : {
+        "DescPaq" : "sin descripcion",
+        "DescPro" : "x 200 gramos",
+        "posibleDown" : 1,
+        "precioPaquete" : "0",
+        "precioUnidad" : "2000",
+        "stock" : 20,
+        "undPorPaq" : "8",
+        "uri" : 2130837646,
+        "url" : "cuajada_248",
+        "weburl" : "/src/prods/cuajada_248.png"
+      }
+    },
+    "Dulces" : {
+      "Roscon de arequipe" : {
+        "DescPaq" : "x3 unds",
+        "DescPro" : "x 90 gramos",
+        "posibleDown" : 26,
+        "precioPaquete" : "2000",
+        "precioUnidad" : "700",
+        "stock" : 10,
+        "undPorPaq" : "3",
+        "uri" : 2130837744,
+        "url" : "roscon_arequipe",
+        "weburl" : "/src/prods/roscon_arequipe.png"
+      },
+      "Roscon de guayaba" : {
+        "DescPaq" : "x3 unds",
+        "DescPro" : "x 90 gramos",
+        "posibleDown" : 3,
+        "precioPaquete" : "2000",
+        "precioUnidad" : "700",
+        "stock" : 10,
+        "undPorPaq" : "3",
+        "uri" : 2130837745,
+        "url" : "roscon_guayaba",
+        "weburl" : "/src/prods/roscon_guayaba.png"
+      },
+      "Stollen" : {
+        "DescPaq" : "x 6 unds",
+        "DescPro" : "x 70 gramos",
+        "posibleDown" : 8,
+        "precioPaquete" : "3400",
+        "precioUnidad" : "600",
+        "stock" : 10,
+        "undPorPaq" : "6",
+        "uri" : 2130837767,
+        "url" : "stollen",
+        "weburl" : "/src/prods/stollen.png"
+      }
+    },
+    "Integrales" : {
+      "Calabaza y Girasol" : {
+        "DescPaq" : "sin descripcion",
+        "DescPro" : "x 500 gramos",
+        "posibleDown" : 6,
+        "precioPaquete" : "0",
+        "precioUnidad" : 4900,
+        "stock" : 10,
+        "undPorPaq" : "13",
+        "uri" : 2130837702,
+        "url" : "integral_calabaza",
+        "weburl" : "/src/prods/integral_calabaza.png"
+      },
+      "Integral Pasas grande" : {
+        "DescPaq" : "sin descripcion",
+        "DescPro" : "x 500 gramos",
+        "posibleDown" : 0,
+        "precioPaquete" : "0",
+        "precioUnidad" : "3900",
+        "stock" : 10,
+        "undPorPaq" : "13",
+        "uri" : 2130837702,
+        "url" : "integral_pasas_480",
+        "weburl" : "/src/prods/integral_pasas_480.png"
+      },
+      "Integral Pasas media" : {
+        "DescPaq" : "sin descripcion",
+        "DescPro" : "x 250 gramos",
+        "posibleDown" : 1,
+        "precioPaquete" : "0",
+        "precioUnidad" : "2000",
+        "stock" : 10,
+        "undPorPaq" : "13",
+        "uri" : 2130837702,
+        "url" : "integral_pasas_240",
+        "weburl" : "/src/prods/integral_pasas_240.png"
+      }
+    },
+    "Para Desayunar" : {
+      "Acemas" : {
+        "DescPaq" : "x 7 unds",
+        "DescPro" : "x 48 gramos",
+        "posibleDown" : 63,
+        "precioPaquete" : "2000",
+        "precioUnidad" : "300",
+        "stock" : 19,
+        "undPorPaq" : "7",
+        "uri" : 2130837587,
+        "url" : "acema",
+        "weburl" : "/src/prods/acema.png"
+      },
+      "Buñuelos" : {
+        "DescPaq" : "x 8 unds",
+        "DescPro" : "x 38 gramos",
+        "posibleDown" : 3,
+        "precioPaquete" : "3000",
+        "precioUnidad" : "400",
+        "stock" : 20,
+        "undPorPaq" : "8",
+        "uri" : 2130837604,
+        "url" : "bunuelo",
+        "weburl" : "/src/prods/bunuelo.png"
+      },
+      "Calabaza con Girasol" : {
+        "DescPaq" : "x 8 unds",
+        "DescPro" : "x 50 gramos",
+        "posibleDown" : 0,
+        "precioPaquete" : 3800,
+        "precioUnidad" : "500",
+        "stock" : 10,
+        "undPorPaq" : "8",
+        "uri" : 2130837702,
+        "url" : "integral_peque_cala",
+        "weburl" : "/src/prods/integral_peque_cala.png"
+      },
+      "Croissant" : {
+        "DescPaq" : "x 5 unds",
+        "DescPro" : "x 60 gramos",
+        "posibleDown" : 1,
+        "precioPaquete" : "2400",
+        "precioUnidad" : "500",
+        "stock" : 20,
+        "undPorPaq" : "5",
+        "uri" : 2130837645,
+        "url" : "croissant",
+        "weburl" : "/src/prods/croissant.png"
+      },
+      "Croissant con Queso" : {
+        "DescPaq" : "x 5 unds",
+        "DescPro" : "x 70 gramos",
+        "posibleDown" : 2,
+        "precioPaquete" : "3650",
+        "precioUnidad" : "750",
+        "stock" : 30,
+        "undPorPaq" : "5",
+        "uri" : 2130837690,
+        "url" : "croissant",
+        "weburl" : "/src/prods/croissant.png"
+      },
+      "Integral Pasas" : {
+        "DescPaq" : "x8 unds",
+        "DescPro" : "x 50 gramos",
+        "posibleDown" : 0,
+        "precioPaquete" : "3000",
+        "precioUnidad" : "400",
+        "stock" : 10,
+        "undPorPaq" : "8",
+        "uri" : 2130837702,
+        "url" : "integral_pasas_peque",
+        "weburl" : "/src/prods/integral_pasas_peque.png"
+      },
+      "Pan cuajada" : {
+        "DescPaq" : "x8 und",
+        "DescPro" : "x 40 gramos",
+        "posibleDown" : 17,
+        "precioPaquete" : "3000",
+        "precioUnidad" : "400",
+        "stock" : 20,
+        "undPorPaq" : "8",
+        "uri" : 2130837647,
+        "url" : "cuajada_48",
+        "weburl" : "/src/prods/cuajada_48.png"
+      },
+      "Pan mantequilla" : {
+        "DescPaq" : "x 7 unds",
+        "DescPro" : "x 44 gramos",
+        "posibleDown" : 0,
+        "precioPaquete" : "2000",
+        "precioUnidad" : "300",
+        "stock" : 19,
+        "undPorPaq" : "7",
+        "uri" : 2130837703,
+        "url" : "mantequilla_50gr",
+        "weburl" : "/src/prods/mantequilla_50gr.png"
+      },
+      "Pandebono" : {
+        "DescPaq" : "x8 unds",
+        "DescPro" : "x 45gr",
+        "posibleDown" : 9,
+        "precioPaquete" : "3800",
+        "precioUnidad" : 500,
+        "stock" : 30,
+        "undPorPaq" : "8",
+        "uri" : 2130837730,
+        "url" : "pandebono",
+        "weburl" : "/src/prods/pandebono.png"
+      }
+    }
+  }
+}

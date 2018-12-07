@@ -1,0 +1,22 @@
+{
+  "short_name": "Medialuna Web",
+  "name": "Medialuna Web",
+  "icons": [
+    {
+      "src":"src/icons/launcher.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/?source=pwa",
+  "background_color": "#fdf2f4",
+  "theme_color": "#fca06a",
+  "display": "standalone",
+  "gcm_sender_id": "103953800507",
+  "related_applications": [
+     {
+      "platform": "play",
+      "id": "com.medialuna.delicatessen.cali"
+     }
+]
+}

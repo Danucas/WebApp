@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Medialuna</title>
+	<meta name="theme-color" content="#c46a46">
+	<meta name="google-signin-client_id" content="775057201875-f1mqe945bdqos9ag06s048asckctpfhm.apps.googleusercontent.com">
+	<link rel="shortcut icon" type="image/ico" href="src/favicon.ico"/>
+	<link rel="manifest" href="manifest.json">
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Assistant|Dosis|PT+Sans" rel="stylesheet">
+	<script src="https://apis.google.com/js/platform.js" async defer></script>
+	<script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+	
+	
+</head>
+
+<body style="overflow: hidden;">
+	<div id="redelpan">
+
+		<div id="pubLoading">
+			<img src="src/icons/wait.gif">
+			<h1>Cargando...</h1>
+		</div>
+		<button id="addPub"></button>
+		<div id="addCont">
+			<img src="src/icons/add_img_icon.png" onclick="cargarImagen()">
+			<h1>Toma fotos y<br>Gana descuentos</h1>
+			<h2>Ver más</h2>
+			<img class="redCupon"src="src/icons/red_cupon.png"> 
+		</div>
+
+		
+		<ul id="publicaciones">
+			
+			
+		</ul>
+		
+
+
+		
+
+	</div>
+	
+
+	<div id="container">
+		
+	<div id="promos">
+		
+	</div>
+
+
+
+	
+	<div id="infoContainer">
+		
+
+		
+		<div id="main_logo"  ></div>
+		<h4 id="code_counter">1</h4>
+		
+
+		<h1 id="salute">Te damos la bienvenida a tu panaderia</h1>
+		<div id="dias">
+			<h1>Dia de tu pedido</h1>
+			<h2 id="dia" onclick="verTallo(true)">Sábado</h2>
+			<h3 class="cambiarDia"  onclick="verTallo(true)">cambiar</h3>
+		</div>
+
+
+
+
+		
+	</div>
+
+
+	<ul id="categorias">
+			<li onclick="cargarProductos('Para Desayunar')">
+				<div>
+					<h1 class="firstCat">Desayuno</h1>
+					<p  class="des">
+
+				</div>
+							</li>
+			<li onclick="cargarProductos('Aliñados')">
+				<div>
+					<h1>Alinados</h1>
+					<img src="src/icons/pan_ic.png">
+
+				</div>
+							</li>
+			<li onclick="cargarProductos('Dulces')">
+				<div>
+					<h1>Dulces</h1>
+					<img src="src/icons/repo_ic.png">
+
+				</div></li>
+			<li onclick="cargarProductos('Integrales')">
+				<div>
+					<h1>Integrales</h1>
+					<img src="src/icons/icono_reserva.png">
+
+				</div>
+							</li>
+		</ul>
+	
+	<div id="orden">
+		
+		
+		
+		<div id="cargandoProds">
+			<h3>Cargando<br>Productos...</h3>
+			<img src="src/icons/wait.gif">
+
+			
+		</div>
+		<h2 id="cateActual" onclick="verMuro()">Categoria</h2>
+		<div  id="productos" class="productos">			
+		</div>
+		
+	</div>
+	<div id="install" onclick="showPrompInstall()" >
+			
+			
+			<h1>Crea un<br>acceso directo</h1>
+			<p></p>
+
+		</div>
+	<div id="banner" >
+			
+			<a href="https://goo.gl/V7Vfxk"></a>
+		</div>
+	<div id="footer">
+		<div class="footerTop">
+			<div class="footerLogo"style="background-image: url('src/icons/footer_logo.png');">
+				
+			</div>
+			<div>
+					<ul >
+						<li class="footerBtn" onclick="irFacebook()" style="background-image: url('src/icons/btn_facebook.png');"></li>
+						<li class="footerBtn" onclick="irInstagram()" style="
+						   background-image: url('src/icons/btn_instagram.png');"></li>
+				
+					</ul>
+			</div>
+			
+		</div>
+		<a class="footerPlayBadge"href="https://goo.gl/V7Vfxk"></a>
+		
+		<h1 class="terminos" onclick="verTerminos()">Politicas de privacidad y Tratamiento de datos</h1>
+	</div>
+	</div>
+	<div id="mask">
+		
+	</div>
+	<div id="canasta">
+		<h1 id="canastaText" onclick="verCanasta()"></h1>
+		<div> 
+			<button id="verCanasta" onclick="verCanasta()">
+			</button>
+			<h2>Ver Canasta</h2>
+			
+			
+		</div>
+		
+
+	</div>
+	
+
+	<div id="diaContainer">
+
+		
+		<div class="bar">
+			<h1 id="horaEntrega" onclick="comprobarHora()">Hora de entrega</h1>
+			<button id="relojIcon" onclick="comprobarHora()"></button>
+			<button id="guardarBtn" onclick="guardarOrden()">Guardar</button>
+		</div>
+		<div >
+			
+
+			<div class="dirCont"  style="margin-top:1.2vw;">
+				<h1 class="dirTitle"   >Direccion de Entrega</h1>
+				<div style="display: flex; justify-content:center;">
+					<h1 id="dirTxt" class="dirTxt" onclick="comprobarDireccion()"></h1>
+					<button  class="pointer" onclick="comprobarDireccion()"> </button>
+				</div>
+				
+				<div style="display: flex; justify-content: center; ">
+					<h1 class="domTxt">Domicilio</h1>
+					<h1  id="domTxt">$1000</h1>
+				</div>
+				<div style="display: flex; justify-content: center; ">
+					<h1 class="totalTxt" >total + domicilio</h1>
+					<h1 id="totalTxt" style="">$1000</h1>
+				</div>
+				<div id="totalDesc" >
+					<h1 style="">total con descuento + domicilio</h1>
+					<h2 id="totalDescTxt">$1000</h1>
+				</div>
+				<button  id="moreProBtn" class="moreBtn" onclick="verProductos()"></button>
+			</div>
+			<div class="contA" >
+				<ul id="carContain">
+					
+					
+				</ul>
+			</div>
+			
+		</div>
+		
+		
+	</div>
+
+
+
+
+		
+
+		
+	
+
+
+	<div id="cupones" >
+		<div class="top_cupones">
+			<img id="backCupones" onclick="hideCupones()" src="src/icons/btn_back_arrow.png">
+			<img id="clearCupones" onclick="clearCupones(true)" src="src/icons/trash_can.png">
+
+		</div>
+		
+		<ul id="cuponesList">
+			
+			
+		</ul>
+	</div>
+
+
+	<div id="ticket"  onclick="getCupones(true)">
+		<img src="src/icons/cupon_menu_icon_yellow.png">
+	</div>
+
+	
+	<div id="session" onmouseover="showSessionMenu()" onmouseout="hideSessionMenu()">
+			
+			<ul id="menuSession" onmouseout="hideSessionMenu()">
+				<li onmouseout="hideSessionMenu()">
+					<img src="src/icons/chat_icon.png" style="width: 3vw;">
+					<h1>Ir al chat</h1>
+				</li>
+				<li onclick="compartirUrl()" onmouseout="hideSessionMenu()">
+					<img  src="src/icons/share_menu.png">
+					<h1>Compartir</h1>
+				</li>
+				<li onclick="cerrarSesion()" onmouseout="hideSessionMenu()">
+					<img src="src/icons/back.png">
+					<h1>Cerrar Sesión</h1>
+					
+				</li>
+				
+			</ul>
+		</div>
+	
+	
+	
+
+
+	
+</body>
+<header id="header" >
+	<button id="hamButton"></button>
+	<img id="logoHead" src="src/icons/orden_logo.png" ">
+	<h3 id="notification"></h3>
+	<h1 id="mainTitle" >Medialuna | Panaderia a Domicilio</h1>
+	<button id="secondary" onclick="verTallo(true)"> </button>
+	<h2 id="subTitle"  >IniciarSesion</h2>
+	<button id="menuButton"></button>
+</header>
+<div id="alert" style="display:none;" >
+	
+
+	
+		
+</div>
+
+<div id="camera_cont">
+
+	
+			
+</div>
+<h1 id="toast">
+		
+	</h1>
+<div id="mainMenu" onmouseover="showMenuMain()">
+			<div style="display: flex">
+				<button class="btnbackconf" style="background-image: url('src/icons/btn_back_arrow.png');" onclick="closeMenuMain()"></button>
+				<h1></h1>
+			</div>
+
+			<div id="sessionHead" class="sessionHead" onmouseout="hideSessionMenu()">
+				
+				<img id="sessionPhoto" src="src/icons/usu_orange.png">
+				<div class="itemHead">
+				 <div>
+				 	<h3 id="sessionUser">Usuario</h3>
+				 	
+				 </div>
+				 <div style="margin-top: -2vw;">
+				 	<h3 id="sessionPhone" >e-mail</h3>
+				 	
+				 </div>
+				</div>
+				
+			</div>
+			
+
+			<ul class="menuList">
+				<li id="verNotificaciones"onclick="verNotificaciones()" onmouseout="cerrarNotis()" style="display: none;" onmouseover="showMenuMain(), verNotificaciones()">
+					
+					<img class="menuImg"src="src/icons/bell.png">
+					<h2>Notificaciones</h2>
+					<h4 id="counter"></h4>
+					
+				</li>
+				<li onclick="verPromociones()" style="display: none;" onmouseover="showMenuMain()">
+					<img class="menuImg"src="src/icons/cupon_menu_icon.png">
+					<h2>Ver Promociones</h2>
+					
+				</li>
+				<li onclick="shareUrl()" onmouseover="showMenuMain()">
+					<img class="menuImg"src="src/icons/share_menu.png">
+					<h2>Compartir</h2>
+					
+				</li>
+				<li onclick="buzon()" onmouseover="showMenuMain()">
+					<img class="menuImg"src="src/icons/icon_buzon.png">
+					<h2>Buzón de Sugerencias</h2>
+					
+				</li>
+				<li id="cerrarSesion" onclick="cerrarSesion()" onmouseover="showMenuMain()"
+					>
+					<img class="menuImg"src="src/icons/log_out.png">
+					<h2>Cerrar Sesión</h2>
+					
+				</li>
+				<li id="removerCuenta" style="display: none;"onclick="removerCuenta()" onmouseover="showMenuMain()"
+					>
+					<img class="menuImg"src="src/icons/cancel_btn.png">
+					<h2>Borrar cuenta</h2>
+					
+				</li>
+				
+				
+			</ul>
+</div>
+<div id="diasList" class="diasList">
+			<ul>
+				<button onclick="verTallo(false)"></button>
+				<li>
+					<div class="izqDia">
+						<h1 id="DomingoSeed" onclick="requestDia(1)">Domingo</h1>
+						<img id="DomingoState" src="">
+					</div>
+					<div  class="derDia">
+						<h2 id="SabadoSeed" onclick="requestDia(7)">Sabado</h2>
+						<img id="SabadoState" src="">
+					</div>
+					
+					
+				</li>
+				<li>
+					<div  class="izqDia">
+						<h1 id="ViernesSeed" onclick="requestDia(6)">Viernes</h1>
+						<img id="ViernesState" src="">
+					</div>
+					<div  class="derDia">
+						<h2 id="JuevesSeed" onclick="requestDia(5)">Jueves</h2>
+						<img id="JuevesState" src="">
+					</div>
+					
+					
+				</li>
+				<li>
+					<div  class="izqDia">
+						<h1 id="MiercolesSeed" onclick="requestDia(4)">Miercoles</h1>
+						<img id="MiercolesState" src="">
+					</div>
+					<div  class="derDia">
+						<h2 id="MartesSeed" onclick="requestDia(3)">Martes</h2>
+						<img id="MartesState" src="">
+					</div>
+					
+					
+				</li>
+				<li>
+					<div class="izqDia">
+						<h1  id="LunesSeed"  onclick="requestDia(2)">Lunes</h1>
+						<img id="LunesState" src="">
+					</div>
+					
+					
+				</li>
+				
+				
+			</ul>
+	</div>
+	<div id="notificaciones" onmouseover="showMenuMain(), verNotificaciones()" onmouseout="cerrarNotis()">
+			<ul id="notifications_list">
+				<li>
+					<h1>Titulo</h1>
+					<h2>contenido</h2>
+					
+				</li>
+				<li>
+					<h1>Otro Titulo</h1>
+					<h2>otro contenido</h2>
+					
+				</li>
+			</ul>
+	</div>
+	
+
+	<div id="loading" style="width: 102%;
+							 height: 102%;
+							 background-color: #fdf2f4;
+	 						 display: block;
+							 left: -1vw;
+							 top: -1vw;
+	                         position: absolute;
+	                         overflow: hidden;
+	                         ">
+		<div id="loadingImg" style="width: 12%;
+	                                             height: 12%;
+	                                             left: 44%;
+	                                             top:44%;
+                                                 size: contain;
+                                                 position:absolute;
+                                                 background-image: url('src/icons/wait_gif.gif');
+                                                 background-repeat: no-repeat;
+                                                 background-size: contain;
+                                                 background-position: center center;
+
+                                                 " ></div>
+		<h1 id="loadingTitle" style="font-family: 'Assistant', sans-serif;
+	               color: #ff8d56;
+	               width: 102vw;
+	               font-size: 1.6vw;
+	               top: 54%;
+	               text-align: center;
+	               position: absolute;
+	               
+	               margin-left: 0;
+	               ">Cargando...</h1>
+		
+	</div>
+
+<script type="text/javascript">
+			if( navigator.userAgent.match(/Android/i)
+            	|| navigator.userAgent.match(/webOS/i)
+            	|| navigator.userAgent.match(/iPhone/i)
+            	|| navigator.userAgent.match(/iPad/i)
+            	|| navigator.userAgent.match(/iPod/i)
+            	|| navigator.userAgent.match(/BlackBerry/i)
+            	|| navigator.userAgent.match(/Windows Phone/i)
+             	){
+		 			var prefImg = "position:absolute;width:26%;height: 26%;margin-left:37%;top:37%;size: contain; background-image: url('src/icons/wait_gif.gif');background-repeat: no-repeat; background-size: contain;            background-position: center center;"
+		 			var prefTitle = "position:absolute;font-family: 'Assistant',sans-serif;color: #ff8d56;width: 102vw;font-size: 5.2vw;top: 56%;text-align: center;";
+
+		 			document.getElementById("loadingTitle").style = prefTitle;
+            		document.getElementById("loadingImg").style = prefImg;
+            		var foo = setCss('style_mob.css');
+            		setJs();
+            
+            }else{
+            	
+            	var foo = setCss('style.css');
+            	setJs();
+            
+            }
+
+            /*if ('serviceWorker' in navigator) {
+    			console.log("Will the service worker register?");
+    			navigator.serviceWorker.register('service-worker.js')
+      			.then(function(reg){    
+        			console.log("Yes, it did.");
+      			}).catch(function(err) {
+        			console.log("No it didn't. This happened: ", err)
+      			});
+  			}*/
+            function setJs(){
+            	var main=document.createElement('script');
+            	main.setAttribute("src", "js/compiled.js");
+            	main.setAttribute("type","text/javascript");
+            	document.body.appendChild(main);
+
+            }
+           
+
+  			 function setCss(filename){
+       			 var head = document.getElementsByTagName('head')[0];
+
+        		var style = document.createElement('link');
+        		style.href = filename;
+        		style.type = 'text/css';
+        		style.rel = 'stylesheet';
+        		head.append(style);
+        		return true;
+    		}
+	</script>
+
+
+
+	
+</html>
