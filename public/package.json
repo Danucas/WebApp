@@ -1,0 +1,11 @@
+{
+  "name": "public",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./js/compiled.js",
+  "scripts": {
+    "productos": "node @m-productos/productos.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

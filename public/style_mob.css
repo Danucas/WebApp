@@ -5,7 +5,7 @@ header{
 	position: absolute;
 	left: 0;
 	top:0;
-	
+
 	color: #ffffff;
 	display: flex;
 }
@@ -45,7 +45,7 @@ header:hover{
 }
 .sessionHead{
 	width: 72vw;
-	
+
 	height: 16vw;
 	padding: 1vw 1vw 1vw 1vw;
 	max-width: 64vw;
@@ -153,7 +153,7 @@ header:hover{
 	box-shadow: 0px 0px 28px rgba(91, 86, 86, 0.4);
 	top: 0vw;
 	left: 0vw;
-	position: absolute; 
+	position: absolute;
 	display: none;
 	overflow-y: scroll;
 	overflow-x: hidden;
@@ -173,7 +173,7 @@ header:hover{
 	margin-top: 16vw;
 	font-family: 'Assistant', sans-serif;
 	padding: 1.8vw 1vw 0.4vw 1vw;
-	
+
 
 }
 .menuList{
@@ -190,11 +190,11 @@ header:hover{
 	width: 94vw;
 	height: 14vw;
 	padding: 0.8vw 0.4vw 0.8vw 1vw;
-	
+
 
 }
 #cerrarSesion{
-	
+
 	display: none;
 }
 .menuList li:hover{
@@ -208,10 +208,10 @@ header:hover{
 	margin-top: 1.4vw;
 	margin-left: 4vw;
 	margin-right: 0;
-	
+
 }
 .menuList h2{
-	
+
 	margin-left: 0vw;
 	width: 54vw;
 	font-weight: bold;
@@ -220,7 +220,7 @@ header:hover{
 	margin-top: 0.4vw;
 	text-align: left;
 	font-size: 4.6vw;
-	
+
 	font-family: 'Assistant', sans-serif;
 	color: #ffffff;
 }
@@ -236,13 +236,13 @@ header:hover{
 	background-size: contain;
 	background-position: center center;
 	background-repeat: no-repeat;
-	
+
 }
 #logoHead{
 	display: none;
 }
 #menuButton{
-	
+
 	margin: 2.6vw;
 	width: 12vw;
 	height: 11.4vw;
@@ -262,17 +262,17 @@ header:hover{
 	background-color: transparent;
 	background-image: url('src/icons/icono_reserva_blank.png');
 	border-style: none;
-	
+
 	background-size:cover;
 	background-position: center center;
 	background-repeat: no-repeat;
 }
 #menuButton:hover{
-	
+
 	cursor: pointer;
 }
 #hamButton:hover{
-	
+
 	cursor: pointer;
 }
 #mainTitle{
@@ -343,7 +343,7 @@ body{
 	font-size: 3.6vw;
 	color: transparent;
 	font-family: 'Assistant', sans-serif;
-	
+
 
 }
 #banner a{
@@ -440,7 +440,7 @@ body{
 	width: 10vw;
 	height: 10vw;
 	border-radius: 50vw;
-	
+
 	margin-top: 20vw;
 	margin-left:   36vw;
 	display: none;
@@ -450,30 +450,30 @@ body{
 	width: 10vw;
 	height: 10vw;
 	border-radius: 50vw;
-	
+
 	margin-top: 21vw;
 	margin-left:   2vw;
 	display: none;
 
 }
 .derDia{
-	
+
 	margin-left: 50vw;
 	margin-top: -8vw;
 	position: absolute;
 	width: 48vw;
 	height: 20vw;
-	
+
 }
 .diasList h1{
 	position: absolute;
 	width: 48vw;
 	height: 20vw;
-	
+
 	font-size: 4.8vw;
 	color: #ffffff;
 	padding-top: 15vw;
-	text-align: center; 
+	text-align: center;
 	font-weight: bold;
 	background-color: transparent;
 	background-size: contain;
@@ -483,7 +483,7 @@ body{
 	font-family: 'Assistant', sans-serif;
 }
 .diasList h2{
-	
+
 	position: absolute;
 	width: 48vw;
 	height: 20vw;
@@ -503,13 +503,13 @@ body{
 
 .diasList h1:hover{
 	color: #ffffff;
-	
+
 	cursor: pointer;
 }
 .diasList h2:hover{
 	color: #ffffff;
 	text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.4);
-	
+
 	cursor: pointer;
 }
 .diasList h1:active{
@@ -533,10 +533,10 @@ body{
 ::-webkit-input-placeholder {
   color: grey;
 }
-:-ms-input-placeholder { 
+:-ms-input-placeholder {
   color: grey;
 }
-::-moz-placeholder { 
+::-moz-placeholder {
   color: grey;
   opacity: 1;
 }
@@ -551,7 +551,7 @@ body{
 	margin-left: 10vw;
 	font-size: 5.6vw;
 	color: #fca06a;
-	
+
 	text-align: center;
 
 }
@@ -613,7 +613,7 @@ body{
 	display: flex;
 }
 #categorias h1{
-	width: 24vw; 
+	width: 24vw;
 	height: 10vw;
 	padding-top: 0.6vw;
 	margin-top: 3.2vw;
@@ -631,10 +631,10 @@ body{
 	margin-right: 4vw;
 }
 .des{
-	width: 20vw; 
+	width: 20vw;
 	height: 10vw;
 	size: contain;
-	
+
 	background-size: contain;
 	background-image: url('src/icons/add_more.png');
 	background-repeat: no-repeat;
@@ -643,7 +643,7 @@ body{
 
 #categorias li:hover{
 	background-color:rgba(5, 5, 5, 0.1);
-	
+
 	cursor: pointer;
 
 }
@@ -655,7 +655,7 @@ body{
 	justify-content: center;
 	display: flex;
 	top: 0vw;
-	
+
 }
 
 #cargandoProds h3{
@@ -664,7 +664,7 @@ body{
 	font-size: 4vw;
 	text-align: center;
 	font-family: sans-serif;
-	
+
 	color:  #e7601e;
 }
 
@@ -691,13 +691,13 @@ body{
 	margin-top: 3vw;
 	width: 100vw;
 	height: auto;
-	
+
 }
 .productos ul{
 	display: block;
-	
+
 	width: 86vw;
-	
+
 	height: 70vw;
 	margin-top: 1.4vw;
 
@@ -707,28 +707,28 @@ body{
 	list-style: none;
 	padding: 1.6vw 1.6vw 1.6vw 1.6vw;
 	width: 86vw;
-	
+
 	height: 70vw;
-	
+
 }
 .producto{
 	box-shadow: 0px 0px 80px rgba(96, 59, 49,0.2);
-	
+
 	background-color: #ffffff;
 	width: 84vw;
 	height: 68vw;
 	border-radius: 8vw;
-	
-	
-	
+
+
+
 }
 .prodContA{
-	
+
 	width: 84vw;
 	height: 68vw;
 	border-radius: 8vw;
 	position: absolute;
-	
+
 }
 .closeB{
 	position: absolute;
@@ -752,7 +752,7 @@ body{
 	height: 68vw;
 	border-radius: 8vw;
 	position: absolute;
-	
+
 	display: none;
 	background-color: #ffffff;
 }
@@ -783,7 +783,7 @@ body{
 	height: 10vw;
 	font-size: 6vw;
 	margin-left: 22vw;
-	
+
 	border-radius: 8vw;
 	color: #ffffff;
 	background-color: #73ba40;
@@ -794,12 +794,12 @@ body{
 
 .aceptar:hover{
 	cursor: pointer;
-	
+
 	background-color: #80c351;
 
 }
 .aceptar:active{
-	
+
 	background-color: #50812c;
 }
 .precio{
@@ -840,7 +840,7 @@ body{
 }
 
 .btnPaquete h1{
-	
+
 	margin: 1vw;
 	width: 36vw;
 	height: auto;
@@ -852,12 +852,12 @@ body{
 }
 .btnPaquete:hover{
 	cursor: pointer;
-	
+
 }
 
 .btnPaquete h2{
-	
-	
+
+
 	width: 24vw;
 	margin-top: 1.2vw;
 	height: auto;
@@ -937,9 +937,9 @@ body{
 #mask{
 	width: 100vw;
 	height: 16vw;
-	
+
 	display: none;
-	
+
 	position: absolute;
 	bottom: -2vw;
 	left: 0vw;
@@ -958,9 +958,9 @@ body{
 	padding-top: 4.4vw;
 	padding-bottom: 1.2vw;
 	left: 0.5vw;
-	top: 0vw; 
+	top: 0vw;
 	bottom: 0.6vw;
-	
+
 
 
 }
@@ -969,7 +969,7 @@ body{
 	height: 24vw;
 	left: 63vw;
 	top: 0vw;
-	
+
 	display: flex;
 	position: absolute;
 }
@@ -979,16 +979,16 @@ body{
 	font-size: 5vw;
 	position: absolute;
 	text-shadow: 0px 0px 8px rgba(5, 5, 5, 0.4);
-	
+
 	margin-top: 16vw;
 	text-align: center;
 	font-family: 'Assistant', sans-serif;
-	color: #ffffff;	
+	color: #ffffff;
 }
 #canasta button{
 	width: 36vw;
 	height: 18vw;
-	
+
 	position: absolute;
 	top: 0;
 	background-size: contain;
@@ -1000,10 +1000,10 @@ body{
 }
 #canasta button:hover{
 	cursor: pointer;
-	
+
 }
 .winOrdenDesc{
-	
+
 	justify-content: center;
 	margin-left: 0vw;
 	width: 70vw;
@@ -1031,7 +1031,7 @@ body{
 	background-color: #ffffff;
 	display: flex;
 	height: 12vw;
-	
+
 
 
 
@@ -1053,24 +1053,24 @@ body{
 
 .contADir{
 	width: 45vw;
-	height: 16vw;							
+	height: 16vw;
 	margin-top: 0;
-	
+
 	padding-left: 3.8vw;
 	padding-top: 0;
 }
 .contADir h1{
-	font-size: 6vw; 
+	font-size: 6vw;
 	margin-top: 0.4vw;
-	
-	font-family: 'Assistant', sans-serif; 
+
+	font-family: 'Assistant', sans-serif;
 	color:#e7601e;
 }
 
 .contADir h2{
 	margin-top: -2.4vw;
-	font-size: 4.8vw; 
-	
+	font-size: 4.8vw;
+
 	font-family: 'Assistant', sans-serif;
 	color: grey;
 }
@@ -1080,15 +1080,15 @@ body{
 	height: auto;
 	max-width: 70%;
 	margin-top: 10%;
-    padding: 0.8vw 1.8vw 0.8vw 1.8vw; 
+    padding: 0.8vw 1.8vw 0.8vw 1.8vw;
 }
 
 .dirFoot{
 	background-color: #ffffff;
 	width: 92vw;
 	height: 18vw;
-	
-	
+
+
 }
 
 .dirFoot button{
@@ -1096,7 +1096,7 @@ body{
 	height: 12vw;
 	color: #b74703;
 	background-color: #ffffff;
-	box-shadow: 0px 0px 20px rgba(5, 5, 5,0.4);	
+	box-shadow: 0px 0px 20px rgba(5, 5, 5,0.4);
 	border-style: none;
 	border-radius: 8vw;
 	font-family: 'Assistant', sans-serif;
@@ -1107,21 +1107,21 @@ body{
 }
 .dirFoot button:hover{
 	cursor: pointer;
-	
+
 }
 .dirFoot button:active{
-	
+
 }
 
 .contBDir{
 	width: 40vw;
-	justify-content: center; 
+	justify-content: center;
 	padding-top: 2.8vw;
 	padding-left: 1vw;
 }
 .contBDir button{
-	width: 10vw; 
-	height: 10vw; 
+	width: 10vw;
+	height: 10vw;
 	margin: 2vw;
 	margin-left: 4vw;
 	border-style: none;
@@ -1131,13 +1131,13 @@ body{
 	background-position: center center;
 }
 .contBDir button:hover{
-	
+
 	cursor: pointer;
 }
 
 .dirItem{
 	background-color: #ffffff;
-	box-shadow: 0px 0px 20px rgba(5,5,5,0.4);	
+	box-shadow: 0px 0px 20px rgba(5,5,5,0.4);
 	width: 88vw;
 	height: 20vw;
 	margin-top: 1.2vw;
@@ -1153,8 +1153,8 @@ body{
 	position: absolute;
 	overflow-y: scroll;
 	overflow-x: hidden;
-	
-	
+
+
 }
 .closeLeft{
 	width: 10vw;
@@ -1215,7 +1215,7 @@ body{
 	font-size: 8vw;
 	color: #73ba40;
 	margin-top: -1.4vw;
-	
+
 	margin-left: 0vw;
 }
 .winOrden h2{
@@ -1230,30 +1230,30 @@ body{
 	width: 92vw;
 	display: block;
 	height: auto;
-	
+
 	top: -0.6vw;
-	
+
 }
 .winOrden li{
-	
+
 	list-style: none;
 	text-align: center;
 	font-size: 6vw;
 	margin-left: -4vw;
 	color: grey;
-	
+
 	font-family: 'Assistant', sans-serif;
-	font-weight: bold; 
+	font-weight: bold;
 }
 #nombPaq{
 	width: 92vw;
 	font-size: 6.4vw;
 	text-align: center;
 	color: black;
-	font-weight: bold; 
+	font-weight: bold;
 	margin-top: -2vw;
 	margin-left: -4vw;
-	
+
 }
 
 .winOrden h4{
@@ -1264,14 +1264,14 @@ body{
 	font-size:6.8vw;
 	color:#b74703;
 	margin-top: 1.6vw;
-	
+
 }
 .winOrden div{
 	width: 92vw;
 	height: auto;
 	margin-top: 5vw;
 	display: flex;
-	
+
 	margin-left: 11vw;
 	position: relative;
 
@@ -1356,7 +1356,7 @@ body{
 }
 #relojIcon:hover{
 	cursor: pointer;
-	
+
 }
 #relojIcon{
 	width: 10vw;
@@ -1392,7 +1392,7 @@ body{
 }
 #guardarBtn:hover{
 	cursor: pointer;
-	
+
 
 }
 .dirTitle{
@@ -1408,64 +1408,64 @@ body{
 }
 
 .totalTxt{
-	font-size: 5.4vw; 
-	font-family: 'Assistant', sans-serif; 
-	text-align: center; 
+	font-size: 5.4vw;
+	font-family: 'Assistant', sans-serif;
+	text-align: center;
 	color: grey;
 }
 
 #totalTxt{
-	font-size: 5.4vw; 
-	font-family: 'Assistant', sans-serif; 
-	text-align: center; 
+	font-size: 5.4vw;
+	font-family: 'Assistant', sans-serif;
+	text-align: center;
 	color: #b74703;
 	margin-left: 2vw;
 	text-decoration: line-through;
 }
 
 #totalDesc{
-	display: none; 
-	justify-content: center; 
+	display: none;
+	justify-content: center;
 }
 #totalDesc h1{
-	font-size: 5.4vw; 
-	font-family: 'Assistant', sans-serif; 
-	text-align: center; 
+	font-size: 5.4vw;
+	font-family: 'Assistant', sans-serif;
+	text-align: center;
 	color: #b74703;
 }
 #totalDescTxt{
-	font-size: 5.4vw; 
-	font-family: 'Assistant', sans-serif; 
-	text-align: center; 
-	color: #73ba40; 
+	font-size: 5.4vw;
+	font-family: 'Assistant', sans-serif;
+	text-align: center;
+	color: #73ba40;
 	margin-left: 2vw;
 }
 
 .pointer{
-	width: 12vw; 
-	height: 12vw; 
+	width: 12vw;
+	height: 12vw;
 	background-color: transparent;
 	border-style: none;
 	background-repeat: no-repeat;
 	background-size: contain;
 	background-position: center center;
-	background-image: url('src/icons/pointer.png'); 
+	background-image: url('src/icons/pointer.png');
 	margin-top: 1.2vw;
 }
 .pointer:hover{
 	cursor: pointer;
 }
 .domTxt{
-	font-size: 5.4vw; 
-	font-family: 'Assistant', sans-serif; 
+	font-size: 5.4vw;
+	font-family: 'Assistant', sans-serif;
 	text-align: center;
 	color: #176559;
 }
 #domTxt{
-	font-size: 5.4vw; 
-	font-family: 'Assistant', sans-serif; 
-	text-align: center; 
-	color: #b74703; 
+	font-size: 5.4vw;
+	font-family: 'Assistant', sans-serif;
+	text-align: center;
+	color: #b74703;
 	margin-left: 2vw;
 }
 
@@ -1496,7 +1496,7 @@ body{
 .carItemContain img{
 	height: 22vw;
 	width: 22vw;
-	
+
 	margin-left: 2vw;
 	margin-top: 1vw;
 	size: contain;
@@ -1507,15 +1507,15 @@ body{
 	justify-content: center;
 	padding: 1vw 1vw 1vw 1vw;
 	height: 22vw;
-	
+
 	margin-left: 2vw;
 	width: 28vw;
-	
 
-	
+
+
 }
 .moreBtn{
-	background-color: transparent; 
+	background-color: transparent;
 	background-image: url('src/icons/seguir_comprando_icon.png');
 	width:26vw;
 	height: 26vw;
@@ -1532,7 +1532,7 @@ body{
 	height: 16vw;
 	cursor: pointer;
 	padding: -1vw;
-	
+
 }
 .editDiv{
 	margin-top: 6vw;
@@ -1602,10 +1602,10 @@ body{
 	padding: 1vw;
 	position: relative;
 	left: 0;
-	
+
 	width: 100vw;
 	height: 100%;
-	
+
 
 	justify-content: center;
 }
@@ -1616,8 +1616,8 @@ body{
  	position: relative;
  	width: 100vw;
 	height: auto;
-	
-	
+
+
  }
 
 
@@ -1629,8 +1629,8 @@ body{
  	left: -2vw;
  	padding-bottom: 8vw;
  	top: -1.8vw;
- 	margin-bottom:20vw; 
- 	
+ 	margin-bottom:20vw;
+
  }
 
  #cupones{
@@ -1642,7 +1642,7 @@ body{
  	display: none;
  	background-color: rgba(5, 5, 5, 0.8);
  	overflow-x: hidden;
- 	
+
  }
 
  .top_cupones{
@@ -1677,7 +1677,7 @@ body{
  	margin-left: -2vw;
  	display: block;
  	overflow-y: scroll;
- 	
+
  }
 .cupon{
  	list-style: none;
@@ -1685,8 +1685,8 @@ body{
  	margin-left: -2vw;
  	height: 18vw;
  	margin-top: -2vw;
- 	
- 	
+
+
  	background-size: cover;
  	background-position: left center;
  	background-repeat: no-repeat;
@@ -1703,7 +1703,7 @@ body{
  	padding-top:5vw;
  	font-size: 6vw;
  	color: #ffffff;
- 	
+
  	font-family: 'Assistant', sans-serif;
 
  }
@@ -1732,7 +1732,7 @@ body{
 
  }
 
- 
+
  #clockCont{
  	width: 90vw;
 	height:auto;
@@ -1805,12 +1805,12 @@ body{
  }
  #guardarHora:hover{
  	cursor: pointer;
- 
+
  }
 
 
 
-	
+
 
 
 
@@ -1820,17 +1820,17 @@ body{
 }
 
 ::-webkit-scrollbar-track {
-    background: rgba(77, 129, 44, 0.12); 
+    background: rgba(77, 129, 44, 0.12);
 }
 
 
 ::-webkit-scrollbar-thumb {
-    background: #b9c854; 
+    background: #b9c854;
 }
 
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #54b9c8; 
+    background: #54b9c8;
     width: 0vw;
 }
 
@@ -1862,7 +1862,7 @@ body{
 	margin-left: 15vw;
 	margin-top: 30%;
 	box-shadow: 0px 2px 8px #888888;
-} 
+}
 
 .dialogHead{
 	display: flex;
@@ -1930,7 +1930,7 @@ body{
 	border-color: rgba(5, 5, 5, 0.9);
 }
 #newDir:hover{
-	
+
 }
 #newDir::placeholder{
 	color: grey;
@@ -1961,8 +1961,8 @@ body{
 }
 .noBtn:hover{
 	cursor: pointer;
-	
-	
+
+
 	color: #b74703;
 	background-color: rgba(0, 0, 0, 0.1);
 
@@ -1978,8 +1978,8 @@ body{
 }
 
 #modTitles{
-	width: 92vw; 
-	height: 8vw; 
+	width: 92vw;
+	height: 8vw;
 	display:flex;
 	margin-top: 8vw;
 }
@@ -1997,30 +1997,30 @@ body{
 
 #porUnidad{
 	width: 46vw;
-	
+
 	padding-top: 0.8vw;
 	text-align: center;
-	position: relative; 
-	font-size: 5.6vw; 
-	font-family: 'Assistant', sans-serif; 
+	position: relative;
+	font-size: 5.6vw;
+	font-family: 'Assistant', sans-serif;
 	color: grey;
 }
 #porUnidad:hover{
-	
-	cursor: pointer; 
+
+	cursor: pointer;
 }
 #porPaquete{
 	width: 46vw;
-	
+
 	padding-top: 0.8vw;
-	text-align: center; 
-	font-size: 5.6vw; 
+	text-align: center;
+	font-size: 5.6vw;
 	position: relative;
-	font-family: 'Assistant', sans-serif; 
+	font-family: 'Assistant', sans-serif;
 	color: grey;
 }
 #porPaquete:hover{
-	
+
 	cursor: pointer;
 }
 
@@ -2038,7 +2038,7 @@ body{
 		border-radius: 50vw;
 }
 #tituloConfirmando{
-	text-align: center; 
+	text-align: center;
 	width: 74vw;
 	height: 12vw;
 	margin-top: 0;
@@ -2062,10 +2062,10 @@ body{
 	padding-bottom: 4vw;
 	overflow-y: scroll;
 	overflow-x: hidden;
-	
+
 }
 .confirmar h1{
-	text-align: center; 
+	text-align: center;
 	width: 92vw;
 	font-family: 'Assistant', sans-serif;
 	color: grey;
@@ -2074,22 +2074,22 @@ body{
 }
 
 .dirContConf{
-	display: flex; 
+	display: flex;
 	width: 60vw;
 	margin-left: 16vw;
-	justify-content:center; 
-	border-radius: 40px; 
+	justify-content:center;
+	border-radius: 40px;
 	height: 12vw;
 	box-shadow: 0px 0px 18px rgba(91, 86, 86, 0.6);
 }
 
 #direccionConfirmando{
 	width: 60vw;
-	
+
 	height: 10vw;
 	margin: 0;
-	
-	
+
+
 	text-align: center;
 	padding-top: 1vw;
 	font-size: 6vw;
@@ -2099,8 +2099,8 @@ body{
 	width: 60vw;
 	margin: 0;
 	height: 12vw;
-	
-	
+
+
 	text-align: center;
 	color: green;
 	padding-top: 1vw;
@@ -2130,7 +2130,7 @@ body{
 	color: grey;
 	font-size: 6vw;
 	text-align: center;
-	font-family: 'Assistant', sans-serif;	
+	font-family: 'Assistant', sans-serif;
 }
 
 .detailBtn{
@@ -2148,7 +2148,7 @@ body{
 	box-shadow: 1px 0px 18px rgba(91, 86, 86, 0.6);
 }
 .menuContainer{
-	display: flex;	
+	display: flex;
 	width: 70vw;
 	height: 8vw;
 }
@@ -2160,7 +2160,7 @@ body{
 	margin-top: 15%;
 	margin-left: 10vw;
 	background-color: #ffffff;
-	
+
 	display: block;
 	border-radius: 1vw;
 	position: absolute;
@@ -2190,7 +2190,7 @@ body{
 }
 .terms{
 	width: 72vw;
-	
+
 	text-align: center;
 	top: 0;
 	margin-left: 0vw;
@@ -2204,7 +2204,7 @@ body{
 .terms:hover{
 	cursor: pointer;
 	color: #0040ff;
-	
+
 }
 .checkbox:hover{
 	cursor: pointer;
@@ -2212,8 +2212,8 @@ body{
 .checkTxt{
 	width: 72vw;
 	max-width: 62vw;
-	
-	
+
+
 	text-align: center;
 	top: 0;
 	left: 0;
@@ -2233,7 +2233,7 @@ body{
 	padding: 0vw;
 	margin-bottom: 4vw;
 	display: block;
-	
+
 }
 #iniciarSesion{
 	width: 60vw;
@@ -2273,9 +2273,9 @@ body{
 .footerBtn:hover{
 	width: 12vw;
 	height: 12vw;
-	
+
 	cursor: pointer;
-	
+
 }
 
 #footer{
@@ -2302,7 +2302,7 @@ body{
 	width: 56vw;
 	height: 18vw;
 	margin-left: 5vw;
-	
+
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-size: contain;
@@ -2329,7 +2329,7 @@ body{
 	text-align: center;
 	font-size: 4.8vw;
 	color: #ffffff;
-	
+
 	font-family: 'Assistant', sans-serif;
 }
 .terminos:hover{
@@ -2344,7 +2344,7 @@ body{
 	position: absolute;
 	margin-left: 5vw;
 	height: auto;
-	padding: 4vw 2vw 6vw 2vw; 
+	padding: 4vw 2vw 6vw 2vw;
 	background-color: #ffffff;
 }
 .marchantesDiv h1{
@@ -2392,10 +2392,10 @@ body{
    width:40vw;
    font-size: 4.2vw;
 	color: #ffffff;
-	
+
 	text-align: center;
 	height: 6.4vw;
-	
+
 	padding-top: 0.8vw;
 	border-radius: 4vw;
 	margin: 0.8vw;
@@ -2421,7 +2421,7 @@ body{
 
 }
 .keep img{
-	
+
 	margin: 0.8vw;
 
 	width: 7.4vw;
@@ -2436,7 +2436,7 @@ body{
 	margin-left: 10vw;
 	text-align: center;
 	padding: 0.7vw 0.7vw 0.7vw 0.7vw;
-	color:  ; 
+	color:  ;
 	margin-top: 1.4vw;
 	position: absolute;
 	display: none;
@@ -2453,7 +2453,7 @@ body{
 	margin-left: 68vw;
 	text-align: center;
 	padding: 0.7vw 0.7vw 0.7vw 0.7vw;
-	color: #ffffff ; 
+	color: #ffffff ;
 	margin-top: 1.8vw;
 	position: absolute;
 	display: block;
@@ -2579,7 +2579,7 @@ body{
 	margin-top: 1.6vw;
 	padding-bottom: 0.8vw;
 	display: none;
-	
+
 
 }
 .cambiarDia{
@@ -2591,10 +2591,10 @@ body{
 	margin-top:2.4vw;
 	padding-bottom: 0.8vw;
 	display: none;
-	
+
 	font-family: 'Assistant', sans-serif;
 	color: #ffffff;
-	
+
 }
 #dias h1{
 	display: none;
@@ -2607,7 +2607,7 @@ body{
 	font-family: 'Assistant', sans-serif;
 	text-align: center;
 	padding-bottom: 0.8vw;
-	
+
 
 }
 #salute{
@@ -2653,7 +2653,7 @@ body{
 	font-size: 4.2vw;
 	font-family: 'Assistant', sans-serif;
 	text-align: right;
-	
+
 	line-height: 1;
 	margin-left: -28vw;
 	text-shadow: 0 0 10px rgba(5, 5, 5, 0.6);
@@ -2682,7 +2682,7 @@ body{
 }
 #addCont img{
 	width: 12vw;
-	
+
 	height: 12vw;
 }
 #addPub{
@@ -2734,9 +2734,9 @@ body{
 	overflow-y: scroll;
 	margin-left: 0vw;
 	margin-top: 0vw;
-	padding: 0vw 0vw 10vw 0vw;
+	padding: 14vw 0vw 10vw 0vw;
 	background-color: transparent;
-	
+
 }
 .publicacion{
 	width: 100vw;
@@ -2783,7 +2783,7 @@ body{
 	font-size: 3.6vw;
 	font-style: italic;
 	margin-top: -1.8vw;
-	
+
 	text-align: left;
 }
 .pub_cont h3{
@@ -2807,7 +2807,7 @@ body{
 	font-size: 8vw;
 	color: #8d9a8d;
 	font-family: Assistant, sans-serif;
-	
+
 	width: 10vw;
 	height: 10vw;
 	text-align: center;
@@ -2846,7 +2846,7 @@ body{
 	padding-top: 2vw;
 	margin-left: 4vw;
 	font-weight: bold;
-	
+
 }
 
 .share_pub{
@@ -2865,7 +2865,7 @@ body{
 #player{
 	width: 108vw;
 	height: 108vw;
-	
+
 	margin-top: 26vw;
 	position: absolute;
 	display: block;
@@ -2967,7 +2967,7 @@ body{
 	height: 128%;
 	margin-left: -2vw;
 	margin-top: -2vw;
-	
+
 	position: absolute;
 	background-color: rgba(5, 5, 5, 1);
 	display: none;
@@ -3194,7 +3194,7 @@ body{
 	margin-left: 45vw;
 	margin-top: 100%;
 	border-radius: 50vw;
-	
+
 }
 #pubLoading h1{
 	width: 100vw;

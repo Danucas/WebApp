@@ -1,4 +1,7 @@
 var version =  'debug=0.0.1.3.6';
+var Productos = '../@m-productos/productos';
+
+
 
 var focused = false;
 var sw;
@@ -69,6 +72,14 @@ window.onblur = function(){
 
 
 function hi(){
+
+    requirejs([Productos], function(result){
+      Productos = result;
+    });
+
+
+
+
     var config = {
         apiKey: "AIzaSyBjNyJlkNfgM3QNQYrMn6qZ5z4okXp3BTE",
         authDomain: "today-6648d.firebaseapp.com",
@@ -4245,6 +4256,9 @@ function cargarProductos(reference){
 
                 });
 
+
+                var po = new Productos(productos);
+                console.log(po.getProductosViews());
                 mostrarProductos(true);
 
             });
