@@ -62,7 +62,7 @@ window.onblur = function(){
     if(focused){
         focused = false;
     }
-   
+
 };
 
 
@@ -83,16 +83,16 @@ function hi(){
     query = getUrlQuery();
     document.addEventListener('contextmenu', event => event.preventDefault());
     setDotListener();
-    
-    
-    
+
+
+    setup();/*
     navigator.serviceWorker.register('service-worker.js')
-        .then(function(reg){ 
+        .then(function(reg){
         sw = reg;
-        setup();   
+        setup();
     }).catch(function(err) {
-        
-    }); 
+
+    });*/
 }
 var anim_dot;
 var dot_timer;
@@ -100,13 +100,13 @@ var showCodComp = false;
 
 function setDotListener(){
  document.getElementById('main_logo').addEventListener('touchstart', function(){
-        
+
           mouseDown();
 
 
  }, true);
  document.getElementById('logoHead').addEventListener('mousedown', function(){
-        
+
           mouseDown();
 
 
@@ -123,9 +123,9 @@ function mouseDown(){
                 showAuthDialog();
             }
         }, 1500);
-        
-        
-       
+
+
+
  };
 
  document.getElementById('main_logo').addEventListener('touchend', function(){
@@ -133,31 +133,31 @@ function mouseDown(){
         if(!showCodComp){
             playDot();
         }
-        
-       
-        
-        
+
+
+
+
  }, true);
  document.getElementById('logoHead').addEventListener('mouseup', function(){
         clearTimeout(dot_timer);
         if(!showCodComp){
             playDot();
         }
-        
-       
-        
-        
+
+
+
+
  }, true);
 
 
 }
 
 function playDot(){
-    
+
     if(play_count>0){
 
-        
-        
+
+
         console.log('playing dot');
         var pos = 0;
         var opacity = 0;
@@ -174,9 +174,9 @@ function playDot(){
                 clearInterval(anim_dot);
                 console.log('Anim cleared');
                  document.getElementById('code_counter').style.display = "none";
-                 
+
             }else{
-                
+
                 if(!reverse){
                     pos= pos +2;
                     if(opacity<1){
@@ -188,29 +188,29 @@ function playDot(){
                             console.log('reverse true');
                         }
                     }
-                    
+
                 }else if(opacity!=0){
                     pos= pos +1;
                     opacity = opacity-0.1;
                     console.log('op --');
                 }
-               
+
                 document.getElementById('code_counter').style.marginLeft = pos+"vw";
                 document.getElementById('code_counter').style.opacity = opacity;
-                
+
             }
         }
-        
+
     }else{
         if(user!=null){
             ingresarCodigo(0);
         }else{
             showAuthDialog();
         }
-        
+
     }
-    
-   
+
+
 }
 
 function ingresarCodigo(type){
@@ -220,7 +220,7 @@ function ingresarCodigo(type){
     }else{
         document.getElementById('alert').innerHTML = getCodigoView('Ingresa el Codigo que tu amig@ te compartió');
     }
-   
+
     document.getElementById('ok_cod').addEventListener('click', function(){
         var sanit = document.getElementById('cod_input').value.toString().split('>');
         if(sanit.length>1){
@@ -231,11 +231,11 @@ function ingresarCodigo(type){
             if(type ==1){
                 comprobarCodigoCompartir(codico);
             }else{
-               
+
                 comprobarCodigo(codico);
             }
         }
-       
+
     });
      document.getElementById('cod_input').focus();
 }
@@ -247,7 +247,7 @@ function comprobarCodigo(codigo){
             if(datasnapshot.child(codigo).val() == true){
                 datasnapshot.ref.child(codigo).remove();
                 setCupones();
-               
+
             }else{
                 var toast = new Toasty();
                 toast.show("El Codigo ya je uso",2000);
@@ -258,9 +258,9 @@ function comprobarCodigo(codigo){
             toast.show("El Codigo ingresado no existe, intentalo nuevamente",2000);
             ingresarCodigo(0);
         }
-       
+
      });
-     
+
 
 }
 function setCupones(){
@@ -295,13 +295,13 @@ function clearCupones(reload){
                     pos++;
                     cups.push(cup);
                 }
-                
-            }); 
+
+            });
 
             snapshot.ref.remove();
 
             restoreCupones(cups, reload);
-            
+
         }else{
             console.log('No hay Cupones');
         }
@@ -318,7 +318,7 @@ function restoreCupones(cups, reload){
     if(reload){
         getCupones(true);
     }else{goMain();}
-    
+
 
 }
 function comprobarCodigoCompartir(codigo){
@@ -340,7 +340,7 @@ function comprobarCodigoCompartir(codigo){
                     datasnapshot.ref.child(codigo+'/Users/'+id).set(true);
                     setGoldenCupon();
                 }
-               
+
             }else{
                 datasnapshot.ref.child(codigo+'/Users/'+id).set(true);
                 setGoldenCupon();
@@ -349,9 +349,9 @@ function comprobarCodigoCompartir(codigo){
             var toast = new Toasty();
             toast.show("El Codigo no existe",2000);
         }
-       
+
      });
-    
+
 
 }
 function setGoldenCupon(){
@@ -399,7 +399,7 @@ function getUrlQuery(){
             }
             if (typeof paramNum === 'undefined') {
             obj[paramName].push(paramValue);
-            }   
+            }
             else {
             obj[paramName][paramNum] = paramValue;
             }
@@ -413,11 +413,11 @@ function getUrlQuery(){
     }else{
         return null;
     }
-    
+
 }
 function setup(){
         fromMob = detectDevice();
-       
+
         if(!fromMob){
                 document.getElementById("mainMenu").onmouseout = closeMenuMain;
                 document.getElementById("mainMenu").onmouseover = showMenuMain;
@@ -444,14 +444,14 @@ function setup(){
         if(horaActual>=13){
             diaRequested = diaActual +1;
             if(diaRequested>7){
-                diaRequested = 1;                
+                diaRequested = 1;
             }
             }else{
-                diaRequested = diaActual;            
+                diaRequested = diaActual;
             }
             document.getElementById("dia").innerHTML = dias[diaRequested-1].dia;
             document.getElementById("hamButton").addEventListener("click", showMenuMain);
-           
+
             var d = new Date();
             categoria = 'Para Desayunar';
             firebase.auth().onAuthStateChanged(function(us) {
@@ -460,7 +460,7 @@ function setup(){
                     id = user.displayName;
                     photoUrl = user.photoURL;
                     document.getElementById("sessionPhoto").src = photoUrl;
-                    
+
                     document.getElementById("sessionPhone").innerHTML= user.email;
 
                     document.getElementById("subTitle").addEventListener("click", showMenuMain);
@@ -480,22 +480,22 @@ function setup(){
                     cargarData();
 
                 }
-                
+
             });
 }
 function grabarAnon(){
         var d = new Date();
         id = "Anon/"+d.getDay().toString()+d.getMilliseconds().toString()+d.getMinutes().toString()+d.getYear().toString()+d.getMonth().toString()
-       
+
         d.setTime(d.getTime() + (30*24*60*60*1000));
         var expires = "expires="+ d.toUTCString();
         document.cookie = "anonMedialuna" + "=" + id + ";" + expires + ";path=/";
 }
 function getCooKie(){
-       
+
         var name = "anonMedialuna" + "=";
         var decodedCookie = decodeURIComponent(document.cookie);
-       
+
         var ca = decodedCookie.split(';');
         for(var i = 0; i <ca.length; i++) {
             var c = ca[i];
@@ -503,12 +503,12 @@ function getCooKie(){
                 c = c.substring(1);
             }
             if (c.indexOf(name) == 0) {
-                
+
                 return c.substring(name.length, c.length);
-               
+
             }
-        }     
-        
+        }
+
         return "";
 }
 function detectDevice(){
@@ -528,7 +528,7 @@ function detectDevice(){
                     document.getElementById("banner").style.display = "none";
                 }
                 return true;
-            
+
             }
             else {
                 return false;
@@ -542,37 +542,37 @@ function setCss(filename){
         style.type = 'text/css';
         style.rel = 'stylesheet';
         head.append(style);
-        
+
         return true;
 }
 
 function autenticarGoogle(){
 
-        
+
             document.getElementById("alert").style.display="none";
             var provider = new firebase.auth.GoogleAuthProvider();
             firebase.auth().signInWithPopup(provider).then(function(result) {
-       
+
             user = result.user;
-            
+
             anon  = id;
             photoUrl = result.user.photoURL;
             var str = user.displayName.split(" ");
             document.getElementById("salute").innerHTML = "Hola "+str[0];
             checkForUser();
-        
+
             }).catch(function(error) {
-            
+
             var errorCode = error.code;
             var errorMessage = error.message;
-            
+
             var email= error.email;
-           
+
             var credential = error.credential;
-           
-           
+
+
             });
-        
+
 }
 function checkForUser(){
     if(user!= null){
@@ -584,9 +584,9 @@ function checkForUser(){
                         focused = true;
                         goMain();
                     }
-                    
 
-                }; 
+
+                };
                 if(snapshot.child('Marchante').exists){
                         marchante = snapshot.child('Marchante').val();
                 }
@@ -611,8 +611,8 @@ function checkForUser(){
                         }else{
                             noti.ref.remove();
                         }
-                        
-                            
+
+
                     });
                     if(notificaciones.length>0){
                         document.getElementById("verNotificaciones").style.display = "flex";
@@ -633,7 +633,7 @@ function checkForUser(){
                 ref.child('things/devices/web').set(true);
                 if(!notPermission){
                     Notification.requestPermission(function(status) {
-                           
+
                             notPermission = true;
                             if(messaginToken==null){
                                     if(!reginPush){
@@ -642,7 +642,7 @@ function checkForUser(){
                                     }else{
                                         showWin();
                                     }
-                                        
+
                             }else{
                                 showWin();
                             }
@@ -655,12 +655,12 @@ function checkForUser(){
                         }else{
                             showWin();
                         }
-                                
+
                     }else{
                         showWin();
                     }
                 }
-                
+
             }else{
                 checkFromDeleted();
             }
@@ -688,13 +688,13 @@ function checkNotis(){
                         if(state==0){
                             notificaciones.push(not);
                         }
-                            
+
                     }
                 }else{
                     noti.ref.remove();
                 }
-                
-                            
+
+
             });
             if(notificaciones.length>0){
                 document.getElementById("verNotificaciones").style.display = "flex";
@@ -724,7 +724,7 @@ function checkFromDeleted(){
         });
 }
 function regNewUser(darCupones){
-       
+
         var ref = database.ref('Usuarios/'+user.displayName);
         var percent = 10;
                 if(darCupones){
@@ -732,12 +732,12 @@ function regNewUser(darCupones){
                     ref.child('Cupones/'+i+'/value').set(percent);
                     ref.child('Cupones/'+i+'/state').set(true);
                     percent = percent+5;
-                    }   
+                    }
                 }
                 ref.child('things/devices/web').set(true);
                 ref.child('things/UidEntiFyDeco').set(user.uid);
-                
-               
+
+
                 ref.child('things/email').set(user.email);
                 ref.child('things/nick').set(user.displayName);
                 ref.child('things/telefono').set("");
@@ -746,25 +746,25 @@ function regNewUser(darCupones){
                 }
                 ref.child('things/PhotoUrl').set(user.photoURL);
                 if(guardando||confirmar){
-                   
+
                     getOrdenFromAnon();
                 }else{
                     checkForUser();
                 }
 }
 function getOrdenFromAnon(){
-        
+
             var ref = database.ref('Usuarios/'+anon);
             ref.once('value', function(snapshot){
-                
+
                 if(snapshot.exists()){
-                    
+
                     try{
                     var ordenesList = new Array();
                     snapshot.child('Suscripcion/Dia').forEach(function(dia){
-                        
+
                         var hora = parseInt(dia.child('Hora de entrega').val(), 10);
-                       
+
                         var total = parseInt(dia.child('Total').val(), 10);
                         var domicilio = parseInt(dia.child('domicilio').val(), 10);
                         var totalDescontado;
@@ -773,7 +773,7 @@ function getOrdenFromAnon(){
                         }else{
                             totalDescontado = 0;
                         }
-                       
+
                         var estado = "si";
                         var status = 0;
                         var prods= new Array();
@@ -786,50 +786,50 @@ function getOrdenFromAnon(){
                             var url = producto.child('url').val();
                             var uri = 0;
                             var nombre =  producto.key;
-                            var caritem = new carItem(nombre, 
-                                descripcion, 
-                                tipo, 
-                                can, 
+                            var caritem = new carItem(nombre,
+                                descripcion,
+                                tipo,
+                                can,
                                 totalProd,
-                                webUrl, 
-                                url, 
+                                webUrl,
+                                url,
                                 uri);
                             prods.push(caritem);
-                   
+
 
                         });
-                       
+
                             var ord = new orden(hora, "no", total, domicilio, totalDescontado, estado, status, prods);
                             var ordendia = new ordenDia(dia.key, ord);
                             ordenesList.push(ordendia);
 
-                       
-                       
+
+
                     });
 
-                    
-                    
-                   
-                    
+
+
+
+
                     grabarOrden(ordenesList);
                    }catch(err){
-                     
+
                    }
-                        
-                    
-                    
-                    
+
+
+
+
                 }
-                
+
             });
 }
 function regPushWorker(){
     messaging.requestPermission().then(function() {
-               
+
                 messaging.getToken().then(function(currentToken) {
                     if (currentToken) {
                         messaginToken = currentToken;
-                       
+
                         messaging.onMessage(function(payload){
                             if (Notification.permission == 'granted') {
                                 navigator.serviceWorker.getRegistration().then(function(reg) {
@@ -844,14 +844,14 @@ function regPushWorker(){
                                             notify(payload);
                                         });
                                     }
-                                    
+
                                 });
                             }
                         });
                         subscribeUser();
-                        
+
                     } else {
-                       
+
                     }
                 }).catch(function(err) {
                     console.log('An error occurred while retrieving token. ', err);
@@ -859,7 +859,7 @@ function regPushWorker(){
     }).catch(function(err) {
         console.log('Unable to get permission to notify.', err);
     });
-    
+
 }
 
 function urlB64ToUint8Array(base64String) {
@@ -883,16 +883,16 @@ function subscribeUser(){
             isSubscribed = true;
         }
         if (isSubscribed) {
-           
-           
+
+
             if(fromMob){
                 database.ref('NotTokens/'+user.displayName+'/MobToken').set(messaginToken);
             }else{
                 database.ref('NotTokens/'+user.displayName+'/WebToken').set(messaginToken);
             }
-           
+
             showWin();
-                        
+
         }else{
             var applicationServerKey = urlB64ToUint8Array(
                     'BI0o6fQgh69SzBlKpPM28I5dZoFMj5P3A1uovm_egzMCBaYMkB-djaC7FXsfZJX5HV4Tz0CZFIsEbu02iB_9xpA'
@@ -902,23 +902,23 @@ function subscribeUser(){
                 applicationServerKey: applicationServerKey
             };
             sw.pushManager.subscribe(subscribeOptions).then(function(subscription) {
-             
+
                 isSubscribed = true;
                 if(fromMob){
                     database.ref('NotTokens/'+user.displayName+'/MobToken').set(messaginToken);
                 }else{
                     database.ref('NotTokens/'+user.displayName+'/WebToken').set(messaginToken);
                 }
-                showWin();                    
-                
+                showWin();
+
 
             }).catch(function(err) {
-              
+
             });
-                
+
         }
 
-           
+
     });
 }
 function showWin(){
@@ -941,14 +941,14 @@ function verNotificaciones(){
                 cont += '</h1><h2>';
                 cont += notificaciones[i].cuerpo;
                 cont += '</h2></li>';
-                                
+
         }
         document.getElementById("notifications_list").innerHTML = cont;
     }
-    
+
 }
 function notiAction(pos){
-   
+
     var ref = database.ref('Usuarios/'+id+'/Notificacion/'+notificaciones[pos].key);
     ref.remove();
     document.getElementById("notificaciones").style.display = "none";
@@ -964,15 +964,15 @@ function cerrarNotis(){
         if(!showingNots){
             document.getElementById("notificaciones").style.display = "none";
         }
-       
+
     }
 
-    
+
 }
 function cargarData(){
-       
+
         if(!fromMob){
-       
+
                 document.getElementById("mainTitle").innerHTML= "";
                 document.getElementById("mainTitle").style.padding = 0;
                 document.getElementById("mainTitle").style.backgroundImage = "url('src/icons/title.png')";
@@ -980,17 +980,17 @@ function cargarData(){
                     document.getElementById("subTitle").innerHTML = user.displayName;
                     document.getElementById("sessionUser").innerHTML = user.displayName;
                     document.getElementById("sessionHead").style.display = "block";
-                    
+
                     document.getElementById("cerrarSesion").style.display= "flex";
                     document.getElementById("removerCuenta").style.display = "flex";
                 }else{
                     document.getElementById("subTitle").innerHTML = "Iniciar Sesión";
                 }
                 document.getElementById("hamButton").style.backgroundImage = "url('src/icons/ham_icon_orange.png')";
-          
+
         }else{
              document.getElementById("hamButton").style.backgroundImage = "url('src/icons/ham_icon_black.png')";
-             document.getElementById("subTitle").style.display ="none"; 
+             document.getElementById("subTitle").style.display ="none";
              document.getElementById("mainTitle").innerHTML=dias[diaRequested-1].dia;
               document.getElementById("mainTitle").addEventListener("click", function(){
                 verTallo(true);
@@ -1010,15 +1010,15 @@ function cargarData(){
                 document.getElementById("menuButton").style.backgroundSize = "cover";
                 if(fromMob){
                     document.getElementById("menuButton").style.backgroundImage = "url('src/icons/usu.png')";
-             
+
                 }else{
                     document.getElementById("menuButton").style.backgroundImage = "url('src/icons/usu_orange.png')";
-          
+
                 }
-       
+
                 document.getElementById("menuButton").addEventListener("click", showAuthDialog);
         }
-        document.getElementById("loading").style.display = "none"; 
+        document.getElementById("loading").style.display = "none";
         cargarProductos('Para Desayunar');
 }
 function removerCuenta(){
@@ -1069,7 +1069,7 @@ function notify(data){
     var data = payload;
     if(data.data.actions){
         var acts = JSON.parse(data.data.actions);
-      
+
         data.data.actions = acts;
     }
 
@@ -1093,12 +1093,12 @@ function sendMessage(){
                 icon: "src/icons/notification_icon_mob.png",
                 click_action: '/index.html',
                 priority: 'normal',
-                actions: JSON.stringify(actions)         
+                actions: JSON.stringify(actions)
 
             }
-            
+
         }
-        
+
 
     });
     showWin();
@@ -1121,7 +1121,7 @@ function goMain(){
         var title = document.getElementById("mainTitle");
 
         document.getElementById("header").innerHTML = "";
-      
+
 
 
         var newMenu = document.createElement('button');
@@ -1140,8 +1140,8 @@ function goMain(){
         newLogo.src = "src/icons/orden_logo.png";
         subTitle.setAttribute('id', 'subTitle');
         noti.style.display = 'none';
-        
-        
+
+
         document.getElementById("header").appendChild(newMain);
         document.getElementById("header").appendChild(newLogo);
         document.getElementById("header").appendChild(noti);
@@ -1150,12 +1150,12 @@ function goMain(){
         document.getElementById("header").appendChild(newSecond);
         document.getElementById("header").appendChild(subTitle);
         document.getElementById("header").appendChild(newMenu);
-        
+
         document.getElementById("hamButton").addEventListener("click", showMenuMain);
         document.getElementById("secondary").addEventListener("click", function(){
             verTallo(true);
         });
-       
+
         if(fromMob){
             document.getElementById("menuButton").style.backgroundImage = "url('src/icons/usu.png')";
             document.getElementById("mainTitle").style.textAlign = "center";
@@ -1191,7 +1191,7 @@ function goMain(){
         requestDia(dias[diaRequested-1].day);
 }
 function showCanasta(){
-        
+
             if(fromMob){
                 var pos = 0;
                  var maskPos = -26;
@@ -1235,10 +1235,10 @@ function showCanasta(){
                     }
                 }
             }
-            
-        
-        
-        
+
+
+
+
 }
 function hideCanasta(){
         if(isCanastaShowing){
@@ -1246,7 +1246,7 @@ function hideCanasta(){
                 var pos =22;
                 var maskPos = -4;
                 var anim = setInterval(frame, 10);
-           
+
                 function frame(){
                     if(pos<=0){
                         clearInterval(anim);
@@ -1263,7 +1263,7 @@ function hideCanasta(){
                 var pos =4;
                 var maskPos = -2;
                 var anim = setInterval(frame, 10);
-           
+
                 function frame(){
                     if(pos<=0){
                         clearInterval(anim);
@@ -1277,7 +1277,7 @@ function hideCanasta(){
                     }
                 }
             }
-            
+
         }
         return false;
 }
@@ -1291,7 +1291,7 @@ function verTallo(show){
 }
 function verCanasta(){
         windState = 1;
-              
+
         isCanastaShowing = false;
 
         var mainMenu = document.getElementById("hamButton");
@@ -1301,12 +1301,12 @@ function verCanasta(){
         var noti = document.getElementById("notification");
         var second = document.getElementById("secondary");
         document.getElementById("header").innerHTML = "";
-        
+
         var newMenu = document.createElement('button');
         var newTitle = document.createElement('h1');
-        
+
         newTitle.setAttribute('id', 'mainTitle');
-        
+
 
         newMenu.setAttribute('id', 'menuButton');
         var newMain = document.createElement('button');
@@ -1314,18 +1314,18 @@ function verCanasta(){
         document.getElementById("header").appendChild(newMain);
         document.getElementById("header").appendChild(newTitle);
         document.getElementById("header").appendChild(newMenu);
-      
+
 
         document.getElementById("mainTitle").innerHTML = dias[diaRequested-1].dia ;
         document.getElementById("mainTitle").style.textAlign = "center";
-        
 
-        
+
+
         document.getElementById("menuButton").removeEventListener("click", showAuthDialog);
         document.getElementById("menuButton").addEventListener("click", removeDia);
         document.getElementById("mask").style.display = "none";
 
-       
+
         document.getElementById("canasta").style.display = "none";
         document.getElementById("hamButton").addEventListener("click", verProductos);
         if(fromMob){
@@ -1364,9 +1364,9 @@ function showMenuMain(){
 
         }else{
             if(!showingMenuMain){
-               
+
                 var pos;
-            
+
                 pos= -25;
                 document.getElementById("mainMenu").style.display = "block";
                 var anim = setInterval(frame, 4);
@@ -1381,7 +1381,7 @@ function showMenuMain(){
                         pos = pos+2;
                         document.getElementById("mainMenu").style.marginLeft = pos + 'vw';
                     }
-                } 
+                }
             }else{
                 document.getElementById("mainMenu").style.marginLeft = -1 + 'vw';
             }
@@ -1392,7 +1392,7 @@ function closeMenuMain(){
         if(fromMob){
              document.getElementById("alert").style.display ="none";
             document.getElementById("mainMenu").style.marginLeft ='-64vw';
-             
+
              document.getElementById("mainMenu").style.display = "none";
         }else{
              if(showingMenuMain){
@@ -1429,20 +1429,20 @@ function closeMenuMain(){
         }
 }
 function showSessionMenu(){
-       
+
             var pos;
             if(fromMob){
-                
+
                     document.getElementById("session").style.display = "block";
                     document.getElementById("session").style.left = "0vw";
                     showingSessionMenu = true;
                     verPerfil();
-                
-               
+
+
 
             }else{
-                 
-                 pos = -28;    
+
+                 pos = -28;
                  cancelCloseSessionMenu = false;
                  if(!showingSessionMenu){
                     showingSessionMenu = true;
@@ -1462,7 +1462,7 @@ function showSessionMenu(){
                     }
                 }else{
                     document.getElementById("session").style.right = 0 +"vw";
-                } 
+                }
             }
 }
 function hideSessionMenu(){
@@ -1481,7 +1481,7 @@ function hideSessionMenu(){
                                     clearTimeout(anim);
                                     showingSessionMenu = false;
                                     document.getElementById("alert").style.display="none";
-                                    document.getElementById("session").style.display = "none";                                
+                                    document.getElementById("session").style.display = "none";
                                 }else{
                                     pos = pos-2;
                                     document.getElementById("session").style.right= pos + 'vw';
@@ -1497,7 +1497,7 @@ function hideSessionMenu(){
                 showingSessionMenu = false;
                 document.getElementById("session").style.display = "none";
             }
-            
+
         }
 }
 function cerrarSesion(){
@@ -1505,7 +1505,7 @@ function cerrarSesion(){
             document.getElementById("session").style.display = "none";
             location.reload(true);
         }).catch(function(error) {
-  
+
         });
 }
 function cerrarAlert(pos, agregando){
@@ -1529,7 +1529,7 @@ function cerrarAlert(pos, agregando){
 var playingQuery = false;
 
 function mostrarProductos(fromInit){
-        
+
         var view = '';
         var count = 1;
         for(var i =0; i<productos.length;i++){
@@ -1564,14 +1564,14 @@ function mostrarProductos(fromInit){
                 checkForUser();
             }
         }
-        
+
 }
 function playQuery(){
     playingQuery = true;
     switch(query.action){
         case '0':
             if(query!=null){
-                
+
                 abrirDiaDesdeNotificacion();
             }
         break;
@@ -1580,24 +1580,24 @@ function playQuery(){
 
                 abrirPublicacion();
             }
-            
+
     }
 }
 function abrirDiaDesdeNotificacion(){
     actualDia = parseInt(query.day, 10);
-   
-   
+
+
     var ref = database.ref('Usuarios/'+id+'/Notificacion');
     ref.once('value', function(snapshot){
         snapshot.forEach(function(not){
             if(not.val().time==query.notId){
                 not.ref.remove();
-            }        
+            }
         });
         query = null;
         requestDia(actualDia);
 
-        
+
     });
 }
 function abrirPublicacion(){
@@ -1623,9 +1623,9 @@ function abrirPublicacion(){
         document.getElementById("alert").innerHTML = "";
         document.getElementById("alert").innerHTML = cont;
         document.getElementById("alert").style.display = "block";
-        
+
     });
-   
+
 }
 function cerrarPub(){
     document.getElementById("alert").innerHTML = "";
@@ -1647,17 +1647,17 @@ function cargarSharedPubView(publicacion, key, liked){
     console.log(url);
     cont += ')"></button><h3 ';
 
-   
-   
-        
-   
+
+
+
+
     if(!liked){
         cont += 'onclick="like('+"'"+key+"'"+', 1)"';
     }else{
         cont += 'style="background-color: #d4d4d6"';
     }
      cont +='>Me gusta</h3><button onclick="shareInt('+"'"+url.toString()+"'"+",'Hola, dale Me gusta y antojate tu tambien'"+')" style="background-image: url('+"'src/icons/share.png'"+')"></button></div><h4>dialogo</h4></div>';
- 
+
      return cont;
 }
 function checkDay(){
@@ -1669,7 +1669,7 @@ function checkDay(){
                 }else{
                     confirmando = false;
                 }
-                if(snapshot.child('Total').exists()){           
+                if(snapshot.child('Total').exists()){
 
                     if(snapshot.child('Productos').exists()){
                         var total = parseInt(snapshot.child('Total').val(), 10);
@@ -1677,11 +1677,11 @@ function checkDay(){
                         if(snapshot.child('Cupon').exists()){
                             var discount = parseInt(snapshot.child('Cupon/valor').val(), 10);
                             total = aplicarDescuento(discount, total);
-                          
+
                             dom = getDomicilio(total);
 
                         }
-                      
+
                         var content = 'Total + Domicilio  $';
                         var total = total+dom;
                         content += redondearCifra(total);
@@ -1703,11 +1703,11 @@ function checkDay(){
                         if(fromDay){
                             compareConProductos();
                         }else{
-                            
+
                             verCanasta();
                         }
-                        
-                        
+
+
                     }else{
                     confirmando = false;
                     var anim = hideCanasta();
@@ -1726,13 +1726,13 @@ function checkDay(){
                 isCanastaShowing = false;
                 mostrarProductos(false);
             }
-            
+
         });
 }
 function compararDias(){
         var day = diaActual;
         if(day>7){
-            day = 1; 
+            day = 1;
         }
         for(var i=0;i<dias.length;i++){
             if(dias[i].dia=="Lunes"||dias[i].dia=="Miercoles"||dias[i].dia=="Viernes"||dias[i].dia=="Domingo"){
@@ -1740,7 +1740,7 @@ function compararDias(){
               document.getElementById(dias[i].dia+"State").src = "src/icons/zero_img.png";
 
             }else{
-              
+
                document.getElementById(dias[i].dia+"Seed").style.backgroundImage = "url('src/icons/grano_derecha.png')";
                 document.getElementById(dias[i].dia+"State").src = "src/icons/zero_img.png";
             }
@@ -1772,7 +1772,7 @@ function compararDias(){
                         }else{
                             document.getElementById(dia.key+"Seed").style.backgroundImage = "url('src/icons/grano_derecha_ok.png')";
                         }
-                       
+
                     }else if(dia.child('estado').val()=="confirmando"||dia.child('estado').val()=="espera"){
                          if(dia.key==dias[day-1].dia){
                             canToday = true;
@@ -1786,7 +1786,7 @@ function compararDias(){
                             document.getElementById(dia.key+"Seed").style.backgroundImage = "url('src/icons/grano_derecha_ok.png')";
                         }
                     }else if(dia.child('estado').val()=="si"){
-                       
+
                         document.getElementById(dia.key+"State").src = "src/icons/information_point.png";
                           document.getElementById(dia.key+"State").style.display = "block";
                            document.getElementById(dia.key+"State").addEventListener("click", function(){
@@ -1806,22 +1806,22 @@ function compararDias(){
         });
 }
 function requestDia(dia){
-        
+
         var day = diaActual;
         if(day>7){
             day = 1;
-        } 
+        }
         var actualDia = dias[day-1].dia;
         if(dia!=diaRequested){
             fromDay=false;
-        }        
+        }
         diaRequested = dia;
         document.getElementById("dia").innerHTML =  dias[diaRequested-1].dia;
         if(fromMob){
-            document.getElementById("mainTitle").innerHTML =  dias[diaRequested-1].dia;            
+            document.getElementById("mainTitle").innerHTML =  dias[diaRequested-1].dia;
         }else{
-            document.getElementById("mainTitle").innerHTML = "";            
-        }            
+            document.getElementById("mainTitle").innerHTML = "";
+        }
         document.getElementById("diasList").style.display = "none";
         cargarProductos(categoria);
 }
@@ -1831,7 +1831,7 @@ function compareConProductos(){
                     for(var j=0 ; j<carList.length;j++){
                         if(carList[j].nombre == productos[i].nombre){
                             productos[i].isTaken = true;
-                           
+
                         }
                     }
             }
@@ -1840,10 +1840,10 @@ function compareConProductos(){
 
         }else{
             for(var i=0; i<productos.length;i++){
-                    
+
                         productos[i].isTaken = false;
-                        
-                    
+
+
             }
             mostrarProductos(false);
         }
@@ -1855,29 +1855,29 @@ function mostrarFoto(foto){
 }
 function showB(pos){
         if(!showingProd&&actualProd==null){
-           
+
             actualProd = pos;
             showingProd = true;
-            document.getElementById("prod"+pos.toString()).style.display = "block";         
-           
+            document.getElementById("prod"+pos.toString()).style.display = "block";
+
         }else if(!showingProd&&actualProd!=pos||showingProd&&actualProd!=pos){
-          
+
             if(pos>productos.length-1){
                 document.getElementById("prod"+actualProd.toString()).style.display = "none";
             }
             cancelCloseB=false;
             actualProd = pos;
             showingProd = true;
-            document.getElementById("prod"+pos.toString()).style.display = "block";            
+            document.getElementById("prod"+pos.toString()).style.display = "block";
 
         }else if(!showingProd&&actualProd==pos||showingProd&&actualProd==pos){
-          
+
             if(!cancelCloseB){
                 cancelCloseB=true;
             }
             showingProd = true;
             document.getElementById("prod"+pos.toString()).style.display = "block";
-            
+
         }
 }
 function hideB(pos){
@@ -1887,12 +1887,12 @@ function hideB(pos){
             function hide(){
                 if(!cancelCloseB){
                     showingProd = false;
-                   
+
                     document.getElementById("prod"+pos.toString()).style.display ="none";
-                    
+
                 }
             }
-            
+
         }
 }
 function restar(pos){
@@ -1904,34 +1904,34 @@ function restar(pos){
             if(editandoItem){
                 if(productos[pos].tipo==1){
                     var priceActual = actual * productos[pos].precioPaq;
-                    productos[pos].precioActual = priceActual ; 
-                   
+                    productos[pos].precioActual = priceActual ;
+
                     document.getElementById("textCantPaq"+pos).innerHTML = "Cant: "+actual+" paq";
                     document.getElementById("txtPrecioPaq"+pos).innerHTML ="$"+ priceActual;
                 }else{
                     var priceActual = actual * productos[pos].precioUnidad;
-                    productos[pos].precioActual = priceActual ; 
-                   
+                    productos[pos].precioActual = priceActual ;
+
                     document.getElementById("textCantPaq"+pos).innerHTML = actual+" unds";
                     document.getElementById("txtPrecioPaq"+pos).innerHTML ="$"+ priceActual;
                 }
             }else{
                 if(productos[pos].tipo==1){
                     var priceActual = actual * productos[pos].precioPaq;
-                    productos[pos].precioActual = priceActual ; 
-                   
+                    productos[pos].precioActual = priceActual ;
+
                     document.getElementById("textCantPaq"+pos).innerHTML = "Cant: "+actual+" paq";
                     document.getElementById("txtPrecioPaq"+pos).innerHTML ="$"+ priceActual;
                 }else{
                     var priceActual = actual * productos[pos].precioUnidad;
-                    productos[pos].precioActual = priceActual ; 
-                   
+                    productos[pos].precioActual = priceActual ;
+
                     document.getElementById("und"+pos).innerHTML = actual+" unds";
                     document.getElementById("price"+pos).innerHTML ="$"+ priceActual;
                 }
             }
-            
-            
+
+
         }
         }
 }
@@ -1943,28 +1943,28 @@ function sumar(pos){
             if(editandoItem){
                 if(productos[pos].tipo==1){
                     var priceActual = actual * productos[pos].precioPaq;
-                    productos[pos].precioActual = priceActual; 
-                   
+                    productos[pos].precioActual = priceActual;
+
                     document.getElementById("textCantPaq"+pos).innerHTML ="Cant: "+ actual+" paq";
                     document.getElementById("txtPrecioPaq"+pos).innerHTML ="$"+ priceActual;
                 }else{
                     var priceActual = actual * productos[pos].precioUnidad;
-                    productos[pos].precioActual = priceActual; 
-                   
+                    productos[pos].precioActual = priceActual;
+
                     document.getElementById("textCantPaq"+pos).innerHTML = "Cant: "+ actual+" unds";
                     document.getElementById("txtPrecioPaq"+pos).innerHTML ="$"+ priceActual;
                 }
             }else{
                 if(productos[pos].tipo==1){
                     var priceActual = actual * productos[pos].precioPaq;
-                    productos[pos].precioActual = priceActual; 
-                    
+                    productos[pos].precioActual = priceActual;
+
                     document.getElementById("textCantPaq"+pos).innerHTML ="Cant: "+ actual+" paq";
                     document.getElementById("txtPrecioPaq"+pos).innerHTML ="$"+ priceActual;
                 }else{
                     var priceActual = actual * productos[pos].precioUnidad;
-                    productos[pos].precioActual = priceActual; 
-                    
+                    productos[pos].precioActual = priceActual;
+
                     document.getElementById("und"+pos).innerHTML = actual+" unds";
                     document.getElementById("price"+pos).innerHTML ="$"+ priceActual;
                 }
@@ -2012,7 +2012,7 @@ function agregar(pos){
                         var tot = parseInt(snapshot.child('Suscripcion/Dia/'+dias[diaRequested-1].dia+"/Productos/"+namePro+"/total").val(), 10);
                         var cant =  parseInt(snapshot.child('Suscripcion/Dia/'+dias[diaRequested-1].dia+"/Productos/"+namePro+"/cantidad").val(),10);
                         newDesc = snapshot.child('Suscripcion/Dia/'+dias[diaRequested-1].dia+"/Productos/"+namePro+"/descripcion").val();
-                        
+
                         if(type!=productos[pos].tipo){
                             newCant = productos[pos].actual;
                             totPro = productos[pos].precioActual;
@@ -2022,24 +2022,24 @@ function agregar(pos){
                             if(productos[pos].tipo==1){
                                 newDesc = productos[pos].descPaq;
                             }
-                            
+
 
                         }else{
                             newCant = cant+ productos[pos].actual;
                             totPro = tot + productos[pos].precioActual;
                             total = total+ productos[pos].precioActual;
                             dom = getDomicilio(totPro);
-                            
+
                         }
 
-                        
+
 
                         snapshot.ref.child('Suscripcion/Dia/'+dias[diaRequested-1].dia+'/Total').set(total);
                         snapshot.ref.child('Suscripcion/Dia/'+dias[diaRequested-1].dia+'/domicilio').set(dom);
-                        
 
 
-                        
+
+
                     }else{
                         var tot = snapshot.child('Suscripcion/Dia/'+dias[diaRequested-1].dia+'/Total').val();
                         total = parseInt(tot, 10);
@@ -2048,16 +2048,16 @@ function agregar(pos){
                             newDesc = productos[pos].descPaq;
                         }else{
                             newDesc = productos[pos].descPro;
-            
+
                         }
-                        
+
                         totPro = productos[pos].precioActual;
                         total = total + productos[pos].precioActual;
                         dom = getDomicilio(total);
                         snapshot.ref.child('Suscripcion/Dia/'+dias[diaRequested-1].dia+'/Total').set(total);
                         snapshot.ref.child('Suscripcion/Dia/'+dias[diaRequested-1].dia+'/domicilio').set(dom);
 
-                    
+
                     }
                     snapshot.ref.child('Suscripcion/Dia/'+dias[diaRequested-1].dia+'/Productos/'+productos[pos].nombre).set({
                                 cantidad: newCant,
@@ -2068,7 +2068,7 @@ function agregar(pos){
                                 url: andUrl,
                                 uri: 1
                         });
-                    
+
                     if(editandoItem){
                         cerrarAlert(pos, true);
                     }else{
@@ -2079,13 +2079,13 @@ function agregar(pos){
                         tos.show(productos[pos].nombre+" agregado al "+dias[diaRequested-1].dia, 2000);
 
                     }
-                    
+
                 var content = 'Total + Domicilio  $';
                 var intTotal = total+dom;
                 content += redondearCifra(intTotal);
                 checkDay();
                     }
-                    
+
 
                 }else{
                     total = productos[pos].precioActual;
@@ -2122,18 +2122,18 @@ function agregar(pos){
                                 url: andUrl,
                                 uri: 1
                     });
-            
-                }
-                    
-                    
-                    
+
                 }
 
-                
-                
 
 
-                
+                }
+
+
+
+
+
+
          });
         }else{
             var tos = new Toasty();
@@ -2160,7 +2160,7 @@ function reserva(dia){
                     document.getElementById("guardarBtn").innerHTML = "Guardado";
                 }else if(estado == "confirmando"||estado == "espera"){
                     ID_ENTREGA = parseInt(snapshot.child('ID_ENTREGA').val(), 10);
-                   
+
                     document.getElementById("moreProBtn").style.display= "none";
                     document.getElementById("guardarBtn").style.backgroundColor = "#73ba40";
                     document.getElementById("guardarBtn").innerHTML = "Confirmando...";
@@ -2180,12 +2180,12 @@ function reserva(dia){
                             confirmar = false;
                             canToday = false;
                             document.getElementById("guardarBtn").innerHTML = "Guardar";
-                            
-                            
+
+
                         }
-                        
+
                         confirmando = false;
-                        
+
 
                     }else{
                         document.getElementById("guardarBtn").innerHTML = "Guardar";
@@ -2193,12 +2193,12 @@ function reserva(dia){
                         confirmando= false;
                     }
 
-                    
+
                 }
             }
             if(snapshot.child('Hora de entrega').exists()){
                 if(fromMob){
-                    
+
                     document.getElementById('horaEntrega').style.marginTop = "0.4vw";
                 }else{
                     document.getElementById('horaEntrega').style.marginTop = "0.6vw";
@@ -2210,10 +2210,10 @@ function reserva(dia){
                 }else{
                     document.getElementById('horaEntrega').innerHTML = "Hora de entrega<br>"+hora+" am";
                 }
-                
+
             }else{
                 document.getElementById('horaEntrega').innerHTML = "Elige la Hora";
-            
+
             }
             if(snapshot.child('Direccion de entrega').exists()){
                 var dir= snapshot.child('Direccion de entrega').val();
@@ -2222,7 +2222,7 @@ function reserva(dia){
                 document.getElementById("dirTxt").innerHTML = "";
             }
             if(snapshot.child('Total').exists()){
-                
+
             }
             if(snapshot.child('Productos').exists()){
                 carList = new Array();
@@ -2240,7 +2240,7 @@ function reserva(dia){
                     var uri =  prod.child('uri').val();
                     var caritem = new carItem(nombre, descripcion, tipo, can, total,webUrl, url, uri );
                     carList.push(caritem);
-                        
+
                 });
 
                 var prodContent = "";
@@ -2248,10 +2248,10 @@ function reserva(dia){
                     prodContent += getCarView(carList[i], i);
                 }
                 document.getElementById("carContain").innerHTML = prodContent;
-               
-                
+
+
                 var dom;
-                
+
                 if(snapshot.child('Cupon').exists()){
                     var index = parseInt(snapshot.child('Cupon/index').val(),10);
                     var valor = parseInt(snapshot.child('Cupon/valor').val(),10);
@@ -2266,8 +2266,8 @@ function reserva(dia){
                     document.getElementById("totalTxt").style.textDecoration = "line-through";
                     document.getElementById("totalDescTxt").innerHTML = "$"+ totalDescontado;
                     document.getElementById("totalDesc").style.display ="flex" ;
-                   
-                    
+
+
                 }else{
                     snapshot.ref.child('Total').set(totalOrden);
                     dom = getDomicilio(totalOrden);
@@ -2276,11 +2276,11 @@ function reserva(dia){
                     document.getElementById("totalTxt").style.color = "#73ba40";
                     document.getElementById("totalTxt").style.textDecoration = "none";
                     document.getElementById("totalDesc").style.display = "none";
-                    
+
                 }
                 document.getElementById("totalTxt").innerHTML = "$"+totalOrden;
                 document.getElementById("domTxt").innerHTML = "$"+redondearCifra(dom);
-                
+
                 snapshot.ref.child('domicilio').set(dom);
                 if(guardado){
                     if(tot<1999){
@@ -2290,7 +2290,7 @@ function reserva(dia){
                     }else{
                          getOrden();
                     }
-                   
+
                 }else if(confirmando){
                     showProgressDialog();
                 }
@@ -2306,7 +2306,7 @@ function reserva(dia){
         });
 }
 function grabarOrden(ordenes){
-       
+
         var ref = database.ref('Usuarios/'+user.displayName);
         for(var i = 0; i<ordenes.length;i++){
             ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/estado").set(ordenes[i].orden.estado);
@@ -2318,7 +2318,7 @@ function grabarOrden(ordenes){
                  ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/totalDescontado").set(ordenes[i].orden.totaldescontado);
             }
             for(var j = 0; j<ordenes[i].orden.productos.length;j++){
-               
+
                 ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/Productos/"+ordenes[i].orden.productos[j].nombre+"/cantidad").set(ordenes[i].orden.productos[j].cantidad);
                 ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/Productos/"+ordenes[i].orden.productos[j].nombre+"/descripcion").set(ordenes[i].orden.productos[j].descripcion);
                 ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/Productos/"+ordenes[i].orden.productos[j].nombre+"/tipo").set(ordenes[i].orden.productos[j].tipo);
@@ -2441,7 +2441,7 @@ function redondearCifra(cifra){
                     var mil = "1000";
                     array = mil.split("");
             }
-                
+
 
             }else{
                 array[i] = '0';
@@ -2473,7 +2473,7 @@ function getDomicilio(total){
             }else{
                 domi = (total*20)/100;
             }
-            
+
         }else if(total>=3000){
             domi = (total*18)/100;
             if(total>6000){
@@ -2495,7 +2495,7 @@ function getDomicilio(total){
         return parseInt(domi,10);
 }
 function confirmarEntrega(){
-       
+
         var refUs = database.ref('Usuarios/'+id+'/Suscripcion/Dia/'+dias[diaRequested-1].dia);
         var refMarch = database.ref('Marchantes/Main/Ordenes/Pendientes/enCurso/'+ID_ENTREGA);
         refUs.child('estado').set("si");
@@ -2528,15 +2528,15 @@ function getCarView(car, pos){
                     content += 'style="height:14vw; "';
                 }
             }
-            
+
         }
         content += '><img src="';
         content += car.weburl;
         content += '"><div class="desc"';
         if(car.nombre.length>12){
-            
+
             content += 'style="padding:0vw 1vw 1vw 1vw;"';
-           
+
         }
         content += '><h1 id="nomCar';
         content += pos;
@@ -2558,11 +2558,11 @@ function getCarView(car, pos){
         if(!confirmando){
             content += '<div class="editDiv"><button class="editBtn" onclick="editarItem(';
         content += pos;
-        content += ')"></button><button class="removeBtn" onclick="removerItem('; 
+        content += ')"></button><button class="removeBtn" onclick="removerItem(';
         content += pos;
         content += ')"></button></div>';
         }
-        
+
         content += '</div></li>';
         return content;
 }
@@ -2576,13 +2576,13 @@ function editarItem(pos){
             var pox = 0;
             for(i in json){
                 var pro = new producto( keys[pox],
-                                        json[i].url, 
-                                        json[i].weburl, 
-                                        json[i].DescPro, 
-                                        json[i].DescPaq, 
-                                        parseInt(json[i].precioPaquete,10), 
-                                        parseInt(json[i].precioUnidad,10), 
-                                        parseInt(json[i].undPorPaq,10), 
+                                        json[i].url,
+                                        json[i].weburl,
+                                        json[i].DescPro,
+                                        json[i].DescPaq,
+                                        parseInt(json[i].precioPaquete,10),
+                                        parseInt(json[i].precioUnidad,10),
+                                        parseInt(json[i].undPorPaq,10),
                                         pox , 1, 0, parseInt(json[i].precioUnidad,10), false);
                 productos.push(pro);
                 pox++;
@@ -2597,15 +2597,15 @@ function editarItem(pos){
                 var prePaq =  productos[i].precioPaq;
                 var uniPorPaq = productos[i].undPorPaq;
                 var newPro = new producto(carList[pos].nombre,
-                                            carList[pos].url, 
-                                            carList[pos].weburl, 
-                                            descPro, 
-                                            descPaq, 
+                                            carList[pos].url,
+                                            carList[pos].weburl,
+                                            descPro,
+                                            descPaq,
                                             prePaq,
-                                            preUni, 
-                                            uniPorPaq, 
+                                            preUni,
+                                            uniPorPaq,
                                             pos,
-                                            carList[pos].cantidad, 
+                                            carList[pos].cantidad,
                                             carList[pos].tipo,0
                                             , false);
                 if(descPaq=="sin descripcion"){
@@ -2616,7 +2616,7 @@ function editarItem(pos){
                     }else{
                         newPro.precioActual = prePaq * carList[pos].cantidad;
                     }
-                    
+
                 }
                 productos= new Array();
                 productos.push(newPro);
@@ -2653,12 +2653,12 @@ function getModificarView(producto, pos){
         }else{
             contenido +=producto.descPro;
         }
-        
+
         contenido +='</li></ul>';
         if(producto.descPaq!="sin descripcion"){
             contenido += '<ul id="modTitles">';
             contenido += '<li id="porUnidad" onclick="setTipo(0)">Por unidad</li><li id="porPaquete"  onclick="setTipo(1)" >Por Paquete</li></ul>';
-        
+
         }
         contenido += '<div class="calDiv" ><button class="menosButtonPaq" onclick="restar(';
         contenido += 0;
@@ -2694,7 +2694,7 @@ function setTipo(tipo){
             document.getElementById("txtPrecioPaq"+0).innerHTML ="$"+ total;
             document.getElementById("porUnidad").style.color = "grey";
             document.getElementById("porPaquete").style.color = "#176559";
-            
+
         }
 }
 function removerItem(pos){
@@ -2739,7 +2739,7 @@ function comprobarHora(){
                         document.getElementById("yesBtn").addEventListener("click", function(){
                                 document.getElementById("alert").style.display = "none";
                                 showTimePicker();
-                        
+
                         });
                         document.getElementById("noBtn").innerHTML= "No";
                         document.getElementById("noBtn").addEventListener("click", function(){
@@ -2780,8 +2780,8 @@ function showTimePicker(){
                     horas = [7, 8, 9, 10, 2 , 3 , 4, 5];
                 }
             }
-            
-            
+
+
         }else if(diaActual==diaRequested){
             if(horaActual<=10){
                 horas = [2 , 3 , 4, 5];
@@ -2803,16 +2803,16 @@ function showTimePicker(){
             }else{
                 var cont = getClockViewMob(horas);
             }
-            
+
         document.getElementById("clockCont").innerHTML = cont;
         document.getElementById("guardarHora").addEventListener("click", guardarHora);
-    
+
             for(var i=0; i<horas.length;i++){
             document.getElementById("hora"+horas[i]).style.color = "#df7233";
             }
             var tos = new Toasty();
             tos.show("Tu pedido se guardará para la proxima semana", 3000);
-            
+
 
         }else{
             if(!fromMob){
@@ -2822,7 +2822,7 @@ function showTimePicker(){
             }
         document.getElementById("clockCont").innerHTML = cont;
         document.getElementById("guardarHora").addEventListener("click", guardarHora);
-    
+
             for(var i=0; i<horas.length;i++){
             document.getElementById("hora"+horas[i]).style.color = "#df7233";
         }
@@ -2842,16 +2842,16 @@ function guardarHora(){
                 }
                 ref.child('Hora de entrega').set(newHour);
                 document.getElementById("alert").style.display= "none";
-               
+
                 if(guardando||confirmar){
                     comprobarDireccion();
                 }else{
                     reserva(dias[diaRequested-1].dia);
                 }
-                
+
             }
         }else{
-           
+
         }
 }
 function showDirecciones(){
@@ -2878,11 +2878,11 @@ function showDirecciones(){
                 document.getElementById("dirList").innerHTML= dir;
             }else{
                 showAddDirec();
-                
-                
+
+
             }
-            
-            
+
+
         });
 }
 function editarDir(pos){
@@ -2891,7 +2891,7 @@ function editarDir(pos){
         document.getElementById("alert").style.display="block";
 
         var input = document.getElementById("newDir");
-        input.value = dirs[pos].direccion; 
+        input.value = dirs[pos].direccion;
         document.getElementById("yesBtn").innerHTML = "Guardar";
         document.getElementById("yesBtn").addEventListener("click", function(){
             document.getElementById("alert").style.display = "none";
@@ -2906,15 +2906,15 @@ function editarDir(pos){
                 ref.child('things/Direcciones/'+dirs[pos].pos+'/direccion').set(input.value);
                 reserva(dias[diaRequested-1].dia);
             }
-           
-            
+
+
         });
         document.getElementById("noBtn").innerHTML= "Cerrar";
         document.getElementById("noBtn").addEventListener("click", function(){
             document.getElementById("alert").style.display = "none";
 
         });
-       
+
 }
 function showAddDirec(){
         var ref = database.ref('Usuarios/'+id+'/things/Direcciones');
@@ -2925,14 +2925,14 @@ function showAddDirec(){
                     pos++;
                 });
                 }
-                
+
                 var cont = viewEditDirec("Edita tu dirección","¿Lugar, Ej: Casa, Trabajo...", "Ej: Cr 15 # 8-22");
                 document.getElementById("alert").innerHTML= cont;
                 document.getElementById("alert").style.display="block";
 
                 var input = document.getElementById("newDir");
                 var inputTitle = document.getElementById("newDirTitle");
-                input.value = ""; 
+                input.value = "";
                 inputTitle.value = "";
                 document.getElementById("yesBtn").innerHTML = "Guardar";
                 document.getElementById("yesBtn").addEventListener("click", function(){
@@ -2958,9 +2958,9 @@ function showAddDirec(){
                             reserva(dias[diaRequested-1].dia);
                         }
                     }
-                    
-                    
-                    
+
+
+
                 });
                 document.getElementById("noBtn").innerHTML= "Cerrar";
                 document.getElementById("noBtn").addEventListener("click", function(){
@@ -2985,7 +2985,7 @@ function selectDir(pos){
         }else{
             reserva(dias[diaRequested-1].dia);
         }
-}   
+}
 function cerrarReloj(){document.getElementById("alert").style.display = "none";}
 function selectNum(pos){
         hasChossenHour = true;
@@ -3003,8 +3003,8 @@ function selectNum(pos){
         }else{
             document.getElementById("horaActual").innerHTML = reqHora +" pm";
         }
-        
-       
+
+
 }
 function comprobarDireccion(){
     if(user != null){
@@ -3025,7 +3025,7 @@ function comprobarDireccion(){
                             document.getElementById("yesBtn").addEventListener("click", function(){
                                     document.getElementById("alert").style.display = "none";
                                     showDirecciones();
-                            
+
                             });
                             document.getElementById("noBtn").innerHTML= "No";
                             document.getElementById("noBtn").addEventListener("click", function(){
@@ -3040,18 +3040,18 @@ function comprobarDireccion(){
                                         toast.show("Elige almenos 2000 pesos en productos", 1500);
                                         verProductos();
                                     }
-                                    
+
                                 }else{
                                     comprobarHora();
                                 }
                             });
-                    }else{  
+                    }else{
 
                     showDirecciones();
                     }
                 });
-            
-            
+
+
         }else{
             showAuthDialog();
 
@@ -3076,21 +3076,21 @@ function guardarOrden(){
                             confirmar = false;
                             guardando = true;
                         }else{
-                            
+
                             confirmar = true;
-                            
+
                         }
-                        
+
                     }
 
-                   
+
                     if(marchante==null||marchante==""){
                         askForMarchante();
                     }else{
                         askForCupones(cuponActivo);
                     }
-                    
-                           
+
+
                 }else{
                     fromDay =true;
                     var tos = new Toasty();
@@ -3098,7 +3098,7 @@ function guardarOrden(){
                     goMain();
                 }
             });
-            
+
         }
 }
 function askForMarchante(){
@@ -3108,7 +3108,7 @@ function askForMarchante(){
         var ref = database.ref('Marchantes/vendedores');
         ref.once('value', function(snapshot){
             if(snapshot.exists()){
-               
+
                 var vendCont = "";
                 snapshot.forEach(function(vendedor){
                     vendCont += '<li onclick="setMarchante('+"'"+vendedor.key+"'"+')">'+vendedor.key+'</li>';
@@ -3126,7 +3126,7 @@ function setMarchante(march){
 }
 function getOrden(){
 
-       
+
         var ref = firebase.database().ref('Usuarios/'+id+'/Suscripcion/Dia/'+dias[diaRequested-1].dia);
         ref.once('value', function(snapshot){
             if(confirmar){
@@ -3138,9 +3138,9 @@ function getOrden(){
                 tos.show("Tu orden está guardada", 2000);
                 snapshot.ref.child('estado').set("guardado");
             }
-            
+
             var hora = snapshot.child('Hora de entrega').val();
-            var direc = new direccion("dir", snapshot.child('Direccion de entrega').val(), 0.0, 0.0, 0); 
+            var direc = new direccion("dir", snapshot.child('Direccion de entrega').val(), 0.0, 0.0, 0);
             var total = snapshot.child('Total').val();
             var domicilio = snapshot.child('domicilio').val();
             var totalDescontado;
@@ -3149,8 +3149,8 @@ function getOrden(){
             }else{
                 totalDescontado = 0;
             }
-            
-           
+
+
             var estado = snapshot.child('estado').val();
             var status = snapshot.child('status').val();
             carList = new Array();
@@ -3166,18 +3166,18 @@ function getOrden(){
                 var newProd = new carItem(nombre, desc, tipo, cant, totPro, weburl, url, 1);
                 carList.push(newProd);
 
-            }); 
+            });
 
             var ord = new orden(hora, direc, total, domicilio, totalDescontado, estado, status, carList);
-            
+
             grabarEnMarchante(ord);
 
-            
-            
+
+
 
         });
 }
-window.onload = s; 
+window.onload = s;
 function grabarEnMarchante(ord){
         if(confirmar){
             var refOrden = database.ref('Marchantes/Main/Ordenes/Pendientes');
@@ -3185,7 +3185,7 @@ function grabarEnMarchante(ord){
                 var index = parseInt(snapshot.child('index').val(), 10);
                 index++;
                 snapshot.ref.child('index').set(index);
-               
+
                 snapshot.ref.child('enCurso/'+index+'/dia').set(dias[diaRequested-1].dia);
                 snapshot.ref.child('enCurso/'+index+'/total').set(ord.total);
                 snapshot.ref.child('enCurso/'+index+'/tipo').set(0);
@@ -3218,7 +3218,7 @@ function grabarEnMarchante(ord){
                 confirmar = false;
                 setIdEntrega(index);
                 });
-            
+
 
         }else{
             ref = database.ref('Marchantes/Main/Ordenes/Reservado/'+dias[diaRequested-1].dia+'/Usuarios/'+id);
@@ -3248,8 +3248,8 @@ function grabarEnMarchante(ord){
 
             guardando = false;
         }
-        
-       
+
+
 }
 function setIdEntrega(index){
         var ref = firebase.database().ref('Usuarios/'+id+'/Suscripcion/Dia/'+dias[diaRequested-1].dia);
@@ -3259,7 +3259,7 @@ function setIdEntrega(index){
         reserva(dias[diaRequested-1].dia);
 }
 function removeDia(){
-       
+
         if(!confirmando){
         var dialog = viewDialog("Quieres ", "Borrar esta orden?", "src/icons/zero_img.png");
         document.getElementById("alert").innerHTML = dialog;
@@ -3278,9 +3278,9 @@ function removeDia(){
                     goMain();
                 }
             });
-            
-            
-            
+
+
+
         });
         document.getElementById("noBtn").innerHTML= "No";
         document.getElementById("noBtn").addEventListener("click", function(){
@@ -3291,13 +3291,13 @@ function removeDia(){
             var tos= new Toasty();
             tos.show("No puedes borrar una orden en progreso", 3000);
         }
-} 
+}
 function resetCupon(index){
         var ref  = database.ref('Usuarios/'+id+'/Cupones');
         ref.push({value: index, state: true});
         clearCupones(false);
-        
-        
+
+
 }
 function askForCupones(pos){
         var ref = database.ref('Usuarios/'+id+'/Suscripcion/Dia/'+dias[diaRequested-1].dia);
@@ -3317,14 +3317,14 @@ function askForCupones(pos){
                                     document.getElementById("alert").style.display = "none";
                                     canjearCupon(pos, cuponActivo);
 
-                             
+
                             });
                             document.getElementById("noBtn").innerHTML= "No";
                             document.getElementById("noBtn").addEventListener("click", function(){
-                                    
+
                             document.getElementById("alert").style.display = "none";
-                            
-            
+
+
                             });
                         }else{
                             comprobarHora();
@@ -3343,7 +3343,7 @@ function askForCupones(pos){
                     var tos = new Toasty();
                     tos.show("Ya usaste un cupón para esta compra", 3000);
                 }
-                
+
             }
         });
 }
@@ -3358,7 +3358,7 @@ function canjearCupon(pos, active){
                 comprobarHora();
             }
             reserva(dias[diaRequested-1].dia);
-           
+
         }else{
             var tos = new Toasty();
             tos.show("Canjea el cupón disponible", 2000);
@@ -3373,7 +3373,7 @@ function showCupones(){
             if(pos >=0){
                 clearInterval(anim);
                 document.getElementById("cupones").style.display = "block";
-                document.getElementById("ticket").style.display = "none"; 
+                document.getElementById("ticket").style.display = "none";
             }else{
                 pos = pos+1;
                 ticketpos = ticketpos-0.64;
@@ -3414,22 +3414,22 @@ function getCupones(show){
                     }else{
                         stat= false;
                     }
-                   
+
                     var cup = new Cupon(valor, stat, parseInt(cupo.key, 10));
                     cupones.push(cup);
                 });
                 var cont = "";
-                
+
                 for(var i= 0; i<cupones.length;i++){
                     if(cupones[i].state){
                         cuponActivo = cupones[i].pos;
                         break;
                     }
                 }
-               
+
                 for(var i= 0; i< cupones.length;i++){
                     cont += getCuponView(cupones[i], cuponActivo);
-                   
+
                 }
 
                 document.getElementById("cuponesList").innerHTML = cont;
@@ -3449,17 +3449,17 @@ function getCupones(show){
                                 document.getElementById("ticket").style.left = pos+"vw";
                             }
                         }
-                    
-                   
-                   
-                    
-                   
+
+
+
+
+
                 }
 
             }else{
                 reserva(dias[diaRequested-1].dia);
             }
-           
+
         });
 }
 
@@ -3497,7 +3497,7 @@ function showProgressDialog(){
                     document.getElementById("confirTxt").style.display = "block";
                 }
 
-                
+
             }
 
             var total;
@@ -3514,7 +3514,7 @@ function showProgressDialog(){
 
 
 
-            
+
         });
 }
 function getProgressDialog(){
@@ -3582,9 +3582,9 @@ function carItem(nombre, descripcion, tipo, cantidad, total, weburl, url, uri){
 function getClockViewMob(horas){
         var content = '<button class="close" onclick="cerrarReloj()"></button><h1 class="clockTitle">Elige la hora</h1><div class="clockLine" style="margin-top: 6vw;"><h1 id="hora12"';
         content += '>12</h1></div><div class="clockLine" style="margin-top: -1.2vw;"><h1 id="hora11" ';
-         
+
         content +=  '>11</h1><h1 id="hora1"';
-        
+
         content +=  'style="margin-left: 20vw;">1</h1></div><div style="margin-top:2vw;" class="clockLine"><h1 id="hora10"';
          for(var i=0; i<horas.length;i++){
             if(horas[i]==10){
@@ -3597,14 +3597,14 @@ function getClockViewMob(horas){
                 content += 'onclick="selectNum(2)"';
             }
          }
-        
-         content += 'style="margin-left: 38vw;">2</h1></div><div class="clockLine" style="margin-top: 3.8vw; margin-bottom: 1.8vw;"><h1  id="hora9"'; 
+
+         content += 'style="margin-left: 38vw;">2</h1></div><div class="clockLine" style="margin-top: 3.8vw; margin-bottom: 1.8vw;"><h1  id="hora9"';
          for(var i=0; i<horas.length;i++){
             if(horas[i]==9){
                 content += 'onclick="selectNum(9)"';
             }
          }
-        
+
         content +=  '>9</h1><h1  id="hora3" ';
         for(var i=0; i<horas.length;i++){
             if(horas[i]==3){
@@ -3637,14 +3637,14 @@ function getClockViewMob(horas){
          }
          content += ' style="margin-left: 20vw;">5</h1></div><div class="clockLine" style="margin-top: 1vw;"><h1  id="hora6" ';
          content += '>6</h1></div><h1 id="horaActual"></h1><button id="guardarHora">Guardar</button>';
-         return content;    
+         return content;
 }
 function getClockView(horas){
     var content = '<button class="close" onclick="cerrarReloj()"></button><h1 class="clockTitle">Elige la hora</h1><div class="clockLine" style="margin-top: 2vw;"><h1 id="hora12"';
         content += '>12</h1></div><div class="clockLine" style="margin-top: -0.8vw;"><h1 id="hora11" ';
-         
+
         content +=  '>11</h1><h1 id="hora1"';
-        
+
         content +=  'style="margin-left: 9vw;">1</h1></div><div class="clockLine"><h1 id="hora10"';
          for(var i=0; i<horas.length;i++){
             if(horas[i]==10){
@@ -3657,14 +3657,14 @@ function getClockView(horas){
                 content += 'onclick="selectNum(2)"';
             }
          }
-        
-         content += 'style="margin-left: 16.6vw;">2</h1></div><div class="clockLine" style="margin-top: 1.8vw; margin-bottom: 1.8vw;"><h1  id="hora9"'; 
+
+         content += 'style="margin-left: 16.6vw;">2</h1></div><div class="clockLine" style="margin-top: 1.8vw; margin-bottom: 1.8vw;"><h1  id="hora9"';
          for(var i=0; i<horas.length;i++){
             if(horas[i]==9){
                 content += 'onclick="selectNum(9)"';
             }
          }
-        
+
         content +=  '>9</h1><h1  id="hora3" ';
         for(var i=0; i<horas.length;i++){
             if(horas[i]==3){
@@ -3733,7 +3733,7 @@ function viewDialog(titulo, contenido, img){
             }else{
                 contentDialog += 'style="width: 50vw;"';
             }
-            
+
         }
         contentDialog +='>';
         contentDialog += titulo;
@@ -3759,7 +3759,7 @@ function viewEditDirec(titulo, contenido, placeholder){
 function getPromosView(promos){
         var cont = '<button class="closeAlert" onclick="cerrarAlert(0, true)"></button><div class="promosDiv"><ul><li';
 
-         cont += '><button>Ver más</button></li><li'; 
+         cont += '><button>Ver más</button></li><li';
          cont += '><button>Ver más</button></li><li';
          cont += '><button>Ver más</button></li></ul></div>';
          return cont;
@@ -3773,22 +3773,22 @@ function getCuponView(cupon, active){
                 }else{
                      cont += 'src/icons/cupon_box_clear.png';
                 }
-               
+
             }else{
                 if(cupon.valor==33){
                      cont += 'src/icons/cupon_box_gold.png';
                 }else{
                      cont += 'src/icons/cupon_box.png';
                 }
-                
+
             }
-            
+
         }else if(!cupon.state){
-           
+
             cont += 'src/icons/cupon_box_used.png';
         }
-       
-        
+
+
         cont +=');" onclick="askForCupones(';
         cont += cupon.pos;
         cont +=')"><h1>';
@@ -3800,7 +3800,7 @@ function getView(producto){
         var contenido = '<li ><div class="producto"><div class="prodContA"';
         if(!fromMob){
             contenido += 'onclick="showB(';
-            
+
         }else{
              contenido += 'onclick="showB(';
         }
@@ -3809,27 +3809,27 @@ function getView(producto){
         contenido += '>';
         contenido += '<img src="';
         contenido += producto.url ;
-        
+
         contenido += '"><h1>';
         contenido += producto.nombre;
-        
+
         if(producto.isTaken){
             if(!fromMob){
                 contenido += '</h1><p style="color: #df7233; margin-top: -0.8vw; font-size: 1.6vw;">';
-        
+
             }else{
                 contenido += '</h1><p style="color: #df7233; margin-top: -4vw; font-size: 5vw;">';
-        
+
             }
                 contenido += "Pedido";
         }else{
             contenido += '</h1><p>';
             contenido += producto.descPro;
         }
-        
+
         contenido += '</p></div><div ';
         contenido += ' id="prod'+producto.pos+'" ';
-             
+
         contenido +='class="prodContB">';
 
         if(producto.descPaq != "sin descripcion"){
@@ -3838,8 +3838,8 @@ function getView(producto){
             contenido += ')"><h1>';
             contenido += 'Paq ';
             contenido += producto.descPaq;
-            contenido += '</h1><h2>$'; 
-            contenido += producto.precioPaq; 
+            contenido += '</h1><h2>$';
+            contenido += producto.precioPaq;
             contenido += '</h2></div>';
         }
         contenido += '<div class="precio"';
@@ -3849,7 +3849,7 @@ function getView(producto){
             }else{
                 contenido += 'style="margin-top:4vw;"';
             }
-            
+
         }
         contenido +='><h1>';
         contenido += "Precio";
@@ -3904,9 +3904,9 @@ function shareInt(url,  body){
             document.getElementById("urlText").select();
             document.execCommand('copy');
             document.body.removeChild(textarea);
-            var tos = new Toasty();             
+            var tos = new Toasty();
             tos.show("El enlace se copió en el portapapeles, compartelo con tus amigos para ganar descuentos y promociones!!", 5000);
-             
+
         }
 }
 
@@ -3931,10 +3931,10 @@ function checkTerms(){
         document.getElementById("iniciarSesion").style.backgroundImage = "url('src/signin-assets/btn_google_signin_light_normal_web.png')";
 }
 function verPromociones(){
-       
+
         document.getElementById("mainMenu").style.display = "none";
-        document.getElementById("alert").style.display="none"; 
-        
+        document.getElementById("alert").style.display="none";
+
         var ref = database.ref('PromoPic');
         ref.once('value', function(snapshot){
             if(!snapshot.exists()){
@@ -3944,35 +3944,35 @@ function verPromociones(){
                 document.getElementById("alert").innerHTML= promoDiv;
                 document.getElementById("alert").style.display = "block";
             }
-            
+
         });
 }
 function hideConfirmando(){document.getElementById("alert").style.display = "none";}
 
 function testiarChino(){
-        
+
         var groserias = new Array();
         groserias.push("1");
         groserias.push("2");
-        groserias.push("3"); 
-        groserias.push("4"); 
-        groserias.push("5"); 
-        groserias.push("6"); 
+        groserias.push("3");
+        groserias.push("4");
+        groserias.push("5");
+        groserias.push("6");
         for(var i=0;i<groserias.length;i++){
             var tos = new Toasty();
             tos.show(groserias[i], 800);
-           
+
         }
 }
 function s(){
     hi();
 }
 class Toasty{
-        
 
-        
+
+
         constructor(){
-            
+
         }
 
         show(contenido, time){
@@ -3989,7 +3989,7 @@ class Toasty{
                         if(opacity >= 1){
                             clearInterval(anim);
                             var countdown = setTimeout(hide, time);
-                            
+
                             function hide(){
                                 clearTimeout(countdown);
                                 var opacity = 1;
@@ -4009,16 +4009,16 @@ class Toasty{
                                             if(toastBackStack.length>0){
                                                 var pos = 0;
                                                 var tos = new Toasty();
-                                                tos.show(toastBackStack[pos].contenido, toastBackStack[pos].tiempo); 
+                                                tos.show(toastBackStack[pos].contenido, toastBackStack[pos].tiempo);
                                             }
                                         }
                                     }else{
                                         opacity = opacity - 0.16;
                                         toasCont.style.opacity = opacity;
                                     }
-                                } 
+                                }
                             }
-              
+
                         }else{
                             opacity = opacity+0.16;
                             toasCont.style.opacity = opacity ;
@@ -4037,26 +4037,26 @@ class Toasty{
             }
 
 
-            
+
         }
 }
 function toas(contenido, tiempo){
         this.contenido= contenido;
         this.tiempo=tiempo;
 }
-function toast(content, timeOutVar){     
+function toast(content, timeOutVar){
         var init = setTimeout(show, 150);
         function show(){
             var toasCont = document.getElementById("toast");
         toasCont.innerHTML = content;
-        
+
         var opacity = 0;
         var anim = setInterval(frame, 12);
             function frame(){
               toasCont.style.display = "block";
               if(opacity >= 1){
                 clearInterval(anim);
-                
+
                 var countdown = setTimeout(hide, timeOutVar);
                     function hide(){
                         clearTimeout(countdown);
@@ -4068,15 +4068,15 @@ function toast(content, timeOutVar){
                                         toasCont.style.display= "none";
                                 }else{
                                         opacity = opacity - 0.16;
-                                    
+
                                         toasCont.style.opacity = opacity;
                                 }
-                            } 
+                            }
                     }
-              
+
               }else{
                 opacity = opacity+0.16;
-               
+
                 toasCont.style.opacity = opacity ;
               }
             }
@@ -4103,12 +4103,12 @@ function showPrompInstall(){
             }
         });
     }
-    
+
 }
 function readUser(){
     var ref = database.ref('Usuarios/'+id);
     ref.once('value', function(snapshot){
-       
+
     });
 }
 
@@ -4118,16 +4118,16 @@ function getProductosJson(){
             if(response){
                 var json = JSON.parse(response);
                 productosJson = json;
-               
-                
+
+
             }
             checkAndSetProductosDb();
-            
+
         });
     }else{
         cargarProductos('Para Desayunar');
     }
-    
+
 }
 function checkAndSetProductosDb(){
     if(('indexedDB' in window)){
@@ -4138,43 +4138,43 @@ function checkAndSetProductosDb(){
                 if(!x){
                     response('no respuesta');
                 }else{
-                 
+
                 }
             }, 1000);
             dbPromise.onupgradeneeded = function(event){
-               
+
                 var db = event.target.result;
                 x = true;
                 var create = db.createObjectStore('productos', {keyPath: 'id', autoIncrement: true} );
                 create.transaction.oncomplete = function(){
-                    var objStore = db.transaction(['productos'], "readwrite").objectStore('productos');      
+                    var objStore = db.transaction(['productos'], "readwrite").objectStore('productos');
                     var data = {
                         id: 'productos',
                         data: productosJson
                     }
                     var req = objStore.put(data);
                     req.onsuccess = function(){
-                        
+
                         clearTimeout(timer);
                         response('respondio');
                     };
                 }
-            
-                            
+
+
             };
-            
-            
+
+
         });
         prom.then(function(res){
-           
+
             if(res=='respondio'){
                 cargarProductos('Para Desayunar');
             }else{
                 readProdsInDb();
             }
         });
-        
-        
+
+
     }else{
         cargarProductos('Para Desayunar');
     }
@@ -4182,7 +4182,7 @@ function checkAndSetProductosDb(){
 function  readProdsInDb(){
     var dbPromise = window.indexedDB.open('productos', 1);
     dbPromise.onsuccess = function(event){
-               
+
                 var db = event.target.result;
                 var store = db.transaction(['productos'], "readwrite").objectStore('productos');
                 var data = store.get('productos');
@@ -4194,8 +4194,8 @@ function  readProdsInDb(){
                                     getProductosJson();
                                 }
                             };
-                
-                        
+
+
             };
 }
 function cargarProductos(reference){
@@ -4209,13 +4209,13 @@ function cargarProductos(reference){
             var keys = Object.keys(json);
             for(i in json){
                 var pro = new producto( keys[pos],
-                                        json[i].url, 
-                                        json[i].weburl, 
-                                        json[i].DescPro, 
-                                        json[i].DescPaq, 
-                                        parseInt(json[i].precioPaquete,10), 
-                                        parseInt(json[i].precioUnidad,10), 
-                                        parseInt(json[i].undPorPaq,10), 
+                                        json[i].url,
+                                        json[i].weburl,
+                                        json[i].DescPro,
+                                        json[i].DescPaq,
+                                        parseInt(json[i].precioPaquete,10),
+                                        parseInt(json[i].precioUnidad,10),
+                                        parseInt(json[i].undPorPaq,10),
                                         pos , 1, 0, parseInt(json[i].precioUnidad,10), false);
                 productos[pos] = pro;
                 pos++;
@@ -4223,8 +4223,8 @@ function cargarProductos(reference){
             }
             mostrarProductos(true);
 
-            
-           
+
+
         }else{
             getProductosJson();
             var ref = database.ref('Productos/Categorias/'+reference);
@@ -4242,29 +4242,29 @@ function cargarProductos(reference){
                     var pro = new producto(nombre, andUrl, url, descPro, descPaq, precioPaq, precioUnd, undPorPaq, pos , 1, 0, precioUnd, false);
                     productos[pos] = pro;
                     pos++;
-                    
+
                 });
-            
+
                 mostrarProductos(true);
 
             });
-            
-           
+
+
         }
-        
-         
-        
+
+
+
 }
 
 function readFromJson(path, callback){
     var xobj = new XMLHttpRequest();
-    xobj.open('GET', path, true); 
+    xobj.open('GET', path, true);
     xobj.onreadystatechange = function () {
           if (xobj.readyState == 4 && xobj.status == "200") {
             callback(xobj.responseText);
           }
     };
-    xobj.send(null); 
+    xobj.send(null);
 }
 
 
@@ -4273,7 +4273,7 @@ function readFromJson(path, callback){
 
 
 function getRange(){
-    
+
     return height*capacity;
 }
 
@@ -4297,31 +4297,24 @@ var toListen = true;
 var comparando = false;
 function setScrollListener(){
     pubsListener = true;
-        
+
         var scroller = document.getElementById("publicaciones");
         scroller.addEventListener("scroll", function(){
-
-
-
-
-            
             var box = scroller.querySelector('li');
             var height = box.offsetHeight;
             var scrollerHeight = scroller.offsetHeight;
             var space = 10;
-           
+
             var sizes = getCapacity();
             view_range = height;
-            comparation_range = parseInt((height+space)*(range_lenght-1.6));
-            //console.log('aproximateHeight: '+aproximateHeight, 'scrolled: '+scroller.scrollTop);
-            //comparation_range = parseInt(((((height*0.9)+space)*(range_lenght))/2).toString());
-           
+            comparation_range = parseInt((height+space)*(range_lenght-2));
+            console.log('scrolled: '+scroller.scrollTop, 'range: '+comparation_range);
             var play = '';
             if(scroller.scrollTop>view_last_pos){
                 play = 'down';
                 var pos = -3;
                 var addPos = 100;
-                console.log(document.getElementById('addCont').style.marginTop);
+
                 if(document.getElementById('addCont').style.marginTop=='1vw'){
                      var anim = setInterval(function(){
                         if(pos>-19){
@@ -4334,7 +4327,7 @@ function setScrollListener(){
                         }
                     }, 8);
                 }
-               
+
             }else if(scroller.scrollTop<view_last_pos){
                 play = 'up';
                 comparation_range = (height+space)*2;
@@ -4357,7 +4350,7 @@ function setScrollListener(){
             }
              //console.log('scrolled: '+scroller.scrollTop, 'comp: '+comparation_range, 'dir: '+play, 'top: '+top_up);
             view_last_pos = scroller.scrollTop;
-            
+
             if(toListen){
                 if(scroller.scrollTop>comparation_range&&!comparando&&play=='down'&&!top_bottom){
                     if(range[range.length-1]+2>outrange){
@@ -4379,204 +4372,13 @@ function setScrollListener(){
                     top_bottom = false;
                 }
             }
-            
-            
-            
-            /*if(toListen){
-                toListen = false;
-                scroller.style.overflowY = "hidden";
-                /*if(capacity>1){
-                    comparation_range = parseInt(((height+space)*(range_lenght-1)).toString());
-                }else{
-
-                    comparation_range = parseInt(((height+space)*(range_lenght-1)).toString());
-                }
-
-
-                
-                var play = "";
-                
-                if(scroller.scrollTop>view_last_pos){
-                  play = "down";
-
-                }else if(scroller.scrollTop<view_last_pos){
-                    play = "up";
-                    
-                   
-                }var reversing = false;
-                if(direction_guide!=play){
-                    reversing = true;
-                }
-                direction_guide = play;
-
-                var options;
-                var lastPos = view_last_pos;
-                view_last_pos = scroller.scrollTop;
-                var comp_pos;
-                if(play=='up'){
-                    if(capacity>1){
-                        comp_pos = parseInt((view_range/capacity));
-                    }else{
-                        comp_pos = parseInt((view_range/100));
-                    }
-                   
-                }else if(play=='down'){
-                    comp_pos = comparation_range;
-                }
-                //console.log('scroll: '+scroller.scrollTop, 'sizes: '+ JSON.stringify(sizes), 'comparation_range: '+comp_pos, 'direction: '+play);
-                
-               
-            
-                direction_guide=play;
-                var diference = ((lastPos-scroller.scrollTop)*(-1));
-                if(diference<0)  {
-                    diference = diference*(-1);
-                }
-                //console.log('==>Scrolling> ---=>>|| scrolled: '+scroller.scrollTop+', last_pos: '+lastPos, 'comp: '+comp_pos, 'direction: '+play, 'diference: '+diference);
-            
-               
-                
-                   if(scroller.scrollTop>comp_pos&&play=="down"&&diference<500){
-                    
-                    
-                    top = false;
-                  
-                    
-                    
-                     var position;
-                    //the Fucking Position
-                    if(capacity>1){
-                        position = parseInt((view_range*(capacity/2)).toString());
-                    }else{
-                        position = parseInt((((view_range*0.9)+space)*(3)).toString());
-                    }
-                    
-
-                    //#!&%"())9=872Malparida que no sale"
-
-
-
-                    if(range[range.length-1]+capacity>publicaciones.length){
-                       
-                       if(!top_bottom){
-
-                           scroller.scrollTop = position+4;
-                           view_last_pos =  position;
-                           makeVisiblePubs(true);
-                       }else{
-                         scroller.style.overflowY = "scroll";
-                         toListen = true;
-                       }
-                       top_bottom = true;
-                      
-
-                    }else{
-                        scroller.scrollTop =position+4;
-                        view_last_pos =   position;
-                        
-                        makeVisiblePubs(true);
-
-                    }
-                     console.log('Cargando_vistas...\n'+'range: '+comp_pos+', pos: '+view_last_pos+'\nbox: '+view_range+', scroller: '+scrollerHeight, '\nDireccion: '+play, 'diference: '+diference);
-                   
-                    
-               
-                
-                }else if(scroller.scrollTop<comp_pos&&play=="up"&&diference<500){
-                   
-                     top_bottom = false;
-                     
-                        
-                            toListen = false;
-                           
-
-
-                            //the Fucking Position
-
-                            var position
-                            if(capacity>1){
-                                position =  parseInt(comparation_range-((view_range+space)*capacity).toString()) ; 
-                            }else{
-                                position = parseInt(comparation_range-(((view_range*0.9)+space)*3).toString()) ; 
-                                console.log(position, range_lenght-3, scrollerHeight);
-                            }
-                            
-
-
-
-
-                            if(range[0]<=0){
-                                 
-                                if(!top){
-
-                                   scroller.scrollTop = position-4;
-                                   view_last_pos =position-4;
-                                    makeVisiblePubs(false);
-                                }else{
-                                    scroller.style.overflowY = "scroll";
-                                    toListen = true;
-                                }
-                                 top = true;
-                            }else{
-                                scroller.scrollTop = position-4;
-                                view_last_pos =position-4;
-                                makeVisiblePubs(false);
-                            }
-                              console.log('Cargando_vistas...\n'+'range: '+comp_pos+', pos: '+view_last_pos+'\nbox: '+view_range+', scroller: '+scrollerHeight, '\nDireccion: '+play, 'diference: '+diference);
-                           
-                           
-
-                            
-                            
-                          
-                            
-                            
-                           
-                            
-                           
-                      
-                   
-                    
-                }else{
-                    toListen  = false;
-                    if(play=='down'&&diference>(view_range/1.8)&&!reversing){
-                        scroller.style.opacity = "0.5";
-                        console.log('ajustando.... de: '+scroller.scrollTop,'to: '+lastPos);
-                        scroller.scrollTop = lastPos+4; 
-                        view_last_pos =  lastPos+4; 
-
-                        setTimeout(function(){
-                            scroller.style.opacity = "1";
-                             scroller.style.overflowY = "scroll";
-                         toListen = true;
-                        }, 120);
-                        
-                    }else if(play=='up'&&diference>(view_range/1.5)&&!reversing){
-                         scroller.style.opacity = "0.5";
-                         console.log('ajustando.... de: '+scroller.scrollTop,'to: '+lastPos);
-                        scroller.scrollTop = lastPos-4; 
-                        view_last_pos =  lastPos-4; 
-                         setTimeout(function(){
-                             scroller.style.opacity = "1";
-                             scroller.style.overflowY = "scroll";
-                         toListen = true;
-                        }, 120);
-                    }else{
-                        scroller.style.overflowY = "scroll";
-                         toListen = true;
-                    }
-                   
-                    
-                }
-            }  */         
-            
         });
 }
 
 var index_step ;
 var outrange;
-var range = new Array();  
-var range_lenght;    
+var range = new Array();
+var range_lenght;
 function makeVisiblePubs(down){
     var op = 1;
             var anim = setInterval(function(){
@@ -4586,48 +4388,48 @@ function makeVisiblePubs(down){
                 }else{
                     clearInterval(anim);
                 }
-            
+
             }, 10);
     toListen = false;
     outrange = publicaciones.length;
     var reloadRange = false;
-   
+
     if(!down){
-        
+
         if(capacity>1){
             index_step = parseInt((range[0]-(capacity-1)).toString());
         }else{
             index_step = parseInt((range[0]-(4)).toString());
         }
-        
+
         if(index_step<0){
             index_step = 0;
              console.log('outofrange_up');
         }
-       
+
     }else{
-       
+
 
         if(capacity>1){
             index_step = parseInt(((range[range.length-1])-(capacity-1)).toString());
         }else{
             index_step = parseInt(((range[range.length-1])-(4)).toString());
         }
-        
-        
+
+
         if(index_step>outrange){
             if(capacity>1){
                 index_step = outrange-parseInt((range_lenght/capacity).toString())-1;
             }else{
                 index_step = outrange-parseInt((range_lenght).toString())-1;
             }
-            
+
             console.log('outofrange_down');
-           
+
 
         }
     }
-   
+
     var actual_range_item = index_step;
     if(actual_range_item+range_lenght>outrange){
         actual_range_item = outrange-(range_lenght-1);
@@ -4640,22 +4442,22 @@ function makeVisiblePubs(down){
     for(var i=0;i<outrange;i++){
 
         publicaciones[i].visible =  false;
-        
+
        for(var j=0;j<range.length;j++){
         if(range[j]>=0&&range[j]<=outrange&&range[j]==i){
-            
+
             publicaciones[i].visible =  true;
 
         }
        }
 
     }
-    
+
     console.log('range: '+range, 'lenght: '+range_lenght, 'down: '+ down);
-   
+
     cargarPubViews(false);
-    
-    
+
+
 }
 
 
@@ -4666,11 +4468,11 @@ function cargarPubViews(init){
 
         setTimeout(function(){
             scroller.style.overflowY = "hidden";
-            
+
             toListen = false;
             var cont = '';
             scroller.style.overflowY = "hidden";
-           
+
             for(var i=0;i<publicaciones.length;i++){
 
                 cont += getViewPublicacion(publicaciones[i],i);
@@ -4680,27 +4482,27 @@ function cargarPubViews(init){
             setTimeout(function(){
                 var sizes = getCapacity();
                 var comparation = parseInt((sizes.box_height+13)*(range_lenght/2).toString());
-                
-                
+
+
                 if(direction_guide=='up'){
 
                     if(range[0]<=0){
                         top_up = true;
-                    
+
                     }
                      scroller.scrollTop = parseInt(comparation-(sizes.box_height).toString());
-                    
 
-                    
-                
+
+
+
                 }else{
                     if(range[range.length-1]+2>publicaciones.length){
                         top_bottom = true;
-                    
+
                     }
-                       
+
                     scroller.scrollTop = parseInt(comparation-(sizes.box_height/8).toString());
-                    
+
                 }
                 var op = 0;
                 var anim = setInterval(function(){
@@ -4710,34 +4512,17 @@ function cargarPubViews(init){
                     }else{
                         clearInterval(anim);
                     }
-                
+
                 }, 8);
-                
+
                 view_last_pos = scroller.scrollTop;
                 toListen = true;
                 comparando = false;
                 scroller.style.overflowY = "scroll";
+              }, 180);
+          }, 250);
 
-
-
-
-            }, 180);
-           
-            /*var comparation = last_comp_pos-scroller.scrollTop;
-            if(comparation<0){
-                comparation = comparation*(-1);
-            }*/
-           
-             
-            
-            
-
-            
-        }, 250);
-        
     }
-    
-
     if(init){
         initList = true;
         cont = '';
@@ -4746,7 +4531,7 @@ function cargarPubViews(init){
                  publicaciones[i].visible = true;
               cont += getViewPublicacion(publicaciones[i],i);
             }
-           
+
           }
         document.getElementById("publicaciones").innerHTML = "";
         document.getElementById("publicaciones").innerHTML = cont;
@@ -4760,20 +4545,20 @@ function cargarPubViews(init){
                 }else{
                      range_lenght = (sizes.capacity*2)+1;
                 }
-               
+
                 capacity = sizes.capacity;
             }else{
 
                 range_lenght = (sizes.capacity*2);
                 capacity = sizes.capacity;
             }
-                
-           
-           
-           
-            
-            
-           
+
+
+
+
+
+
+
             for(var i=0;i<publicaciones.length;i++){
                 publicaciones[i].visible = false;
                 cont += getViewPublicacion(publicaciones[i],i);
@@ -4804,25 +4589,11 @@ function cargarPubViews(init){
                     }, 8);
                 toListen = true;
             }, 1000);
-           
+
         },1000);
-        
+
 
     }
-    
-     
-     
-    //setTimeout(function(){ toListen = true;  scroller.style.overflowY = "scroll"; }, 800);
-            
-           
-          
-            
-      
-
-
-
-
-   
     if(!pubsListener){
         setScrollListener();
     }
@@ -4830,9 +4601,9 @@ function cargarPubViews(init){
 
 
 
-    
-    
-    
+
+
+
 }
 function getCapacity(){
      var scroller = document.getElementById("publicaciones");
@@ -4852,7 +4623,7 @@ function getCapacity(){
 function verMuro(){
     if(user==null){
 
-        
+
         document.getElementById("pubLoading").style.display = "block";
         var mainMenu = document.getElementById("hamButton");
         var menuBtn = document.getElementById("menuButton");
@@ -4861,13 +4632,13 @@ function verMuro(){
         var noti = document.getElementById("notification");
         var second = document.getElementById("secondary");
         document.getElementById("header").innerHTML = "";
-       
-        
+
+
         var newMenu = document.createElement('button');
         var newTitle = document.createElement('h1');
-        
+
         newTitle.setAttribute('id', 'mainTitle');
-        
+
 
         newMenu.setAttribute('id', 'menuButton');
         var newMain = document.createElement('button');
@@ -4875,18 +4646,18 @@ function verMuro(){
         document.getElementById("header").appendChild(newMain);
         document.getElementById("header").appendChild(newTitle);
         document.getElementById("header").appendChild(newMenu);
-      
+
 
         document.getElementById("mainTitle").innerHTML = "La Red del Pan" ;
         document.getElementById("mainTitle").style.textAlign = "center";
-        
 
-        
-        
+
+
+
         document.getElementById("menuButton").addEventListener("click", verRecetas);
         document.getElementById("mask").style.display = "none";
 
-       
+
         document.getElementById("canasta").style.display = "none";
         document.getElementById("hamButton").addEventListener("click", function(){
             document.getElementById("redelpan").style.display = "none";
@@ -4910,8 +4681,8 @@ function verMuro(){
         showAuthDialog()
     }
 
-        
-    
+
+
 }
 function cargarPublicaciones(){
     var ref = database.ref("Muro/publicaciones");
@@ -4933,25 +4704,25 @@ function cargarPublicaciones(){
                         }else{
                             meString = me[0];
                         }
-                       
+
                         if(us.key == meString){
                             liked = true;
                         }
-                        
+
                     });
-                    
+
                     var url = publi.child("url").val().toString();
                     var key = publi.key;
                     var visible = false;
                     var pub = new publicacion(key, name, content, count, liked, url, date, pos, visible);
                     pos ++;
-                  
+
                     publicaciones.push(pub);
             });
             publicaciones.reverse();
             document.getElementById("publicaciones").scrollTop = 0;
 
-            
+
             cargarPubViews(true);
 
     });
@@ -4987,7 +4758,7 @@ function getViewPublicacion(pub, pos){
     cont += '</h1><h2>"';
     cont += pub.content;
     cont += '"</h2><h3>';
-    cont += pub.date; 
+    cont += pub.date;
     cont += '</h3><div class="pub_counter"><h4>';
     cont += pub.count;
     cont += '</h4><img src="src/icons/icono_reserva.png"><h5 ';
@@ -4995,7 +4766,7 @@ function getViewPublicacion(pub, pos){
     if(!pub.liked){
       cont += 'class="notLiked"';
       cont += ' onclick="like(';
-      cont += "'"+pub.key+"'"; 
+      cont += "'"+pub.key+"'";
       cont += ', 0)"';
     }else{
        cont += 'class="liked"';
@@ -5008,7 +4779,7 @@ function getViewPublicacion(pub, pos){
     }else{
         return "";
     }
-    
+
 }
 function like(key, state){
     var ref = database.ref("Muro/publicaciones/"+key);
@@ -5029,13 +4800,13 @@ function like(key, state){
             cargarPublicaciones();
         }else if(state==1){
             abrirPublicacion();
-           
+
         }
-        
-      
+
+
 
     });
-   
+
 
 }
  function cargarImagen(){
@@ -5047,11 +4818,11 @@ function like(key, state){
     cont += '<img id="photoImg">';
     cont += '<button id="startCamera" ></button>';
     cont += '<button id="changeCamera" ></button>';
-    
+
     document.getElementById("camera_cont").innerHTML = cont;
     document.getElementById("camera_cont").style.display ="block";
 
-    var player = document.getElementById('player'); 
+    var player = document.getElementById('player');
     var snapshotCanvas = document.getElementById('snapshot');
     var captureButton = document.getElementById('capture');
     var guardar = document.getElementById('changeCamera');
@@ -5059,15 +4830,15 @@ function like(key, state){
     var cerrar = document.getElementById('closeCamara');
     cerrar.addEventListener('click', cerrarCamara);
 
-   
+
     borrar.addEventListener('click', iniciarCamara);
     guardar.addEventListener('click', guardarFoto);
-   
+
     var image = document.getElementById('photoImg');
 
     captureButton.addEventListener('click', takePhoto);
     var front = false;
-    
+
 
     navigator.getMedia = ( navigator.getUserMedia ||
     navigator.webkitGetUserMedia ||
@@ -5084,9 +4855,9 @@ function like(key, state){
         displayErrorMessage("Your browser doesn't have support for the navigator.getUserMedia interface.");
     }
     else{
-        
-        
-        navigator.getUserMedia({video:{facingMode:"environment", width: 520, height: 520}}, 
+
+
+        navigator.getUserMedia({video:{facingMode:"environment", width: 520, height: 520}},
         function(stream){
             player.src = window.URL.createObjectURL(stream);
             window.localStream =stream;
@@ -5096,9 +4867,9 @@ function like(key, state){
                 toast.show("iniciando", 1000);
 
 
-                
+
             }
-        
+
         },function(err){
              var toast = new Toasty();
             toast.show(err, 1000);
@@ -5106,7 +4877,7 @@ function like(key, state){
         });
     }
 
-    
+
     function errorHandling(err){
         var toast = new Toasty();
         toast.show(err, 3000);
@@ -5118,11 +4889,11 @@ function like(key, state){
         if(stream){
             stream.getVideoTracks()[0].stop();
         }
-        
+
 
     }
 
-   
+
     function takePhoto(){
         snap = takeSnap();
         image.setAttribute('src', snap);
@@ -5134,7 +4905,7 @@ function like(key, state){
         borrar.style.display = "block";
         guardar.style.display = "block";
         window.navigator.vibrate([200, 50, 100]);
-      
+
 
 
     }
@@ -5166,7 +4937,7 @@ function like(key, state){
         borrar.style.display = "none";
         guardar.style.display = "none";
         captureButton.style.display = "block";
-        navigator.getUserMedia({video:{facingMode:"environment", width: 520, height: 520}}, 
+        navigator.getUserMedia({video:{facingMode:"environment", width: 520, height: 520}},
         function(stream){
             player.src = window.URL.createObjectURL(stream);
             player.play();
@@ -5174,15 +4945,15 @@ function like(key, state){
                 var toast = new Toasty();
                 toast.show("iniciando", 1000);
 
-                
+
             }
-        
+
         },function(err){
              var toast = new Toasty();
             toast.show(err, 1000);
             console.log(err);
         });
-        
+
 
     }
     function showVideo(stream){
@@ -5200,7 +4971,7 @@ function like(key, state){
         for(var i=0;i<length;i++){
             finalId += array[Math.floor((Math.random() * 64) + 1)];
         }
-       
+
 
         return finalId;
     }
@@ -5215,15 +4986,15 @@ function like(key, state){
         var metadata = {
              contentType: 'image/png'
         };
-        
-        
+
+
         var toast = new Toasty();
         toast.show("Subiendo Foto...", 3000);
         var uploadTask = storageRef.child('publicaciones/'+refId+'.png').put(blob, metadata);
 
         uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED , function(snapshot){
             var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-           
+
             switch (snapshot.state) {
                 case firebase.storage.TaskState.PAUSED: // or 'paused'
                     break;
@@ -5265,12 +5036,12 @@ function like(key, state){
             var count = contain.split(" ");
             if(count.length<18){
                 publicar(contain, url);
-              
+
             }
-            
+
         });
 
-        
+
 
 
     }
@@ -5292,14 +5063,14 @@ function like(key, state){
         document.getElementById("camera_cont").style.display = "none";
         var url = generatePubUrl(key);
         shareInt(url,'Hola, dale Me gusta y antojate tu tambien');
-        
+
 
     }
  function getPublicarView(){
     var cont = '<div id="publicar"><div id="publicarBar"><button id="cerrar_publicar"></button><h1>Comparte tu alegria en la<br>Red del Pan</h1>';
     cont +='<img src="src/icons/red_cupon.png"></div><div class="pub_header">';
     cont += '<div ';
-    
+
     cont += 'id="captura"></div></div><input type="text/plain" name="" id="pub_content" placeholder="Escribe una frase de menos de 18 palabras">';
     cont +='<button id="pub_share">Compartir</button><p>* Sube una foto de tu pedido.<br>* Comparte el enlace con tus';
     cont += ' amigos  y pideles un "Me gusta".<br>* Alcanza los 50 "Me gusta".<br>* Recibe un descuento sorpresa en  ';
@@ -5312,13 +5083,3 @@ function like(key, state){
     url += key;
     return url;
  }
-
-
-    
-
-
-
-
-
-
- 
