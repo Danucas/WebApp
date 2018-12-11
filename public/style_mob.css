@@ -317,6 +317,7 @@ body{
 
 }
 
+
 #banner{
 	width: 101.2vw;
 	height: 60vw;
@@ -580,17 +581,39 @@ body{
 	box-shadow: inset 0px -1px 1px rgba(5, 5, 5, 0.2);
 }
 
+#floatingCats{
+	position: absolute;
+	top: -4vw;
+	left: 0;
+	width: 100vw;
+	height: 26vw;
+	padding-top: 10vw;
+	display: none;
+	background-image:  linear-gradient(#fdf2f4, #fdf2f4, rgba(253,242,244, 0));
+
+
+}
+#cats{
+	background-color:  #fdf2f4;
+	height: 24vw;
+}
+
 #categorias{
-	background-color: #fdf2f4;
+	background-color: rgba(5, 5, 5, 0);
 	display: flex;
 	margin-left: 0vw;
-	padding: 0vw;
+
 	width: 100vw;
-	padding-bottom: 4vw;
+	padding: 0vw 0vw 4vw 0vw;
+
+
 	margin-top: -10vw;
 	overflow-x: scroll;
 	overflow-y: hidden;
-	height: auto;
+	height: 28vw;
+}
+.lastCat{
+	margin-right: 40vw;
 }
 #categorias li{
 
@@ -642,7 +665,7 @@ body{
 }
 
 #categorias li:hover{
-	background-color:rgba(5, 5, 5, 0.1);
+	background-color:#efe4de;
 
 	cursor: pointer;
 
@@ -1479,6 +1502,9 @@ body{
 	padding-top: 2.4vw;
 	font-size: 6vw;
 	font-family: 'Assistant', sans-serif;
+}
+#carContain{
+	margin-left: -8vw;
 }
 
 

@@ -7,11 +7,14 @@ define([], function(){
     this.editarDir = editarDir;
     this.removerItem = removerItem;
 
+
     function print(){
       console.log('module loaded');
     }
     //Obtiene los datos de la orden
     function reserva(){
+            document.getElementById('floatingCats').style.display = 'none';
+            document.getElementById('header').style.top = 0+'vw';
             hasChossenHour = false;
             var ref = firebase.database().ref('Usuarios/'+id+'/Suscripcion/Dia/'+dia);
             ref.once('value', function(snapshot){

@@ -1,7 +1,8 @@
 var version =  'debug=0.0.1.3.6';
-var Productos = '../@m-productos/productos';requirejs([Productos], function(result){ Productos = result;});
-var Orden = '../@m-orden/orden';requirejs([Orden], function(result){Orden = result;});
-var productos;
+var Productos = '../@m-productos/productos';
+var Orden = '../@m-orden/orden';
+
+var tienda;
 var orden_dia;
 var focused = false;
 var sw;
@@ -56,6 +57,15 @@ var play_count = 3;
 var photoUrl;
 var publicaciones;
 window.onblur = function(){
+    window.onfocus = function(){
+      tienda.setCategoriasAnimation(true);
+      if(!focused){
+          focused = true;
+          goMain();
+      }
+
+
+    };
     if(window.localStream){
         var stream = window.localStream;
         stream.getVideoTracks()[0].stop();
@@ -63,8 +73,10 @@ window.onblur = function(){
         document.getElementById("camera_cont").innerHTML = "";
     }
     if(focused){
+
         focused = false;
     }
+      tienda.clearAnimation();
 
 };
 
@@ -73,7 +85,8 @@ window.onblur = function(){
 
 function hi(){
     orden_dia = new Orden();
-  
+    tienda = new Productos('Para Desayunar');
+
 
 
 
@@ -592,14 +605,7 @@ function checkForUser(){
         var ref = database.ref('Usuarios/'+user.displayName);
         ref.once('value', function(snapshot){
             if(snapshot.exists()){
-                window.onfocus = function(){
-                    if(!focused){
-                        focused = true;
-                        goMain();
-                    }
 
-
-                };
                 if(snapshot.child('Marchante').exists){
                         marchante = snapshot.child('Marchante').val();
                 }
@@ -1032,8 +1038,8 @@ function cargarData(){
                 document.getElementById("menuButton").addEventListener("click", showAuthDialog);
         }
         document.getElementById("loading").style.display = "none";
-        productos = new Productos('Para Desayunar');
-        productos.getFromDB();
+
+        tienda.cargarProductos(categoria);
 }
 function removerCuenta(){
         document.getElementById("mainMenu").style.display = "none";
@@ -1525,7 +1531,7 @@ function cerrarSesion(){
 function cerrarAlert(pos, agregando){
         authChecked = false;
         if(!agregando){
-            productos[pos].tipo = 0;
+            tienda.productos[pos].tipo = 0;
             document.getElementById("alert").style.display= "none";
         }else{
             document.getElementById("alert").style.display= "none";
@@ -1637,6 +1643,17 @@ function cargarSharedPubView(publicacion, key, liked){
 
      return cont;
 }
+function carItem(nombre, descripcion, tipo, cantidad, total, weburl, url, uri){
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.tipo = tipo;
+        this.total = total;
+        this.weburl = weburl;
+        this.url = url;
+        this.uri = uri;
+        this.cantidad = cantidad;
+
+}
 function checkDay(){
         var ref = database.ref('Usuarios/'+id+'/Suscripcion/Dia/'+dias[diaRequested-1].dia);
         ref.once('value', function(snapshot){
@@ -1701,7 +1718,7 @@ function checkDay(){
                 confirmando = false;
                 var anim = hideCanasta();
                 isCanastaShowing = false;
-                productos.mostrarProductos(false);
+                tienda.mostrarProductos(false);
             }
 
         });
@@ -1800,33 +1817,38 @@ function requestDia(dia){
             document.getElementById("mainTitle").innerHTML = "";
         }
         document.getElementById("diasList").style.display = "none";
-        cargarProductos(categoria);
+
+        tienda.cargarProductos(categoria);
 }
 function compareConProductos(){
+      console.log(tienda.productos());
+      var prods = tienda.productos();
         if(isCanastaShowing){
-            for(var i=0; i<productos.productos.length;i++){
+            for(var i=0; i<prods.length;i++){
                     for(var j=0 ; j<carList.length;j++){
-                        if(carList[j].nombre == productos.productos[i].nombre){
-                            productos.productos[i].isTaken = true;
+                        if(carList[j].nombre == prods[i].nombre){
+                            prods[i].isTaken = true;
 
                         }
                     }
             }
-            mostrarProductos(false);
+            tienda.setProductos(prods);
+            tienda.mostrarProductos(false);
 
 
         }else{
-            for(var i=0; i<productos.length;i++){
+            for(var i=0; i<prods.length;i++){
 
-                        productos[i].isTaken = false;
+                        prods[i].isTaken = false;
 
 
             }
-            mostrarProductos(false);
+            tienda.setProductos(prods);
+            tienda.mostrarProductos(false);
         }
 }
 function mostrarFoto(foto){
-        var cont = '<img class="fotoViewer" onclick="cerrarAlert(0, true)" src="'+productos[foto].url+'">';
+        var cont = '<img class="fotoViewer" onclick="cerrarAlert(0, true)" src="'+tienda.productos()[foto].url+'">';
         document.getElementById("alert").innerHTML = cont;
         document.getElementById("alert").style.display = "block";
 }
@@ -2218,7 +2240,10 @@ function setMarchante(march){
         askForCupones(cuponActivo);
 }
 
-window.onload = s;
+window.onload = function(){
+
+  s();
+};
 
 function resetCupon(index){
         var ref  = database.ref('Usuarios/'+id+'/Cupones');
@@ -2798,7 +2823,15 @@ function testiarChino(){
         }
 }
 function s(){
-    hi();
+    requirejs([Productos], function(result){
+      Productos = result;
+      requirejs([Orden], function(result){
+        Orden = result;
+        hi();
+      });
+    });
+
+
 }
 class Toasty{
 
@@ -2986,16 +3019,7 @@ function readUser(){
         }
 
 }*/
-function readFromJson(path, callback){
-    var xobj = new XMLHttpRequest();
-    xobj.open('GET', path, true);
-    xobj.onreadystatechange = function () {
-          if (xobj.readyState == 4 && xobj.status == "200") {
-            callback(xobj.responseText);
-          }
-    };
-    xobj.send(null);
-}
+
 
 
 
