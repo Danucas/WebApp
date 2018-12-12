@@ -6,13 +6,27 @@ define([], function(){
     this.editarItem = editarItem;
     this.editarDir = editarDir;
     this.removerItem = removerItem;
+    this.setTipo = setTipo;
+    this.sumar = sumar;
+    this.restar = restar;
+    this.agregar = agregar;
+    this.guardarOrden = guardarOrden;
+    this.comprobarHora = comprobarHora;
+    this.comprobarDireccion = comprobarDireccion;
+    this.selectDir = selectDir;
+    this.selectNum = selectNum;
+    this.cerrarReloj = cerrarReloj;
+    this.grabarOrden = grabarOrden;
+    this.removeDia = removeDia;
 
+    var prods;
 
     function print(){
-      console.log('module loaded');
+      
     }
     //Obtiene los datos de la orden
     function reserva(){
+            prods = tienda.productos();
             document.getElementById('floatingCats').style.display = 'none';
             document.getElementById('header').style.top = 0+'vw';
             hasChossenHour = false;
@@ -245,10 +259,11 @@ define([], function(){
 
     function editarItem(pos){
             editandoItem = true;
-            productos.productos  = new Array();
+            var prodsJson  = new Array();
             var cats = ['Aliñados', 'Para Desayunar', 'Dulces', 'Integrales'];
+            var producto = tienda.producto;
             for(var f=0;f<cats.length;f++){
-                var json = productosJson.Categorias[cats[f]];
+                var json = tienda.productosJson().Categorias[cats[f]];
                 var keys = Object.keys(json);
                 var pox = 0;
                 for(i in json){
@@ -261,18 +276,19 @@ define([], function(){
                                             parseInt(json[i].precioUnidad,10),
                                             parseInt(json[i].undPorPaq,10),
                                             pox , 1, 0, parseInt(json[i].precioUnidad,10), false);
-                    productos.productos.push(pro);
+                    prodsJson.push(pro);
                     pox++;
                 }
 
             }
-            for(var i=0;i<productos.productos.length;i++){
-                if(productos.productos[i].nombre == carList[pos].nombre ){
-                    var descPro = productos.productos[i].descPro;
-                    var descPaq =  productos.productos[i].descPaq;
-                    var preUni =  productos.productos[i].precioUnidad;
-                    var prePaq =  productos.productos[i].precioPaq;
-                    var uniPorPaq = productos.productos[i].undPorPaq;
+
+            for(var i=0;i<prods.length;i++){
+                if(prods[i].nombre == carList[pos].nombre ){
+                    var descPro = prods[i].descPro;
+                    var descPaq =  prods[i].descPaq;
+                    var preUni =  prods[i].precioUnidad;
+                    var prePaq =  prods[i].precioPaq;
+                    var uniPorPaq = prods[i].undPorPaq;
                     var newPro = new producto(carList[pos].nombre,
                                                 carList[pos].url,
                                                 carList[pos].weburl,
@@ -295,9 +311,9 @@ define([], function(){
                         }
 
                     }
-                    productos.productos= new Array();
-                    productos.productos.push(newPro);
-                    var cont = getModificarView(productos.productos[0], pos);
+                    prods= new Array();
+                    prods.push(newPro);
+                    var cont = getModificarView(prods[0], pos);
                     document.getElementById("alert").innerHTML= cont;
                     document.getElementById("alert").style.display= "block";
                     if(descPaq!="sin descripcion"){
@@ -311,6 +327,28 @@ define([], function(){
                     }
                     break;
                 }
+            }
+    }
+    function setTipo(tipo){
+            prods[0].tipo = tipo;
+            if(tipo==0){
+                var total = prods[0].actual * prods[0].precioUnidad;
+                prods[0].precioActual = total;
+                document.getElementById("textCantPaq"+0).innerHTML ="Cant: "+ prods[0].actual+" unds";
+                document.getElementById("txtPrecioPaq"+0).innerHTML ="$"+ total;
+                document.getElementById("descItemEdit").innerHTML = prods[0].descPro;
+                document.getElementById("porUnidad").style.color = "#176559";
+                document.getElementById("porPaquete").style.color = "grey";
+
+            }else{
+                var total = prods[0].actual * prods[0].precioPaq;
+                prods[0].precioActual = total;
+                document.getElementById("descItemEdit").innerHTML = "Paquete "+prods[0].descPaq;
+                document.getElementById("textCantPaq"+0).innerHTML ="Cant: "+ prods[0].actual+" paq";
+                document.getElementById("txtPrecioPaq"+0).innerHTML ="$"+ total;
+                document.getElementById("porUnidad").style.color = "grey";
+                document.getElementById("porPaquete").style.color = "#176559";
+
             }
     }
     function getModificarView(producto, pos){
@@ -334,23 +372,270 @@ define([], function(){
             contenido +='</li></ul>';
             if(producto.descPaq!="sin descripcion"){
                 contenido += '<ul id="modTitles">';
-                contenido += '<li id="porUnidad" onclick="setTipo(0)">Por unidad</li><li id="porPaquete"  onclick="setTipo(1)" >Por Paquete</li></ul>';
+                contenido += '<li id="porUnidad" onclick="orden_dia.setTipo(0)">Por unidad</li><li id="porPaquete"  onclick="orden_dia.setTipo(1)" >Por Paquete</li></ul>';
 
             }
-            contenido += '<div class="calDiv" ><button class="menosButtonPaq" onclick="restar(';
+            contenido += '<div class="calDiv" ><button class="menosButtonPaq" onclick="orden_dia.restar(';
             contenido += 0;
             contenido +=')"></button><h4 id="textCantPaq';
             contenido += 0;
             contenido += '">Cant:';
             contenido += producto.actual;
-            contenido += ' paq</h4><button class="masButtonPaq" onclick="sumar(';
+            contenido += ' paq</h4><button class="masButtonPaq" onclick="orden_dia.sumar(';
             contenido += 0;
             contenido += ')"';
-            contenido += '></button></div><button class="ok" onclick="agregar(';
+            contenido += '></button></div><button class="ok" onclick="orden_dia.agregar(';
             contenido += 0
             contenido += ')"';
             contenido += '></button></div>';
             return contenido;
+    }
+
+    function restar(pos){
+            if(!confirmando){
+                var actual = prods[pos].actual;
+            if(actual>1){
+                actual = actual-1;
+                prods[pos].actual= actual;
+                if(editandoItem){
+                    if(prods[pos].tipo==1){
+                        var priceActual = actual * prods[pos].precioPaq;
+                        prods[pos].precioActual = priceActual ;
+
+                        document.getElementById("textCantPaq"+pos).innerHTML = "Cant: "+actual+" paq";
+                        document.getElementById("txtPrecioPaq"+pos).innerHTML ="$"+ priceActual;
+                    }else{
+                        var priceActual = actual * prods[pos].precioUnidad;
+                        prods[pos].precioActual = priceActual ;
+
+                        document.getElementById("textCantPaq"+pos).innerHTML = actual+" unds";
+                        document.getElementById("txtPrecioPaq"+pos).innerHTML ="$"+ priceActual;
+                    }
+                }else{
+                    if(prods[pos].tipo==1){
+                        var priceActual = actual * prods[pos].precioPaq;
+                        prods[pos].precioActual = priceActual ;
+
+                        document.getElementById("textCantPaq"+pos).innerHTML = "Cant: "+actual+" paq";
+                        document.getElementById("txtPrecioPaq"+pos).innerHTML ="$"+ priceActual;
+                    }else{
+                        var priceActual = actual * prods[pos].precioUnidad;
+                        prods[pos].precioActual = priceActual ;
+
+                        document.getElementById("und"+pos).innerHTML = actual+" unds";
+                        document.getElementById("price"+pos).innerHTML ="$"+ priceActual;
+                    }
+                }
+
+
+            }
+            }
+    }
+    function sumar(pos){
+            if(!confirmando){
+                var actual = prods[pos].actual;
+                actual = actual+1;
+                prods[pos].actual= actual;
+                if(editandoItem){
+                    if(prods[pos].tipo==1){
+                        var priceActual = actual * prods[pos].precioPaq;
+                        prods[pos].precioActual = priceActual;
+
+                        document.getElementById("textCantPaq"+pos).innerHTML ="Cant: "+ actual+" paq";
+                        document.getElementById("txtPrecioPaq"+pos).innerHTML ="$"+ priceActual;
+                    }else{
+                        var priceActual = actual * prods[pos].precioUnidad;
+                        prods[pos].precioActual = priceActual;
+
+                        document.getElementById("textCantPaq"+pos).innerHTML = "Cant: "+ actual+" unds";
+                        document.getElementById("txtPrecioPaq"+pos).innerHTML ="$"+ priceActual;
+                    }
+                }else{
+                    if(prods[pos].tipo==1){
+                        var priceActual = actual * prods[pos].precioPaq;
+                        prods[pos].precioActual = priceActual;
+
+                        document.getElementById("textCantPaq"+pos).innerHTML ="Cant: "+ actual+" paq";
+                        document.getElementById("txtPrecioPaq"+pos).innerHTML ="$"+ priceActual;
+                    }else{
+                        var priceActual = actual * prods[pos].precioUnidad;
+                        prods[pos].precioActual = priceActual;
+
+                        document.getElementById("und"+pos).innerHTML = actual+" unds";
+                        document.getElementById("price"+pos).innerHTML ="$"+ priceActual;
+                    }
+                }
+            }
+    }
+    function agregar(pos){
+            if(!confirmando){
+                var contenido =  prods[pos].nombre;
+            var namePro= prods[pos].nombre;
+            contenido += prods[pos].precioActual;
+            contenido += prods[pos].actual;
+            var andUrl = '/data/data/com.medialuna.delicatessen.cali/files/'+ prods[pos].andUrl+'.png';
+            var ref = firebase.database().ref('Usuarios/'+id);
+             ref.once('value', function(snapshot){
+                var total = 0;
+                var dom = 0;
+                    if(snapshot.child('Suscripcion/Dia/'+dias[diaRequested-1].dia+'/Productos').exists()){
+                        if(editandoItem){
+                            var desc = "";
+                            if(prods[pos].tipo==0){
+                                desc = prods[pos].descPro;
+                            }else{
+                                desc = prods[pos].descPaq;
+                            }
+                            snapshot.ref.child('Suscripcion/Dia/'+dias[diaRequested-1].dia+'/Productos/'+prods[pos].nombre).set({
+                                    cantidad: prods[pos].actual,
+                                    descripcion: desc,
+                                    tipo :  prods[pos].tipo,
+                                    total: prods[pos].precioActual,
+                                    weburl: prods[pos].url,
+                                    url: andUrl,
+                                    uri: 1
+                            });
+                            document.getElementById("alert").style.display= "none";
+                            reserva(dias[diaRequested-1].dia);
+
+                        }else{
+                            var newCant;
+                        var totPro;
+                        var newDesc;
+                        var total = parseInt(snapshot.child('Suscripcion/Dia/'+dias[diaRequested-1].dia+'/Total').val(), 10);
+                        if(snapshot.child('Suscripcion/Dia/'+dias[diaRequested-1].dia+"/Productos/"+namePro).exists()){
+                            var type =  parseInt(snapshot.child('Suscripcion/Dia/'+dias[diaRequested-1].dia+"/Productos/"+namePro+"/tipo").val(),10);
+                            var tot = parseInt(snapshot.child('Suscripcion/Dia/'+dias[diaRequested-1].dia+"/Productos/"+namePro+"/total").val(), 10);
+                            var cant =  parseInt(snapshot.child('Suscripcion/Dia/'+dias[diaRequested-1].dia+"/Productos/"+namePro+"/cantidad").val(),10);
+                            newDesc = snapshot.child('Suscripcion/Dia/'+dias[diaRequested-1].dia+"/Productos/"+namePro+"/descripcion").val();
+
+                            if(type!=prods[pos].tipo){
+                                newCant = prods[pos].actual;
+                                totPro = prods[pos].precioActual;
+                                total = total-tot;
+                                total = total + totPro;
+                                dom = getDomicilio(total);
+                                if(prods[pos].tipo==1){
+                                    newDesc = prods[pos].descPaq;
+                                }
+
+
+                            }else{
+                                newCant = cant+ prods[pos].actual;
+                                totPro = tot + prods[pos].precioActual;
+                                total = total+ prods[pos].precioActual;
+                                dom = getDomicilio(totPro);
+
+                            }
+
+
+
+                            snapshot.ref.child('Suscripcion/Dia/'+dias[diaRequested-1].dia+'/Total').set(total);
+                            snapshot.ref.child('Suscripcion/Dia/'+dias[diaRequested-1].dia+'/domicilio').set(dom);
+
+
+
+
+                        }else{
+                            var tot = snapshot.child('Suscripcion/Dia/'+dias[diaRequested-1].dia+'/Total').val();
+                            total = parseInt(tot, 10);
+                            newCant= prods[pos].actual;
+                            if(prods[pos].tipo==1){
+                                newDesc = prods[pos].descPaq;
+                            }else{
+                                newDesc = prods[pos].descPro;
+
+                            }
+
+                            totPro = prods[pos].precioActual;
+                            total = total + prods[pos].precioActual;
+                            dom = getDomicilio(total);
+                            snapshot.ref.child('Suscripcion/Dia/'+dias[diaRequested-1].dia+'/Total').set(total);
+                            snapshot.ref.child('Suscripcion/Dia/'+dias[diaRequested-1].dia+'/domicilio').set(dom);
+
+
+                        }
+                        snapshot.ref.child('Suscripcion/Dia/'+dias[diaRequested-1].dia+'/Productos/'+prods[pos].nombre).set({
+                                    cantidad: newCant,
+                                    descripcion: newDesc,
+                                    tipo :  prods[pos].tipo,
+                                    total: totPro,
+                                    weburl: prods[pos].url,
+                                    url: andUrl,
+                                    uri: 1
+                            });
+
+                        if(editandoItem){
+                            cerrarAlert(pos, true);
+                        }else{
+                            if(prods[pos].tipo==1){
+                                cerrarAlert(pos, true);
+                            }
+                            var tos = new Toasty();
+                            tos.show(prods[pos].nombre+" agregado al "+dias[diaRequested-1].dia, 2000);
+
+                        }
+
+                    var content = 'Total + Domicilio  $';
+                    var intTotal = total+dom;
+                    content += redondearCifra(intTotal);
+                    checkDay();
+                        }
+
+
+                    }else{
+                        total = prods[pos].precioActual;
+                        dom = getDomicilio(total);
+                        snapshot.ref.child('Suscripcion/Dia/'+dias[diaRequested-1].dia+'/estado').set('si');
+                        snapshot.ref.child('Suscripcion/Dia/'+dias[diaRequested-1].dia+'/status').set(0);
+                        snapshot.ref.child('Suscripcion/Dia/'+dias[diaRequested-1].dia+'/Total').set(prods[pos].precioActual);
+                        snapshot.ref.child('Suscripcion/Dia/'+dias[diaRequested-1].dia+'/domicilio').set(dom);
+                        var content = 'Total + Domicilio  $';
+                        var intTotal = total+dom;
+                        content += redondearCifra(intTotal);
+                        document.getElementById('canastaText').innerHTML = content;
+                        var anim = showCanasta();
+                        var tos = new Toasty();
+                        tos.show(prods[pos].nombre+" agregado al "+dias[diaRequested-1].dia, 2000);
+                        if(prods[pos].tipo==1){
+                            snapshot.ref.child('Suscripcion/Dia/'+dias[diaRequested-1].dia+'/Productos/'+prods[pos].nombre).set({
+                                    cantidad: prods[pos].actual,
+                                    descripcion: prods[pos].descPaq,
+                                    tipo :  prods[pos].tipo,
+                                    total: prods[pos].precioActual,
+                                    weburl: prods[pos].url,
+                                    url: andUrl,
+                                    uri: 1
+                            });
+                        cerrarAlert(pos, true);
+                    }else{
+                            snapshot.ref.child('Suscripcion/Dia/'+dias[diaRequested-1].dia+'/Productos/'+prods[pos].nombre).set({
+                                    cantidad: prods[pos].actual,
+                                    descripcion: prods[pos].descPro,
+                                    tipo :  prods[pos].tipo,
+                                    total: prods[pos].precioActual,
+                                    weburl: prods[pos].url,
+                                    url: andUrl,
+                                    uri: 1
+                        });
+
+                    }
+
+
+
+                    }
+
+
+
+
+
+
+             });
+            }else{
+                var tos = new Toasty();
+                tos.show("Tu pedido esta en progreso, ve a tu canasta para ver los detalles", 4000);
+            }
+
     }
 
     function removerItem(pos){
@@ -524,7 +809,7 @@ define([], function(){
                         var newDir = new direccion(titulo, dir,lat, long, pos);
                         dirs.push(newDir);
                     });
-                    var cont = '<div class="direcciones"><div class="titleDireccion"><button class="closeLeft" onclick="cerrarReloj()"></button><h1>Elige una Ubicación</h1></div><ul  id="dirList"></ul><div class="dirFoot"><button id="agregarNueva" onclick="showAddDirec()">Agregar nueva</button></div></div>';
+                    var cont = '<div class="direcciones"><div class="titleDireccion"><button class="closeLeft" onclick="orden_dia.cerrarReloj()"></button><h1>Elige una Ubicación</h1></div><ul  id="dirList"></ul><div class="dirFoot"><button id="agregarNueva" onclick="orden_dia.showAddDirec()">Agregar nueva</button></div></div>';
                     document.getElementById("alert").innerHTML = cont;
                     document.getElementById("alert").style.display = "block";
                     var dir = "";
@@ -694,7 +979,7 @@ define([], function(){
                                         }else{
                                             var toast = new Toasty();
                                             toast.show("Elige almenos 2000 pesos en productos", 1500);
-                                            verProductos();
+                                            tienda.verProductos();
                                         }
 
                                     }else{
@@ -923,6 +1208,202 @@ define([], function(){
 
 
             });
+    }
+
+
+    function direccion(titulo, direccion, lat, long, pos){
+            this.titulo = titulo;
+            this.direccion = direccion;
+            this.lat = lat;
+            this.long = long;
+            this.pos = pos;
+    }
+
+
+
+
+
+    function getClockViewMob(horas){
+            var content = '<button class="close" onclick="orden_dia.cerrarReloj()"></button><h1 class="clockTitle">Elige la hora</h1><div class="clockLine" style="margin-top: 6vw;"><h1 id="hora12"';
+            content += '>12</h1></div><div class="clockLine" style="margin-top: -1.2vw;"><h1 id="hora11" ';
+
+            content +=  '>11</h1><h1 id="hora1"';
+
+            content +=  'style="margin-left: 20vw;">1</h1></div><div style="margin-top:2vw;" class="clockLine"><h1 id="hora10"';
+             for(var i=0; i<horas.length;i++){
+                if(horas[i]==10){
+                    content += 'onclick="orden_dia.selectNum(10)"';
+                }
+             }
+             content += '>10</h1><h1 id="hora2"';
+             for(var i=0; i<horas.length;i++){
+                if(horas[i]==2){
+                    content += 'onclick="orden_dia.selectNum(2)"';
+                }
+             }
+
+             content += 'style="margin-left: 38vw;">2</h1></div><div class="clockLine" style="margin-top: 3.8vw; margin-bottom: 1.8vw;"><h1  id="hora9"';
+             for(var i=0; i<horas.length;i++){
+                if(horas[i]==9){
+                    content += 'onclick="orden_dia.selectNum(9)"';
+                }
+             }
+
+            content +=  '>9</h1><h1  id="hora3" ';
+            for(var i=0; i<horas.length;i++){
+                if(horas[i]==3){
+                    content += 'onclick="orden_dia.selectNum(3)"';
+                }
+             }
+            content +=  'style="margin-left: 48vw;">3</h1></div><div class="clockLine" style="margin-top:3.8vw;"><h1  id="hora8" ';
+            for(var i=0; i<horas.length;i++){
+                if(horas[i]==8){
+                    content += 'onclick="orden_dia.selectNum(8)"';
+                }
+             }
+             content += '>8</h1><h1  id="hora4" ';
+             for(var i=0; i<horas.length;i++){
+                if(horas[i]==4){
+                    content += 'onclick="orden_dia.selectNum(4)"';
+                }
+             }
+             content += ' style="margin-left: 38vw;">4</h1></div><div class="clockLine"   style="margin-top: 2.2vw;"><h1  id="hora7" ';
+             for(var i=0; i<horas.length;i++){
+                if(horas[i]==7){
+                    content += 'onclick="orden_dia.selectNum(7)"';
+                }
+             }
+             content += '>7</h1><h1  id="hora5"';
+             for(var i=0; i<horas.length;i++){
+                if(horas[i]==5){
+                    content += 'onclick="orden_dia.selectNum(5)"';
+                }
+             }
+             content += ' style="margin-left: 20vw;">5</h1></div><div class="clockLine" style="margin-top: 1vw;"><h1  id="hora6" ';
+             content += '>6</h1></div><h1 id="horaActual"></h1><button id="guardarHora">Guardar</button>';
+             return content;
+    }
+    function getClockView(horas){
+        var content = '<button class="close" onclick="orden_dia.cerrarReloj()"></button><h1 class="clockTitle">Elige la hora</h1><div class="clockLine" style="margin-top: 2vw;"><h1 id="hora12"';
+            content += '>12</h1></div><div class="clockLine" style="margin-top: -0.8vw;"><h1 id="hora11" ';
+
+            content +=  '>11</h1><h1 id="hora1"';
+
+            content +=  'style="margin-left: 9vw;">1</h1></div><div class="clockLine"><h1 id="hora10"';
+             for(var i=0; i<horas.length;i++){
+                if(horas[i]==10){
+                    content += 'onclick="orden_dia.selectNum(10)"';
+                }
+             }
+             content += '>10</h1><h1 id="hora2"';
+             for(var i=0; i<horas.length;i++){
+                if(horas[i]==2){
+                    content += 'onclick="orden_dia.selectNum(2)"';
+                }
+             }
+
+             content += 'style="margin-left: 16.6vw;">2</h1></div><div class="clockLine" style="margin-top: 1.8vw; margin-bottom: 1.8vw;"><h1  id="hora9"';
+             for(var i=0; i<horas.length;i++){
+                if(horas[i]==9){
+                    content += 'onclick="orden_dia.selectNum(9)"';
+                }
+             }
+
+            content +=  '>9</h1><h1  id="hora3" ';
+            for(var i=0; i<horas.length;i++){
+                if(horas[i]==3){
+                    content += 'onclick="orden_dia.selectNum(3)"';
+                }
+             }
+            content +=  'style="margin-left: 21vw;">3</h1></div><div class="clockLine"><h1 id="hora8" ';
+            for(var i=0; i<horas.length;i++){
+                if(horas[i]==8){
+                    content += 'onclick="orden_dia.selectNum(8)"';
+                }
+             }
+             content += '>8</h1><h1  id="hora4" ';
+             for(var i=0; i<horas.length;i++){
+                if(horas[i]==4){
+                    content += 'onclick="orden_dia.selectNum(4)"';
+                }
+             }
+             content += ' style="margin-left: 16.6vw;">4</h1></div><div class="clockLine"   style="margin-top: 0.6vw;"><h1  id="hora7" ';
+             for(var i=0; i<horas.length;i++){
+                if(horas[i]==7){
+                    content += 'onclick="orden_dia.selectNum(7)"';
+                }
+             }
+             content += '>7</h1><h1  id="hora5"';
+             for(var i=0; i<horas.length;i++){
+                if(horas[i]==5){
+                    content += 'onclick="orden_dia.selectNum(5)"';
+                }
+             }
+             content += ' style="margin-left: 9vw;">5</h1></div><div class="clockLine" style="margin-top: -0.2vw;"><h1  id="hora6" ';
+             content += '>6</h1></div><h1 id="horaActual"></h1><button id="guardarHora">Guardar</button>';
+             return content;
+    }
+    function getDireccionView(direccion){
+            var cont = '<li class="dirItem"><div  style="display: flex;"><div class="contADir"><h1>';
+            cont += direccion.titulo;
+            cont += '</h1><h2>';
+            cont += direccion.direccion;
+            cont +='</h2></div><div class="contBDir"><button onclick="orden_dia.editarDir(';
+            cont += direccion.pos-1;
+            cont +=')"style="background-image: url(';
+            cont += "'src/icons/edit_wand.png'";
+            cont += ');"></button><button onclick="borrarDir(';
+            cont += direccion.pos-1;
+            cont += ')" style="display:none;background-image: url('
+            cont +="'src/icons/cancel_btn_grey.png'";
+            cont +=');"></button><button onclick="orden_dia.selectDir(';
+            cont += direccion.pos-1;
+            cont += ')" style="background-image: url('
+            cont += "'src/icons/simple_ok_green.png'";
+            cont +=');"></button></div></div></li>';
+            return cont;
+    }
+    function viewEditDirec(titulo, contenido, placeholder){
+            var contentDialog = '<div id="dialog" style="margin-top: 2vw;" ><h1 >';
+            contentDialog += titulo;
+            contentDialog += '</h1><p >';
+            contentDialog += '<input type="text" placeholder="'+contenido+'" id="newDirTitle"></br>';
+            contentDialog += '</p>';
+            contentDialog += '<input type="text" placeholder="'+placeholder+'" id="newDir"></br>';
+            contentDialog += '<div class="dialogBtnCont"><button id="noBtn" class="noBtn">';
+            contentDialog += '</button><button id="yesBtn" class="yesBtn">';
+            contentDialog += '</button></div></div>';
+            return contentDialog
+    }
+
+
+    function grabarOrden(ordenes){
+
+            var ref = database.ref('Usuarios/'+user.displayName);
+            for(var i = 0; i<ordenes.length;i++){
+                ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/estado").set(ordenes[i].orden.estado);
+                ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/Hora de entrega").set(ordenes[i].orden.hora);
+                ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/status").set(ordenes[i].orden.status);
+                ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/Total").set(ordenes[i].orden.total);
+                ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/domicilio").set(ordenes[i].orden.domicilio);
+                if(ordenes[i].orden.totaldescontado!=0){
+                     ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/totalDescontado").set(ordenes[i].orden.totaldescontado);
+                }
+                for(var j = 0; j<ordenes[i].orden.productos.length;j++){
+
+                    ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/Productos/"+ordenes[i].orden.productos[j].nombre+"/cantidad").set(ordenes[i].orden.productos[j].cantidad);
+                    ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/Productos/"+ordenes[i].orden.productos[j].nombre+"/descripcion").set(ordenes[i].orden.productos[j].descripcion);
+                    ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/Productos/"+ordenes[i].orden.productos[j].nombre+"/tipo").set(ordenes[i].orden.productos[j].tipo);
+                    ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/Productos/"+ordenes[i].orden.productos[j].nombre+"/url").set(ordenes[i].orden.productos[j].url);
+                    ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/Productos/"+ordenes[i].orden.productos[j].nombre+"/weburl").set(ordenes[i].orden.productos[j].weburl);
+                    ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/Productos/"+ordenes[i].orden.productos[j].nombre+"/uri").set(ordenes[i].orden.productos[j].uri);
+                    ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/Productos/"+ordenes[i].orden.productos[j].nombre+"/total").set(ordenes[i].orden.productos[j].total);
+                }
+            }
+            var refAnon = database.ref('Usuarios/'+anon);
+            refAnon.remove();
+            id = user.displayName;
+            comprobarDireccion();
     }
   }
 

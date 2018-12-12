@@ -1,6 +1,7 @@
 var version =  'debug=0.0.1.3.6';
 var Productos = '../@m-productos/productos';
 var Orden = '../@m-orden/orden';
+var Publicaciones = '../@m-publicaciones/publicaciones';
 
 var tienda;
 var orden_dia;
@@ -55,13 +56,18 @@ var reginPush = false;
 var query;
 var play_count = 3;
 var photoUrl;
-var publicaciones;
+var pubs;
+var shooting = false;
 window.onblur = function(){
     window.onfocus = function(){
       tienda.setCategoriasAnimation(true);
       if(!focused){
           focused = true;
-          goMain();
+          console.log('retaking from suspended');
+          if(!shooting){
+             goMain();
+          }
+
       }
 
 
@@ -69,8 +75,7 @@ window.onblur = function(){
     if(window.localStream){
         var stream = window.localStream;
         stream.getVideoTracks()[0].stop();
-        document.getElementById("camera_cont").style.display = "none";
-        document.getElementById("camera_cont").innerHTML = "";
+
     }
     if(focused){
 
@@ -86,6 +91,7 @@ window.onblur = function(){
 function hi(){
     orden_dia = new Orden();
     tienda = new Productos('Para Desayunar');
+    pubs = new Publicaciones();
 
 
 
@@ -830,7 +836,7 @@ function getOrdenFromAnon(){
 
 
 
-                    grabarOrden(ordenesList);
+                    orden_dia.grabarOrden(ordenesList);
                    }catch(err){
 
                    }
@@ -1129,6 +1135,7 @@ function sendMessage(){
 
 
 function goMain(){
+        console.log('gomain');
         windState = 0;
         isCanastaShowing = false;
         document.getElementById("ticket").style.display = "none";
@@ -1342,12 +1349,12 @@ function verCanasta(){
 
 
         document.getElementById("menuButton").removeEventListener("click", showAuthDialog);
-        document.getElementById("menuButton").addEventListener("click", orden.removeDia);
+        document.getElementById("menuButton").addEventListener("click", orden_dia.removeDia);
         document.getElementById("mask").style.display = "none";
 
 
         document.getElementById("canasta").style.display = "none";
-        document.getElementById("hamButton").addEventListener("click", verProductos);
+        document.getElementById("hamButton").addEventListener("click", tienda.verProductos);
         if(fromMob){
             document.getElementById("menuButton").style.backgroundImage = "url('src/icons/cancel_btn.png')";
             document.getElementById("hamButton").style.backgroundImage = "url('src/icons/btn_back_arrow.png')";
@@ -1361,15 +1368,7 @@ function verCanasta(){
         document.getElementById("diaContainer").style.display = "block";
         getCupones(false);
 }
-function verProductos(){
-        if(carList!=null&&carList.length>0){
-            fromDay =true;
-            goMain();
-        }else{
-            fromDay =false;
-            goMain();
-        }
-}
+
 function verPerfil(){
        document.getElementById("sessionUser").innerHTML = id;
        document.getElementById("sessionPhoto").src = user.photoURL;
@@ -1821,7 +1820,7 @@ function requestDia(dia){
         tienda.cargarProductos(categoria);
 }
 function compareConProductos(){
-      console.log(tienda.productos());
+
       var prods = tienda.productos();
         if(isCanastaShowing){
             for(var i=0; i<prods.length;i++){
@@ -2019,34 +2018,7 @@ function reserva(dia){
             }
         });
 }
-function grabarOrden(ordenes){
 
-        var ref = database.ref('Usuarios/'+user.displayName);
-        for(var i = 0; i<ordenes.length;i++){
-            ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/estado").set(ordenes[i].orden.estado);
-            ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/Hora de entrega").set(ordenes[i].orden.hora);
-            ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/status").set(ordenes[i].orden.status);
-            ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/Total").set(ordenes[i].orden.total);
-            ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/domicilio").set(ordenes[i].orden.domicilio);
-            if(ordenes[i].orden.totaldescontado!=0){
-                 ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/totalDescontado").set(ordenes[i].orden.totaldescontado);
-            }
-            for(var j = 0; j<ordenes[i].orden.productos.length;j++){
-
-                ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/Productos/"+ordenes[i].orden.productos[j].nombre+"/cantidad").set(ordenes[i].orden.productos[j].cantidad);
-                ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/Productos/"+ordenes[i].orden.productos[j].nombre+"/descripcion").set(ordenes[i].orden.productos[j].descripcion);
-                ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/Productos/"+ordenes[i].orden.productos[j].nombre+"/tipo").set(ordenes[i].orden.productos[j].tipo);
-                ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/Productos/"+ordenes[i].orden.productos[j].nombre+"/url").set(ordenes[i].orden.productos[j].url);
-                ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/Productos/"+ordenes[i].orden.productos[j].nombre+"/weburl").set(ordenes[i].orden.productos[j].weburl);
-                ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/Productos/"+ordenes[i].orden.productos[j].nombre+"/uri").set(ordenes[i].orden.productos[j].uri);
-                ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/Productos/"+ordenes[i].orden.productos[j].nombre+"/total").set(ordenes[i].orden.productos[j].total);
-            }
-        }
-        var refAnon = database.ref('Usuarios/'+anon);
-        refAnon.remove();
-        id = user.displayName;
-        comprobarDireccion();
-     }
      function ordenDia(dia, orden){
         this.dia= dia;
         this.orden = orden;
@@ -2193,28 +2165,7 @@ function aplicarDescuento(valor, total){
 }
 
 
-function setTipo(tipo){
-        productos[0].tipo = tipo;
-        if(tipo==0){
-            var total = productos[0].actual * productos[0].precioUnidad;
-            productos[0].precioActual = total;
-            document.getElementById("textCantPaq"+0).innerHTML ="Cant: "+ productos[0].actual+" unds";
-            document.getElementById("txtPrecioPaq"+0).innerHTML ="$"+ total;
-            document.getElementById("descItemEdit").innerHTML = productos[0].descPro;
-            document.getElementById("porUnidad").style.color = "#176559";
-            document.getElementById("porPaquete").style.color = "grey";
 
-        }else{
-            var total = productos[0].actual * productos[0].precioPaq;
-            productos[0].precioActual = total;
-            document.getElementById("descItemEdit").innerHTML = "Paquete "+productos[0].descPaq;
-            document.getElementById("textCantPaq"+0).innerHTML ="Cant: "+ productos[0].actual+" paq";
-            document.getElementById("txtPrecioPaq"+0).innerHTML ="$"+ total;
-            document.getElementById("porUnidad").style.color = "grey";
-            document.getElementById("porPaquete").style.color = "#176559";
-
-        }
-}
 
 function askForMarchante(){
         var cont = '<div class="marchantesDiv" ><button class="closeLeft" onclick="cerrarAlert(0, true)" style="background-image: url('+"src/icons/btn_back_arrow_grey.png"+')"></button><h1>¿Quien te recomendo?</h1><p>Elige tu vendedor</p><ul id="marchantes"></ul><div class="keep" onclick="setMarchante('+"'Main'"+')"><h2>Nadie me recomendo</h2><img src="src/icons/btn_right_arrow.png"></div></div>';
@@ -2280,10 +2231,10 @@ function askForCupones(pos){
 
                             });
                         }else{
-                            comprobarHora();
+                            orden_dia.comprobarHora();
                         }
                 }else{
-                        comprobarHora();
+                        orden_dia.comprobarHora();
                 }
                     }else{
                     var tos = new Toasty();
@@ -2291,7 +2242,7 @@ function askForCupones(pos){
                 }
             }else{
                 if(guardando||confirmar){
-                    comprobarHora();
+                    orden_dia.comprobarHora();
                 }else{
                     var tos = new Toasty();
                     tos.show("Ya usaste un cupón para esta compra", 3000);
@@ -2308,7 +2259,7 @@ function canjearCupon(pos, active){
             var refcupon = database.ref('Usuarios/'+id+'/Cupones/'+active);
             refcupon.child('state').set(false);
             if(guardando||confirmando){
-                comprobarHora();
+                orden_dia.comprobarHora();
             }
             reserva(dias[diaRequested-1].dia);
 
@@ -2500,158 +2451,7 @@ function notificacion(key, titulo, cuerpo, state, accion){
         this.state = state ;
         this.accion = accion ;
 }
-function direccion(titulo, direccion, lat, long, pos){
-        this.titulo = titulo;
-        this.direccion = direccion;
-        this.lat = lat;
-        this.long = long;
-        this.pos = pos;
-}
 
-
-
-
-
-function getClockViewMob(horas){
-        var content = '<button class="close" onclick="cerrarReloj()"></button><h1 class="clockTitle">Elige la hora</h1><div class="clockLine" style="margin-top: 6vw;"><h1 id="hora12"';
-        content += '>12</h1></div><div class="clockLine" style="margin-top: -1.2vw;"><h1 id="hora11" ';
-
-        content +=  '>11</h1><h1 id="hora1"';
-
-        content +=  'style="margin-left: 20vw;">1</h1></div><div style="margin-top:2vw;" class="clockLine"><h1 id="hora10"';
-         for(var i=0; i<horas.length;i++){
-            if(horas[i]==10){
-                content += 'onclick="selectNum(10)"';
-            }
-         }
-         content += '>10</h1><h1 id="hora2"';
-         for(var i=0; i<horas.length;i++){
-            if(horas[i]==2){
-                content += 'onclick="selectNum(2)"';
-            }
-         }
-
-         content += 'style="margin-left: 38vw;">2</h1></div><div class="clockLine" style="margin-top: 3.8vw; margin-bottom: 1.8vw;"><h1  id="hora9"';
-         for(var i=0; i<horas.length;i++){
-            if(horas[i]==9){
-                content += 'onclick="selectNum(9)"';
-            }
-         }
-
-        content +=  '>9</h1><h1  id="hora3" ';
-        for(var i=0; i<horas.length;i++){
-            if(horas[i]==3){
-                content += 'onclick="selectNum(3)"';
-            }
-         }
-        content +=  'style="margin-left: 48vw;">3</h1></div><div class="clockLine" style="margin-top:3.8vw;"><h1  id="hora8" ';
-        for(var i=0; i<horas.length;i++){
-            if(horas[i]==8){
-                content += 'onclick="selectNum(8)"';
-            }
-         }
-         content += '>8</h1><h1  id="hora4" ';
-         for(var i=0; i<horas.length;i++){
-            if(horas[i]==4){
-                content += 'onclick="selectNum(4)"';
-            }
-         }
-         content += ' style="margin-left: 38vw;">4</h1></div><div class="clockLine"   style="margin-top: 2.2vw;"><h1  id="hora7" ';
-         for(var i=0; i<horas.length;i++){
-            if(horas[i]==7){
-                content += 'onclick="selectNum(7)"';
-            }
-         }
-         content += '>7</h1><h1  id="hora5"';
-         for(var i=0; i<horas.length;i++){
-            if(horas[i]==5){
-                content += 'onclick="selectNum(5)"';
-            }
-         }
-         content += ' style="margin-left: 20vw;">5</h1></div><div class="clockLine" style="margin-top: 1vw;"><h1  id="hora6" ';
-         content += '>6</h1></div><h1 id="horaActual"></h1><button id="guardarHora">Guardar</button>';
-         return content;
-}
-function getClockView(horas){
-    var content = '<button class="close" onclick="cerrarReloj()"></button><h1 class="clockTitle">Elige la hora</h1><div class="clockLine" style="margin-top: 2vw;"><h1 id="hora12"';
-        content += '>12</h1></div><div class="clockLine" style="margin-top: -0.8vw;"><h1 id="hora11" ';
-
-        content +=  '>11</h1><h1 id="hora1"';
-
-        content +=  'style="margin-left: 9vw;">1</h1></div><div class="clockLine"><h1 id="hora10"';
-         for(var i=0; i<horas.length;i++){
-            if(horas[i]==10){
-                content += 'onclick="selectNum(10)"';
-            }
-         }
-         content += '>10</h1><h1 id="hora2"';
-         for(var i=0; i<horas.length;i++){
-            if(horas[i]==2){
-                content += 'onclick="selectNum(2)"';
-            }
-         }
-
-         content += 'style="margin-left: 16.6vw;">2</h1></div><div class="clockLine" style="margin-top: 1.8vw; margin-bottom: 1.8vw;"><h1  id="hora9"';
-         for(var i=0; i<horas.length;i++){
-            if(horas[i]==9){
-                content += 'onclick="selectNum(9)"';
-            }
-         }
-
-        content +=  '>9</h1><h1  id="hora3" ';
-        for(var i=0; i<horas.length;i++){
-            if(horas[i]==3){
-                content += 'onclick="selectNum(3)"';
-            }
-         }
-        content +=  'style="margin-left: 21vw;">3</h1></div><div class="clockLine"><h1 id="hora8" ';
-        for(var i=0; i<horas.length;i++){
-            if(horas[i]==8){
-                content += 'onclick="selectNum(8)"';
-            }
-         }
-         content += '>8</h1><h1  id="hora4" ';
-         for(var i=0; i<horas.length;i++){
-            if(horas[i]==4){
-                content += 'onclick="selectNum(4)"';
-            }
-         }
-         content += ' style="margin-left: 16.6vw;">4</h1></div><div class="clockLine"   style="margin-top: 0.6vw;"><h1  id="hora7" ';
-         for(var i=0; i<horas.length;i++){
-            if(horas[i]==7){
-                content += 'onclick="selectNum(7)"';
-            }
-         }
-         content += '>7</h1><h1  id="hora5"';
-         for(var i=0; i<horas.length;i++){
-            if(horas[i]==5){
-                content += 'onclick="selectNum(5)"';
-            }
-         }
-         content += ' style="margin-left: 9vw;">5</h1></div><div class="clockLine" style="margin-top: -0.2vw;"><h1  id="hora6" ';
-         content += '>6</h1></div><h1 id="horaActual"></h1><button id="guardarHora">Guardar</button>';
-         return content;
-}
-function getDireccionView(direccion){
-        var cont = '<li class="dirItem"><div  style="display: flex;"><div class="contADir"><h1>';
-        cont += direccion.titulo;
-        cont += '</h1><h2>';
-        cont += direccion.direccion;
-        cont +='</h2></div><div class="contBDir"><button onclick="editarDir(';
-        cont += direccion.pos-1;
-        cont +=')"style="background-image: url(';
-        cont += "'src/icons/edit_wand.png'";
-        cont += ');"></button><button onclick="borrarDir(';
-        cont += direccion.pos-1;
-        cont += ')" style="display:none;background-image: url('
-        cont +="'src/icons/cancel_btn_grey.png'";
-        cont +=');"></button><button onclick="selectDir(';
-        cont += direccion.pos-1;
-        cont += ')" style="background-image: url('
-        cont += "'src/icons/simple_ok_green.png'";
-        cont +=');"></button></div></div></li>';
-        return cont;
-}
 function viewDialog(titulo, contenido, img){
         var contentDialog = '<div id="dialog" ><div class="dialogHead"><img ';
         if(img=="src/icons/zero_img.png"){
@@ -2677,18 +2477,7 @@ function viewDialog(titulo, contenido, img){
         contentDialog += '</button></div></div>';
         return contentDialog
 }
-function viewEditDirec(titulo, contenido, placeholder){
-        var contentDialog = '<div id="dialog" style="margin-top: 2vw;" ><h1 >';
-        contentDialog += titulo;
-        contentDialog += '</h1><p >';
-        contentDialog += '<input type="text" placeholder="'+contenido+'" id="newDirTitle"></br>';
-        contentDialog += '</p>';
-        contentDialog += '<input type="text" placeholder="'+placeholder+'" id="newDir"></br>';
-        contentDialog += '<div class="dialogBtnCont"><button id="noBtn" class="noBtn">';
-        contentDialog += '</button><button id="yesBtn" class="yesBtn">';
-        contentDialog += '</button></div></div>';
-        return contentDialog
-}
+
 function getPromosView(promos){
         var cont = '<button class="closeAlert" onclick="cerrarAlert(0, true)"></button><div class="promosDiv"><ul><li';
 
@@ -2823,11 +2612,15 @@ function testiarChino(){
         }
 }
 function s(){
-    requirejs([Productos], function(result){
-      Productos = result;
-      requirejs([Orden], function(result){
-        Orden = result;
-        hi();
+    requirejs([Productos], function(Proresult){
+      Productos = Proresult;
+      requirejs([Orden], function(Ordresult){
+        Orden = Ordresult;
+        requirejs([Publicaciones], function(Pubresult){
+            Publicaciones = Pubresult;
+            hi();
+        });
+
       });
     });
 
@@ -3026,353 +2819,11 @@ function readUser(){
 
 
 
-function getRange(){
 
-    return height*capacity;
-}
-
-
-
-
-var pubsListener = false;
-
-var top_up = false;
-var top_bottom = false;
-
-var view_range;
-var comparation_range;
-var view_last_pos = 0;
-var capacity ;
-var direction_guide = "down";
-var last_comp_pos = 0;
-var toListen = true;
 
 
 var comparando = false;
-function setScrollListener(){
-    pubsListener = true;
 
-        var scroller = document.getElementById("publicaciones");
-        scroller.addEventListener("scroll", function(){
-            var box = scroller.querySelector('li');
-            var height = box.offsetHeight;
-            var scrollerHeight = scroller.offsetHeight;
-            var space = 10;
-
-            var sizes = getCapacity();
-            view_range = height;
-            comparation_range = parseInt((height+space)*(range_lenght-2));
-            console.log('scrolled: '+scroller.scrollTop, 'range: '+comparation_range);
-            var play = '';
-            if(scroller.scrollTop>view_last_pos){
-                play = 'down';
-                var pos = -3;
-                var addPos = 100;
-
-                if(document.getElementById('addCont').style.marginTop=='1vw'){
-                     var anim = setInterval(function(){
-                        if(pos>-19){
-                            addPos -= 1.52;
-                            pos -=1;
-                            document.getElementById('addPub').style.marginLeft = addPos +'vw';
-                            document.getElementById('addCont').style.marginTop = pos +'vw';
-                        }else{
-                            clearInterval(anim);
-                        }
-                    }, 8);
-                }
-
-            }else if(scroller.scrollTop<view_last_pos){
-                play = 'up';
-                comparation_range = (height+space)*2;
-                var addPos = 76;
-                var pos = -19;
-                console.log(document.getElementById('addCont').style.marginTop);
-                if(document.getElementById('addCont').style.marginTop=='-19vw'){
-
-                     var anim = setInterval(function(){
-                        if(pos<1){
-                            addPos += 1.52;
-                            pos +=1;
-                            document.getElementById('addPub').style.marginLeft = addPos +'vw';
-                            document.getElementById('addCont').style.marginTop = pos +'vw';
-                        }else{
-                            clearInterval(anim);
-                        }
-                    }, 8);
-                }
-            }
-             //console.log('scrolled: '+scroller.scrollTop, 'comp: '+comparation_range, 'dir: '+play, 'top: '+top_up);
-            view_last_pos = scroller.scrollTop;
-
-            if(toListen){
-                if(scroller.scrollTop>comparation_range&&!comparando&&play=='down'&&!top_bottom){
-                    if(range[range.length-1]+2>outrange){
-                        toListen =false;
-                    }
-                    direction_guide = play;
-                    last_comp_pos = comparation_range;
-                    comparando = true;
-                    makeVisiblePubs(true);
-                    top_up =false;
-                }else if(scroller.scrollTop<comparation_range/3&&!comparando&&play=='up'&&!top_up){
-                    if(range[range.length-1]+2>outrange){
-                        toListen =false;
-                    }
-                    direction_guide = play;
-                    last_comp_pos = comparation_range;
-                    comparando = true;
-                    makeVisiblePubs(false);
-                    top_bottom = false;
-                }
-            }
-        });
-}
-
-var index_step ;
-var outrange;
-var range = new Array();
-var range_lenght;
-function makeVisiblePubs(down){
-    var op = 1;
-            var anim = setInterval(function(){
-                if(op>0){
-                    op-= 0.1;
-                    document.getElementById('publicaciones').style.opacity = op;
-                }else{
-                    clearInterval(anim);
-                }
-
-            }, 10);
-    toListen = false;
-    outrange = publicaciones.length;
-    var reloadRange = false;
-
-    if(!down){
-
-        if(capacity>1){
-            index_step = parseInt((range[0]-(capacity-1)).toString());
-        }else{
-            index_step = parseInt((range[0]-(4)).toString());
-        }
-
-        if(index_step<0){
-            index_step = 0;
-             console.log('outofrange_up');
-        }
-
-    }else{
-
-
-        if(capacity>1){
-            index_step = parseInt(((range[range.length-1])-(capacity-1)).toString());
-        }else{
-            index_step = parseInt(((range[range.length-1])-(4)).toString());
-        }
-
-
-        if(index_step>outrange){
-            if(capacity>1){
-                index_step = outrange-parseInt((range_lenght/capacity).toString())-1;
-            }else{
-                index_step = outrange-parseInt((range_lenght).toString())-1;
-            }
-
-            console.log('outofrange_down');
-
-
-        }
-    }
-
-    var actual_range_item = index_step;
-    if(actual_range_item+range_lenght>outrange){
-        actual_range_item = outrange-(range_lenght-1);
-    }
-    for(var i=0;i<range_lenght;i++){
-        range[i] = actual_range_item;
-        actual_range_item++;
-    }
-
-    for(var i=0;i<outrange;i++){
-
-        publicaciones[i].visible =  false;
-
-       for(var j=0;j<range.length;j++){
-        if(range[j]>=0&&range[j]<=outrange&&range[j]==i){
-
-            publicaciones[i].visible =  true;
-
-        }
-       }
-
-    }
-
-    console.log('range: '+range, 'lenght: '+range_lenght, 'down: '+ down);
-
-    cargarPubViews(false);
-
-
-}
-
-
-
-function cargarPubViews(init){
-     var scroller = document.getElementById('publicaciones');
-    if(pubsListener){
-
-        setTimeout(function(){
-            scroller.style.overflowY = "hidden";
-
-            toListen = false;
-            var cont = '';
-            scroller.style.overflowY = "hidden";
-
-            for(var i=0;i<publicaciones.length;i++){
-
-                cont += getViewPublicacion(publicaciones[i],i);
-            }
-            document.getElementById("publicaciones").innerHTML = "";
-            document.getElementById("publicaciones").innerHTML = cont;
-            setTimeout(function(){
-                var sizes = getCapacity();
-                var comparation = parseInt((sizes.box_height+13)*(range_lenght/2).toString());
-
-
-                if(direction_guide=='up'){
-
-                    if(range[0]<=0){
-                        top_up = true;
-
-                    }
-                     scroller.scrollTop = parseInt(comparation-(sizes.box_height).toString());
-
-
-
-
-                }else{
-                    if(range[range.length-1]+2>publicaciones.length){
-                        top_bottom = true;
-
-                    }
-
-                    scroller.scrollTop = parseInt(comparation-(sizes.box_height/8).toString());
-
-                }
-                var op = 0;
-                var anim = setInterval(function(){
-                    if(op<1){
-                        op+= 0.1;
-                        document.getElementById('publicaciones').style.opacity = op;
-                    }else{
-                        clearInterval(anim);
-                    }
-
-                }, 8);
-
-                view_last_pos = scroller.scrollTop;
-                toListen = true;
-                comparando = false;
-                scroller.style.overflowY = "scroll";
-              }, 180);
-          }, 250);
-
-    }
-    if(init){
-        initList = true;
-        cont = '';
-          for(var i=0;i<publicaciones.length;i++){
-            if(i<20){
-                 publicaciones[i].visible = true;
-              cont += getViewPublicacion(publicaciones[i],i);
-            }
-
-          }
-        document.getElementById("publicaciones").innerHTML = "";
-        document.getElementById("publicaciones").innerHTML = cont;
-        setTimeout(function(){
-            var sizes = getCapacity();
-            console.log(JSON.stringify(sizes));
-            cont = '';
-            if(sizes.capacity%2==1){
-                if(sizes.capacity==1){
-                    range_lenght = 9;
-                }else{
-                     range_lenght = (sizes.capacity*2)+1;
-                }
-
-                capacity = sizes.capacity;
-            }else{
-
-                range_lenght = (sizes.capacity*2);
-                capacity = sizes.capacity;
-            }
-
-
-
-
-
-
-
-            for(var i=0;i<publicaciones.length;i++){
-                publicaciones[i].visible = false;
-                cont += getViewPublicacion(publicaciones[i],i);
-
-            }
-
-
-            for(var i=0; i<range_lenght;i++){
-                publicaciones[i].visible = true;
-                cont += getViewPublicacion(publicaciones[i],i);
-                range[i] = i;
-
-            }
-            console.log(range);
-            document.getElementById("publicaciones").innerHTML = "";
-            document.getElementById("publicaciones").innerHTML = cont;
-            setTimeout(function(){
-                document.getElementById("pubLoading").style.display= 'none';
-                var pos = -18;
-
-                var anim = setInterval(function(){
-                        if(pos<1){
-                            pos +=1;
-                            document.getElementById('addCont').style.marginTop = pos +'vw';
-                        }else{
-                            clearInterval(anim);
-                        }
-                    }, 8);
-                toListen = true;
-            }, 1000);
-
-        },1000);
-
-
-    }
-    if(!pubsListener){
-        setScrollListener();
-    }
-
-
-
-
-
-
-
-}
-function getCapacity(){
-     var scroller = document.getElementById("publicaciones");
-     var box = scroller.querySelector('li');
-     var scrollerHeight = scroller.offsetHeight;
-     var height = box.offsetHeight;
-     var cap = parseInt((scrollerHeight/height).toString());
-     var data = {
-        capacity: cap,
-        container_height: scrollerHeight,
-        box_height: height
-
-     }
-     return data;
-}
 
 function verMuro(){
     if(user==null){
@@ -3430,7 +2881,8 @@ function verMuro(){
         }
         document.getElementById("container").style.display = "none";
         document.getElementById("redelpan").style.display = "block";
-        cargarPublicaciones();
+
+        pubs.cargarPublicaciones();
     }else{
         showAuthDialog()
     }
@@ -3438,402 +2890,7 @@ function verMuro(){
 
 
 }
-function cargarPublicaciones(){
-    var ref = database.ref("Muro/publicaciones");
-    ref.once('value', function(snapshot){
 
-            publicaciones =  new Array();
-            pos = 0;
-            snapshot.forEach(function(publi){
-                    var content = publi.child("contenido").val().toString();
-                    var name = publi.child("name").val().toString();
-                    var date = publi.child("fecha").val().toString();
-                    var count  = parseInt(publi.child("likes/count").val(), 10);
-                    var liked = false;
-                    publi.child("likes/us").forEach(function(us){
-                        var me = id.split("/");
-                        var meString = "";
-                        if(me.length>1){
-                            meString = me[1];
-                        }else{
-                            meString = me[0];
-                        }
-
-                        if(us.key == meString){
-                            liked = true;
-                        }
-
-                    });
-
-                    var url = publi.child("url").val().toString();
-                    var key = publi.key;
-                    var visible = false;
-                    var pub = new publicacion(key, name, content, count, liked, url, date, pos, visible);
-                    pos ++;
-
-                    publicaciones.push(pub);
-            });
-            publicaciones.reverse();
-            document.getElementById("publicaciones").scrollTop = 0;
-
-
-            cargarPubViews(true);
-
-    });
-}
 function verRecetas(){
 
 }
-
-
-function publicacion(key, nombre, content, count, liked, url, date, pos, visible){
-    this.key = key;
-    this.nombre = nombre;
-    this.content = content;
-    this.count  =count;
-    this.liked = liked;
-    this.url = url;
-    this.date = date;
-    this.pos = pos;
-    this.visible  = visible;
-
-}
-function getViewPublicacion(pub, pos){
-    var cont = '<li ';
-    if(pub.visible){
-        cont += 'class="visible"';
-    }else{
-        cont += 'class="invisible"';
-    }
-    cont += '><div class="publicacion"><img class="pub_img"src="';
-    cont += pub.url;
-    cont += '"><div class="pub_cont"><h1>';
-    cont += pub.nombre;
-    cont += '</h1><h2>"';
-    cont += pub.content;
-    cont += '"</h2><h3>';
-    cont += pub.date;
-    cont += '</h3><div class="pub_counter"><h4>';
-    cont += pub.count;
-    cont += '</h4><img src="src/icons/icono_reserva.png"><h5 ';
-    var txt = "Me Gusta";
-    if(!pub.liked){
-      cont += 'class="notLiked"';
-      cont += ' onclick="like(';
-      cont += "'"+pub.key+"'";
-      cont += ', 0)"';
-    }else{
-       cont += 'class="liked"';
-       txt = "Te Gusta";
-    }
-    var url = generatePubUrl(pub.key);
-    cont += '>'+txt+'</h5><button class="share_pub" onclick="shareInt('+"'"+url+"'"+', '+"'"+'Hola, Dale Me Gusta y antójate tu también.'+"'"+')"></div></div></div></li>';
-    if(pub.visible){
-        return cont;
-    }else{
-        return "";
-    }
-
-}
-function like(key, state){
-    var ref = database.ref("Muro/publicaciones/"+key);
-    ref.once('value', function(snapshot){
-        var count = parseInt(snapshot.child("likes/count").val(), 10);
-        count ++;
-        snapshot.ref.child("likes/count").set(count);
-        var me = id.split("/");
-        var meString = "";
-        if(me.length>1){
-            meString = me[1];
-        }else{
-            meString = me[0];
-        }
-
-        snapshot.ref.child("likes/us/"+meString).set(true);
-        if(state == 0){
-            cargarPublicaciones();
-        }else if(state==1){
-            abrirPublicacion();
-
-        }
-
-
-
-    });
-
-
-}
- function cargarImagen(){
-    var cont = '<video id="player"></video>';
-    cont += '<button id="closeCamara"></button>';
-    cont += '<h1 id="camera_title">Tomate el tiempo de hacer una linda foto, ayudate con lo que encuentres a tu alrededor.</h1>';
-    cont += '<button id="capture"></button>';
-    cont += '<canvas id="snapshot"></canvas>';
-    cont += '<img id="photoImg">';
-    cont += '<button id="startCamera" ></button>';
-    cont += '<button id="changeCamera" ></button>';
-
-    document.getElementById("camera_cont").innerHTML = cont;
-    document.getElementById("camera_cont").style.display ="block";
-
-    var player = document.getElementById('player');
-    var snapshotCanvas = document.getElementById('snapshot');
-    var captureButton = document.getElementById('capture');
-    var guardar = document.getElementById('changeCamera');
-    var borrar = document.getElementById('startCamera');
-    var cerrar = document.getElementById('closeCamara');
-    cerrar.addEventListener('click', cerrarCamara);
-
-
-    borrar.addEventListener('click', iniciarCamara);
-    guardar.addEventListener('click', guardarFoto);
-
-    var image = document.getElementById('photoImg');
-
-    captureButton.addEventListener('click', takePhoto);
-    var front = false;
-
-
-    navigator.getMedia = ( navigator.getUserMedia ||
-    navigator.webkitGetUserMedia ||
-    navigator.mozGetUserMedia ||
-    navigator.msGetUserMedia);
-
-
-    var devices = new Array();
-    var actualDevice = 0;
-    var snap;
-
-
-    if(!navigator.getMedia){
-        displayErrorMessage("Your browser doesn't have support for the navigator.getUserMedia interface.");
-    }
-    else{
-
-
-        navigator.getUserMedia({video:{facingMode:"environment", width: 520, height: 520}},
-        function(stream){
-            player.src = window.URL.createObjectURL(stream);
-            window.localStream =stream;
-            player.play();
-            player.onplay = function(){
-                var toast = new Toasty();
-                toast.show("iniciando", 1000);
-
-
-
-            }
-
-        },function(err){
-             var toast = new Toasty();
-            toast.show(err, 1000);
-            console.log(err);
-        });
-    }
-
-
-    function errorHandling(err){
-        var toast = new Toasty();
-        toast.show(err, 3000);
-    }
-    function cerrarCamara(){
-        document.getElementById("camera_cont").style.display = "none";
-        document.getElementById("camera_cont").innerHTML = "";
-        var stream = window.localStream;
-        if(stream){
-            stream.getVideoTracks()[0].stop();
-        }
-
-
-    }
-
-
-    function takePhoto(){
-        snap = takeSnap();
-        image.setAttribute('src', snap);
-        image.style.display = 'block';
-        player.pause();
-        player.style.display = "none";
-        captureButton.style.display = "none";
-        guardar.style.display = "block";
-        borrar.style.display = "block";
-        guardar.style.display = "block";
-        window.navigator.vibrate([200, 50, 100]);
-
-
-
-    }
-
-    function takeSnap(){
-
-        var context = snapshotCanvas.getContext('2d');
-
-        var width = player.videoWidth;
-        var height = player.videoHeight;
-
-        if (width && height) {
-
-            // Setup a canvas with the same dimensions as the video.
-            snapshotCanvas.width = width;
-            snapshotCanvas.height = height;
-
-            // Make a copy of the current frame in the video on the canvas.
-            context.drawImage(player, 0, 0, width, height);
-
-            // Turn the canvas image into a dataURL that can be used as a src for our photo.
-            return snapshotCanvas.toDataURL('image/png');
-        }
-    }
-    function iniciarCamara(){
-        player.play();
-        image.style.display = 'none';
-        player.style.display = "block";
-        borrar.style.display = "none";
-        guardar.style.display = "none";
-        captureButton.style.display = "block";
-        navigator.getUserMedia({video:{facingMode:"environment", width: 520, height: 520}},
-        function(stream){
-            player.src = window.URL.createObjectURL(stream);
-            player.play();
-            player.onplay = function(){
-                var toast = new Toasty();
-                toast.show("iniciando", 1000);
-
-
-            }
-
-        },function(err){
-             var toast = new Toasty();
-            toast.show(err, 1000);
-            console.log(err);
-        });
-
-
-    }
-    function showVideo(stream){
-        player.src = window.URL.createObjectURL(stream);
-        player.play();
-        player.style.display = "block";
-        captureButton.style.display = "block";
-        guardar.style.display = "none";
-    }
-    function getStorageId(){
-        var alpha = "0,1,2,3,4,5,6,7,8,9,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z";
-        var length = 9;
-        var array = alpha.split(",");
-        var finalId = "";
-        for(var i=0;i<length;i++){
-            finalId += array[Math.floor((Math.random() * 64) + 1)];
-        }
-
-
-        return finalId;
-    }
-    function guardarFoto(){
-        snapshotCanvas.toBlob(function(blob){
-            subirBlob(blob);
-        }, "image/png", 9);
-    }
-    function subirBlob(blob){
-        var refId = getStorageId();
-        var storageRef = firebase.storage().ref();
-        var metadata = {
-             contentType: 'image/png'
-        };
-
-
-        var toast = new Toasty();
-        toast.show("Subiendo Foto...", 3000);
-        var uploadTask = storageRef.child('publicaciones/'+refId+'.png').put(blob, metadata);
-
-        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED , function(snapshot){
-            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-
-            switch (snapshot.state) {
-                case firebase.storage.TaskState.PAUSED: // or 'paused'
-                    break;
-                case firebase.storage.TaskState.RUNNING: // or 'running'
-                    break;
-            }
-        }, function(error){
-            var toast = new Toasty();
-            toast.show(error, 200);
-        }, function(){
-            uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-                    document.getElementById("camera_cont").innerHTML = "";
-                    continuarPublicando(downloadURL);
-            });
-        });
-
-
-
-
-    }
- }
-  function continuarPublicando(url){
-        document.getElementById("camera_cont").style.display = "block";
-        var cont = getPublicarView(url);
-
-        document.getElementById("camera_cont").innerHTML = cont;
-        var captura = document.getElementById("captura");
-        captura.style.backgroundImage = "url('"+url+"')";
-        var cerrar = document.getElementById("cerrar_publicar");
-        cerrar.addEventListener('click', function(){
-            document.getElementById("camera_cont").innerHTML = "";
-            cargarImagen();
-        });
-        var compartir = document.getElementById("pub_share");
-        var content  = document.getElementById("pub_content");
-        content.focus();
-        compartir.addEventListener('click', function(){
-            var contain = content.value.toString();
-            var count = contain.split(" ");
-            if(count.length<18){
-                publicar(contain, url);
-
-            }
-
-        });
-
-
-
-
-    }
-    function publicar( content, url){
-        var ref = database.ref('Muro/publicaciones');
-        var pub = {
-            fecha:"Mayo 15 de 2018",
-            contenido: content,
-            url:url,
-            name:id,
-            likes:{
-                us:{
-                    me:true
-                },
-                count:0
-            }
-        };
-        var key = ref.push(pub).key;
-        document.getElementById("camera_cont").style.display = "none";
-        var url = generatePubUrl(key);
-        shareInt(url,'Hola, dale Me gusta y antojate tu tambien');
-
-
-    }
- function getPublicarView(){
-    var cont = '<div id="publicar"><div id="publicarBar"><button id="cerrar_publicar"></button><h1>Comparte tu alegria en la<br>Red del Pan</h1>';
-    cont +='<img src="src/icons/red_cupon.png"></div><div class="pub_header">';
-    cont += '<div ';
-
-    cont += 'id="captura"></div></div><input type="text/plain" name="" id="pub_content" placeholder="Escribe una frase de menos de 18 palabras">';
-    cont +='<button id="pub_share">Compartir</button><p>* Sube una foto de tu pedido.<br>* Comparte el enlace con tus';
-    cont += ' amigos  y pideles un "Me gusta".<br>* Alcanza los 50 "Me gusta".<br>* Recibe un descuento sorpresa en  ';
-    cont += 'tu siguiente compra.</p></div>';
-
-    return cont;
- }
- function generatePubUrl(key){
-    var url = "https://today-6648d.firebaseapp.com/?action=1&notId=";
-    url += key;
-    return url;
- }

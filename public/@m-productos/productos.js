@@ -19,15 +19,20 @@ define([], function(){
     this.productosJson = productosJson;
     this.clearAnimation  = clearAnimation;
     this.productos = productos;
+    this.producto = producto;
     this.setProductos = setProductos;
+    this.verProductos = verProductos;
     var reference = reference;
     var pros;
-    var productosJson;
+    var prodsJson;
     var cateAnimation;
     var catAnimPos = 0;
     var animating = false;
     var floating = false;
     var lastPos = 0;
+    function productosJson(){
+      return prodsJson;
+    }
     function setProductos(produs){
       pros = produs;
     }
@@ -58,10 +63,10 @@ define([], function(){
       categoria = reference;
       document.getElementById("cateActual").innerHTML = reference;
 
-      if(productosJson!='undefined'&&productosJson){
+      if(prodsJson!='undefined'&&prodsJson){
                 var prods = new Array();
 
-                var json = productosJson.Categorias[ref];
+                var json = prodsJson.Categorias[ref];
                 var pos = 0;
                 var keys = Object.keys(json);
                 for(i in json){
@@ -82,18 +87,18 @@ define([], function(){
 
 
 
-                console.log('json true', 'productos: ', productos);
+
                 mostrarProductos(true);
 
 
 
 
       }else{
-                console.log('json false');
+
                 var state = getProductosJson();
                 if(state){
                   checkAndSetProductosDb();
-                  console.log('check indexedDB');
+
                 }else{
                   productos = new Array();
                   getFromDB();
@@ -137,11 +142,11 @@ define([], function(){
     }
 
     function getProductosJson(){
-        if(!productosJson){
+        if(!prodsJson){
             readFromJson('../json/Productos.json', function(response){
                 if(response){
                     var json = JSON.parse(response);
-                    productosJson = json;
+                    prodsJson = json;
                     return true;
 
                 }else{
@@ -184,7 +189,7 @@ define([], function(){
                         var objStore = db.transaction(['productos'], "readwrite").objectStore('productos');
                         var data = {
                             id: 'productos',
-                            data: productosJson
+                            data: prodsJson
                         }
                         var req = objStore.put(data);
                         req.onsuccess = function(){
@@ -222,7 +227,7 @@ define([], function(){
                     var data = store.get('productos');
                     data.onsuccess = function(event){
                                     if(data.result.data){
-                                        productosJson = data.result.data;
+                                        prodsJson = data.result.data;
                                         cargarProductos(reference);
                                     }else{
                                         getProductosJson();
@@ -240,7 +245,7 @@ define([], function(){
       clearInterval(cateAnimation);
       cateAnimation = null;
       catAnimPos = lastPos;
-      console.log('clear animation')
+
     }
 
     function getCategoriasView(){
@@ -769,7 +774,7 @@ define([], function(){
 
     }
     function setCategoriasAnimation(toRight){
-        console.log('startAnim');
+
         var scroller = document.getElementById('categorias');
         scroller.addEventListener('scroll', CategoriasScrollListener);
         if(toRight){ cateAnimation = setInterval(fordward, 60);  }else{  cateAnimation = setInterval(backward, 60);  }
@@ -814,7 +819,7 @@ define([], function(){
 
 
         function stopAnim(){
-          console.log('stopAnim');
+
           clearInterval(cateAnimation);
           animating = false;
 
@@ -822,7 +827,7 @@ define([], function(){
     }
     function stopAnimation(){
       clearInterval(cateAnimation );
-      console.log('stopAnim');
+
     }
     function bodyEventListener(){
       var container = document.getElementById('container');
@@ -886,9 +891,19 @@ define([], function(){
               setCategoriasAnimation(true);
           }, 200);
 
-          console.log('to show floating categorias');
+
       }
 
+    }
+
+    function verProductos(){
+            if(carList!=null&&carList.length>0){
+                fromDay =true;
+                goMain();
+            }else{
+                fromDay =false;
+                goMain();
+            }
     }
 
   }
