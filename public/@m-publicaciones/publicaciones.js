@@ -63,66 +63,21 @@ define([], function(){
     }
 
     function cargarPubViews(init){
-         var scroller = document.getElementById('publicaciones');
-        if(pubsListener){
+      if(publicaciones.length<8){
+        var cont = '';
+        for(var i=0;i<publicaciones.length;i++){
+            publicaciones[i].visible = true;
+            cont += getViewPublicacion(publicaciones[i],i);
 
-            setTimeout(function(){
-                scroller.style.overflowY = "hidden";
-
-                toListen = false;
-                var cont = '';
-                scroller.style.overflowY = "hidden";
-
-                for(var i=0;i<publicaciones.length;i++){
-
-                    cont += getViewPublicacion(publicaciones[i],i);
-                }
-                document.getElementById("publicaciones").innerHTML = "";
-                document.getElementById("publicaciones").innerHTML = cont;
-                setTimeout(function(){
-                    var sizes = getCapacity();
-                    var comparation = parseInt((sizes.box_height+13)*(range_lenght/2).toString());
-
-
-                    if(direction_guide=='up'){
-
-                        if(range[0]<=0){
-                            top_up = true;
-
-                        }
-                         scroller.scrollTop = parseInt(comparation-(sizes.box_height).toString());
-
-
-
-
-                    }else{
-                        if(range[range.length-1]+2>publicaciones.length){
-                            top_bottom = true;
-
-                        }
-
-                        scroller.scrollTop = parseInt(comparation-(sizes.box_height/8).toString());
-
-                    }
-                    var op = 0;
-                    var anim = setInterval(function(){
-                        if(op<1){
-                            op+= 0.1;
-                            document.getElementById('publicaciones').style.opacity = op;
-                        }else{
-                            clearInterval(anim);
-                        }
-
-                    }, 8);
-
-                    view_last_pos = scroller.scrollTop;
-                    toListen = true;
-                    comparando = false;
-                    scroller.style.overflowY = "scroll";
-                  }, 180);
-              }, 250);
 
         }
+        document.getElementById("publicaciones").innerHTML = "";
+        document.getElementById("publicaciones").innerHTML = cont;
+        document.getElementById("pubLoading").style.display= 'none';
+      }else{
+
+
+        var scroller = document.getElementById('publicaciones');
         if(init){
             initList = true;
             cont = '';
@@ -194,15 +149,69 @@ define([], function(){
 
 
         }
+        if(pubsListener){
+
+            setTimeout(function(){
+                scroller.style.overflowY = "hidden";
+
+                toListen = false;
+                var cont = '';
+                scroller.style.overflowY = "hidden";
+
+                for(var i=0;i<publicaciones.length;i++){
+
+                    cont += getViewPublicacion(publicaciones[i],i);
+                }
+                document.getElementById("publicaciones").innerHTML = "";
+                document.getElementById("publicaciones").innerHTML = cont;
+                setTimeout(function(){
+                    var sizes = getCapacity();
+                    var comparation = parseInt((sizes.box_height+13)*(range_lenght/2).toString());
+
+
+                    if(direction_guide=='up'){
+
+                        if(range[0]<=0){
+                            top_up = true;
+
+                        }
+                         scroller.scrollTop = parseInt(comparation-(sizes.box_height).toString());
+
+
+
+
+                    }else{
+                        if(range[range.length-1]+2>publicaciones.length){
+                            top_bottom = true;
+
+                        }
+
+                        scroller.scrollTop = parseInt(comparation-(sizes.box_height/8).toString());
+
+                    }
+                    var op = 0;
+                    var anim = setInterval(function(){
+                        if(op<1){
+                            op+= 0.1;
+                            document.getElementById('publicaciones').style.opacity = op;
+                        }else{
+                            clearInterval(anim);
+                        }
+
+                    }, 8);
+
+                    view_last_pos = scroller.scrollTop;
+                    toListen = true;
+                    comparando = false;
+                    scroller.style.overflowY = "scroll";
+                  }, 180);
+              }, 250);
+
+        }
         if(!pubsListener){
             setScrollListener();
         }
-
-
-
-
-
-
+      }
 
     }
 
@@ -423,13 +432,14 @@ define([], function(){
         cont += pub.date;
         cont += '</h3><div class="pub_counter"><h4>';
         cont += pub.count;
-        cont += '</h4><img src="src/icons/icono_reserva.png"><h5 ';
+        cont += '</h4><img src="src/icons/icono_reserva.png"><h5 id="like';
+        cont += pos.toString()+'"';
         var txt = "Me Gusta";
         if(!pub.liked){
           cont += 'class="notLiked"';
           cont += ' onclick="pubs.like(';
           cont += "'"+pub.key+"'";
-          cont += ', 0)"';
+          cont += ', 0, '+pos.toString()+')"';
         }else{
            cont += 'class="liked"';
            txt = "Te Gusta";
@@ -443,7 +453,7 @@ define([], function(){
         }
 
     }
-    function like(key, state){
+    function like(key, state, pos){
         var ref = database.ref("Muro/publicaciones/"+key);
         ref.once('value', function(snapshot){
             var count = parseInt(snapshot.child("likes/count").val(), 10);
@@ -459,7 +469,10 @@ define([], function(){
 
             snapshot.ref.child("likes/us/"+meString).set(true);
             if(state == 0){
-                cargarPublicaciones(false);
+                document.getElementById('like'+pos.toString()).classList.remove('notLiked');
+                document.getElementById('like'+pos.toString()).classList.add('liked');
+
+                publicaciones[pos].liked = true;
             }else if(state==1){
                 abrirPublicacion();
 

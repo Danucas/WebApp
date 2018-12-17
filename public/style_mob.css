@@ -2760,7 +2760,7 @@ body{
 	overflow-y: scroll;
 	margin-left: 0vw;
 	margin-top: 0vw;
-	padding: 14vw 0vw 10vw 0vw;
+	padding: 14vw 0vw 0vw 0vw;
 	background-color: transparent;
 
 }
@@ -2824,23 +2824,25 @@ body{
 	text-align: left;
 }
 .pub_counter{
-		width: 44vw;
+		width:90vw;
 		height: 12vw;
 		display: flex;
 		margin-top: 0vw;
+		margin-left: 5vw;
+
 }
 .pub_counter h4{
 	font-size: 8vw;
 	color: #8d9a8d;
 	font-family: Assistant, sans-serif;
-
+	margin-left: 6vw;
 	width: 10vw;
 	height: 10vw;
 	text-align: center;
 	margin-top: 1vw;
 }
 .notLiked{
-	width: 24vw;
+	width: 26vw;
 	height: 8vw;
 	border-radius: 3vw;
 	background-color: #b54141;
@@ -2850,7 +2852,8 @@ body{
 	font-family: Assistant, sans-serif;
 	margin-top: 1vw;
 	padding-top: 2vw;
-	margin-left: 4vw;
+	margin-left: 6vw;
+
 
 }
 
@@ -2860,17 +2863,17 @@ body{
 	margin-top: 3vw;
 }
 .liked{
-	width: 24vw;
+	width: 26vw;
 	height: 8vw;
 	border-radius: 3vw;
-	background-color: #ffffff;
+	background-color: rgb(252, 216, 209);
 	color: #bf617f;
 	text-align: center;
-	font-size: 4.2vw;
+	font-size: 3.6vw;
 	font-family: Assistant, sans-serif;
 	margin-top: 1vw;
 	padding-top: 2vw;
-	margin-left: 4vw;
+	margin-left: 6vw;
 	font-weight: bold;
 
 }
@@ -2879,7 +2882,7 @@ body{
 	width: 10vw;
 	height: 10vw;
 	margin-top: 1vw;
-	margin-left: 4vw;
+	margin-left: 8vw;
 	border-style: none;
 	background-color: transparent;
 	background-position: center center;
