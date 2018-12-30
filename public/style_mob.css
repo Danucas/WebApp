@@ -1862,7 +1862,7 @@ body{
 
 #toast{
 	position: absolute;
-	bottom: 16vw;
+	bottom: 22vw;
 	margin-left: 7vw;
 	width: 80vw;
 	height: auto;
@@ -2893,33 +2893,64 @@ body{
 
 #player{
 	width: 100vw;
-	height: 100vw;
-
-	margin-top: 26vw;
+	height:100%;
+	margin-top: 0vw;
+	background-color: transparent;
 	position: absolute;
 	display: block;
+	object-fit: cover;
 
 }
 
 #snapshot{
 	width: 100vw;
-	height: 100vw;
-
-	margin-top: 22vw;
-	position: absolute;
-	display: none;
-
-
-}
-#photoImg{
-
-	margin-top: 28vw;
-	margin-left: 2vw;
-	width: 96vw;
-	height: 96vw;
+	height: 100%;
+	margin-top: 0vw;
 	position: absolute;
 	display: none;
 	object-fit: cover;
+
+
+}
+
+
+#photoImg{
+
+	margin-top: 10vw;
+	margin-left: 10vw;
+	width: 30vw;
+	height: 30vw;
+	position: absolute;
+	display: block;
+	object-fit: cover;
+	box-shadow: 0px 0px 18px rgba(255, 255, 255, 0.6);
+}
+
+#capture{
+	width: 18vw;
+	height: 18vw;
+	border-style: none;
+	background-color: transparent;
+	background-image: url('src/icons/capture_icon.png');
+	background-size: contain;
+	background-position: center center;
+	background-repeat: no-repeat;
+	border-radius: 50vw;
+	position: absolute;
+	margin-left: 78vw;
+	margin-top: 140vw;
+	display: block;
+
+}
+
+#resultAR{
+	margin-top: 136vw;
+	position:absolute;
+	width: 28vw;
+	height: 40vw;
+	object-fit: cover;
+	display: none;
+	box-shadow: 0px 0px 18px rgba(255, 255, 255, 0.4)
 }
 
 #startCamera{
@@ -2937,22 +2968,7 @@ body{
 	margin-top: 120%;
 	display: none;
 }
-#capture{
-	width: 18vw;
-	height: 18vw;
-	border-style: none;
-	background-color: transparent;
-	background-image: url('src/icons/capture_icon.png');
-	background-size: contain;
-	background-position: center center;
-	background-repeat: no-repeat;
-	border-radius: 50vw;
-	position: absolute;
-	margin-left: 41vw;
-	margin-top: 124%;
-	display: block;
 
-}
 #changeCamera{
 	width: 18vw;
 	height: 18vw;
@@ -2965,7 +2981,7 @@ body{
 	border-radius: 50vw;
 	position: absolute;
 	margin-left: 62vw;
-	margin-top: 120%;
+	
 	display: none;
 }
 #camera_title{
@@ -2977,6 +2993,7 @@ body{
 	position: absolute;
 	margin-top: 8vw;
 	margin-left: 8vw;
+	text-shadow: 0px 0px 10px rgba(5, 5, 5, 0.6);
 }
 #closeCamara{
 	width: 14vw;
@@ -2993,12 +3010,11 @@ body{
 
 #camera_cont{
 	width: 108vw;
-	height: 128%;
+	height: 100%;
 	margin-left: -2vw;
 	margin-top: -2vw;
-
 	position: absolute;
-	background-color: rgba(5, 5, 5, 1);
+	background-color: black;
 	display: none;
 }
 #publicar{
@@ -3233,3 +3249,10 @@ body{
 	text-align: center;
 	text-shadow: 0px 0px 28px  rgba(39, 29, 58, 1);
 }
+
+ .bigButton{
+ 	width: 40vw;
+ 	height: 10vw;
+ 
+ 	margin-top: 10vw;
+ }

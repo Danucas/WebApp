@@ -2,6 +2,7 @@ var version =  'debug=0.0.1.3.6';
 var Productos = '../@m-productos/productos';
 var Orden = '../@m-orden/orden';
 var Publicaciones = '../@m-publicaciones/publicaciones';
+var AR = '../@m-AR/AR';
 
 var tienda;
 var orden_dia;
@@ -2618,7 +2619,11 @@ function s(){
         Orden = Ordresult;
         requirejs([Publicaciones], function(Pubresult){
             Publicaciones = Pubresult;
-            hi();
+            requirejs([AR], function(ARResult){
+                AR = ARResult;
+                hi();
+            });
+            
         });
 
       });
@@ -2893,4 +2898,9 @@ function verMuro(){
 
 function verRecetas(){
 
+}
+var aug;
+function showAR(){
+    aug = new AR();
+    
 }
