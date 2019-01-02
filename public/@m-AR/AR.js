@@ -46,7 +46,7 @@ define([], function(){
 
 
 
-            navigator.getUserMedia({video:{facingMode:"environment", width: 480, height: 720}},
+            navigator.getUserMedia({video:{facingMode:"environment", width: 600, height: 840}},
             function(stream){
                 player.srcObject = stream;
                 window.localStream =stream;
@@ -55,7 +55,7 @@ define([], function(){
                 player.onplay = function(){
                     shooting = true;
                     var toast = new Toasty();
-                    toast.show("iniciando", 1000);
+                    toast.show("iniciando", 500);
 
 
 
@@ -63,16 +63,53 @@ define([], function(){
 
             },function(err){
                  var toast = new Toasty();
-                toast.show(err, 1000);
+                toast.show(err, 500);
                 console.log(err);
             });
         }
-        var MARKER;
+        var MARKERS = new Array();
 
         var loop = setInterval(takePhoto, 100);
+
+
+
         function compare(){
-        	
-        	setMarker();
+        	clearInterval(loop);
+        	for(var i=0; i<10;i++){
+        		getComparacionImagenFromFile('./@m-AR/AR_assets/marcador_'+i.toString()+'.png');
+        	}
+        	setTimeout(function(){
+				loop = setInterval(takePhoto, 300);
+			}, 300);
+
+        }
+        var file_pos = 0;
+        function getComparacionImagenFromFile(path){
+        	var img = document.createElement('img');
+        	img.onload = function(){
+        		dibujar(img, file_pos);
+        		file_pos ++;
+        	};
+        	img.src = path;
+        }
+        function dibujar(obj, pos){
+        	var canvas = document.createElement('canvas');
+        	canvas.setAttribute('id', 'subCanvas'+pos.toString());
+        	canvas.width = 200;
+        	canvas.height = 200;
+        	var contx = canvas.getContext('2d');
+        	contx.drawImage(obj, 0, 0);
+        	var imageData = contx.getImageData(0, 0, 200, 200);
+        	var li = document.createElement('li');
+        	li.appendChild(canvas);
+        	document.getElementById('canvasList').appendChild(li);
+        	processingData = false;
+        	var newData = processData(canvas.getContext('2d'), true);
+        	MARKERS.push(Array.prototype.slice.call(newData.data));
+        	contx.putImageData(newData, 0, 0);
+
+
+
         }
 
         function errorHandling(err){
@@ -91,13 +128,14 @@ define([], function(){
 
 
         }
-        
+
 
         function takePhoto(){
+        	clearInterval(loop);
             takeSnap();
-            
-           
-            
+
+
+
 		}
 		function setMarker(){
 			clearInterval(loop);
@@ -106,20 +144,20 @@ define([], function(){
 
 			context = snapshotCanvas.getContext('2d');
 			context.fillStyle = "#ffffff";
-			var list = context.getImageData(140, 100, 200, 300);
+			var list = context.getImageData(0,0, 200, 200);
 			var dat = Array.prototype.slice.call(list.data);
-			
+
 			var newLines = new Array();
 			var rgb_pos  = 0;
 			pixelSum = 0;
-			newData = new Uint8ClampedArray(200 * 300 *  4);
+			newData = new Uint8ClampedArray(200 * 200 *  4);
 
 			for(var i=0; i<dat.length;i++){
 				if(rgb_pos==0||rgb_pos==1||rgb_pos==2){
 					pixelSum = pixelSum+dat[i];
 					rgb_pos ++;
 				}else if(rgb_pos==3){
-					if(pixelSum>400){
+					if(pixelSum>420){
 						newLines.push(255);
 						newLines.push(255);
 						newLines.push(255);
@@ -135,107 +173,116 @@ define([], function(){
 				}
 
 			}
-			
+
 			var pos =0;
 			for(var i=0; i<newLines.length;i++){
 				newData[pos] = newLines[i];
 				pos ++;
 			}
-			
-			MARKER = newLines;
+
+			MARKERS.push(newLines);
 			list.data = new Uint8ClampedArray(newLines);
-			context.putImageData(list, 200, 300);
+			context.putImageData(list, 200, 200);
 			var canvas = document.createElement('canvas');
 			var ctx = canvas.getContext('2d');
 			canvas.width = 200;
-			canvas.height = 300;
-			var idata = ctx.createImageData(200, 300);
+			canvas.height = 200;
+			var idata = ctx.createImageData(200, 200);
 			idata.data.set(newData);
 			ctx.putImageData(idata, 0, 0);
 			image.src = canvas.toDataURL();
+			var toast = new Toasty();
+			toast.show('agregando marcador', 300);
 			setTimeout(function(){
-				loop = setInterval(takePhoto, 600);
-			}, 1000);
-			
+				loop = setInterval(takePhoto, 300);
+			}, 300);
+
 
 
 
 		}
+		var processingData = false;
 
-		function processData(){
-			console.log('procesingData')
+		function processData(context, files){
 
-			context = snapshotCanvas.getContext('2d');
-			context.fillStyle = "#ffffff";
-			var list = context.getImageData(140, 100, 200, 300);
-			var dat = Array.prototype.slice.call(list.data);
-			
-			var newLines = new Array();
-			var rgb_pos  = 0;
-			pixelSum = 0;
-			newData = new Uint8ClampedArray(200 * 300 *  4);
+			if(!processingData){
+				processingData = true;
+				var list;
+				if(files){
+					list = context.getImageData(0, 0, 200, 200);
+				}else{
+					list = context.getImageData(200, 118, 200, 200);
 
-			for(var i=0; i<dat.length;i++){
-				if(rgb_pos==0||rgb_pos==1||rgb_pos==2){
-					pixelSum = pixelSum+dat[i];
-					rgb_pos ++;
-				}else if(rgb_pos==3){
-					if(pixelSum>420){
-						newLines.push(255);
-						newLines.push(255);
-						newLines.push(255);
-						newLines.push(255);
-					}else {
-						newLines.push(0);
-						newLines.push(0);
-						newLines.push(0);
-						newLines.push(255);
-					}
-					pixelSum = 0;
-					rgb_pos = 0;
 				}
 
+				var dat = Array.prototype.slice.call(list.data);
+
+				var newLines = new Array();
+				var rgb_pos  = 0;
+				pixelSum = 0;
+				newData = new Uint8ClampedArray(200 * 200 *  4);
+
+				for(var i=0; i<dat.length;i++){
+					if(rgb_pos==0||rgb_pos==1||rgb_pos==2){
+						pixelSum = pixelSum+dat[i];
+						rgb_pos ++;
+					}else if(rgb_pos==3){
+						if(pixelSum>420){
+							newLines.push(255);
+							newLines.push(255);
+							newLines.push(255);
+							newLines.push(255);
+						}else {
+							newLines.push(0);
+							newLines.push(0);
+							newLines.push(0);
+							newLines.push(255);
+						}
+						pixelSum = 0;
+						rgb_pos = 0;
+					}
+
+				}
+
+				var pos =0;
+				for(var i=0; i<newLines.length;i++){
+					newData[pos] = newLines[i];
+					pos ++;
+				}
+
+
+				list.data.set(new Uint8ClampedArray(newLines));
+				context.putImageData(list, 200, 200);
+				var canvas = document.createElement('canvas');
+				var ctx = canvas.getContext('2d');
+				canvas.width = 200;
+				canvas.height = 200;
+				var idata = ctx.createImageData(200, 200);
+				idata.data.set(newData);
+				ctx.globalCompositeOperation = 'difference';
+				ctx.putImageData(idata, 0, 0);
+				image.src = canvas.toDataURL();
+				return idata;
+
 			}
-			
-			var pos =0;
-			for(var i=0; i<newLines.length;i++){
-				newData[pos] = newLines[i];
-				pos ++;
-			}
-			
-			
-			list.data = new Uint8ClampedArray(newLines);
-			context.putImageData(list, 200, 300);
-			var canvas = document.createElement('canvas');
-			var ctx = canvas.getContext('2d');
-			canvas.width = 200;
-			canvas.height = 300;
-			var idata = ctx.createImageData(200, 300);
-			idata.data.set(newData);
-			ctx.globalCompositeOperation = 'difference';
-			ctx.putImageData(idata, 0, 0);
-			image.src = canvas.toDataURL();
-			
-			if(MARKER){
-				compareImages(newLines);
-			}
+
 
 
 
 		}
 		var is = false;
-		function compareImages(newLines){
+		function compareImages(newLines, pos){
 			var range = newLines.length;
 			var comp_rang = 0;
 			var whitePix_rang = 0;
-			for(var i =0; i<MARKER.length; i++){
-				if(MARKER[i]==0){
+			for(var i =0; i<MARKERS[pos].length; i++){
+				if(MARKERS[pos][i]==0){
 					comp_rang ++;
 				}else{
 					if(newLines[i]%4!=1){
 						whitePix_rang ++;
 					}
-					
+
 				}
 			}
 
@@ -243,42 +290,34 @@ define([], function(){
 			var whitePix = 0;
 
 			for(var i =0; i<newLines.length; i++){
-				
+
 				if(newLines[i]==0){
-					if(newLines[i]==MARKER[i]){
+					if(newLines[i]==MARKERS[pos][i]){
 						input_rang ++;
 					}
 				}else{
 					if(newLines[i]%4!=1){
 						whitePix ++;
 					}
-					
+
 				}
-				
-				
+
+
 			}
 
 			var whitePercent =  parseInt((whitePix*100/whitePix_rang), 10);
 			var percent = parseInt((input_rang*100/comp_rang), 10);
 			var compPercent = 74;
 			var complex_percent = (whitePercent + percent)/2;
-			console.log(whitePercent, percent);
-			if(whitePercent>80&&whitePercent<100&&percent>60&&percent<100){
-				if(is ==false){
-					is = true;
-					var toas = new Toasty();
-					toas.show('match: '+complex_percent.toString(), 3000);
-				}
-				
-				console.log('SI: percent', complex_percent,'range: ', comp_rang, 'asserts: ', input_rang);
+			console.log(whitePercent, percent, 'marker: ',pos);
+			return { x: whitePercent, y: percent};
 
-			}else{
 
-				if(is ==true){
-					is =false;
-				}
-				
-			}
+
+
+
+
+
 
 		}
 
@@ -301,9 +340,40 @@ define([], function(){
 
 
                 // Turn the canvas image into a dataURL that can be used as a src for our photo.
-                
+
             }
-            processData();
+            processingData = false;
+            var newLines = processData(snapshotCanvas.getContext('2d'), false);
+           	var comArr = new Array();
+            if(MARKERS){
+
+				for(var i=0; i<MARKERS.length; i++){
+
+        			var result = compareImages(Array.prototype.slice.call(newLines.data), i);
+        			if(result.x>80){
+        				comArr.push(result.y);
+
+	        		}
+        		}
+        	}
+        	var compArray = comArr;
+        	if(comArr.length>0){
+        		comArr.sort(function(a, b){return b-a});
+
+        	}
+        	for(var i=0;i<compArray.length;i++){
+        		if(compArray[i]==comArr[0]){
+        			console.log('match: ', i);
+        			document.getElementById('meta_AR').innerHTML = 'match: '+i.toString();
+        		}
+        	}
+
+
+			processingData = false;
+
+			setTimeout(function(){
+				loop = setInterval(takePhoto, 100);
+			}, 300);
         }
         function iniciarCamara(){
             console.log('reiniciando');
@@ -395,8 +465,12 @@ define([], function(){
 
         }
         function setVideoView(){
-          var cont = '<video id="player"></video>';
+        	var cont= '';
+
+          cont += '<div><video id="player"></video>';
+          cont += '<div id="marco"></div></div>';
           cont += '<button id="closeCamara"></button>';
+
           cont += '<h1 id="camera_title">Escanea el marcador</h1>';
           cont += '<button id="capture"></button>';
           cont += '<canvas id="snapshot"></canvas>';
@@ -404,7 +478,8 @@ define([], function(){
           cont += '<button id="startCamera" ></button>';
           cont += '<button id="changeCamera" ></button>';
           cont += '<img id="resultAR">'
-          
+
+
           document.getElementById("camera_cont").innerHTML = '';
           document.getElementById("camera_cont").innerHTML = cont;
           document.getElementById("camera_cont").style.display ="block";

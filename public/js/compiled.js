@@ -3,6 +3,7 @@ var Productos = '../@m-productos/productos';
 var Orden = '../@m-orden/orden';
 var Publicaciones = '../@m-publicaciones/publicaciones';
 var AR = '../@m-AR/AR';
+var Engine = '../@m-3dengine/engine';
 
 var tienda;
 var orden_dia;
@@ -2621,9 +2622,13 @@ function s(){
             Publicaciones = Pubresult;
             requirejs([AR], function(ARResult){
                 AR = ARResult;
-                hi();
+                requirejs([Engine], function(engineR){
+                    Engine = engineR;
+                    hi();
+                });
+
             });
-            
+
         });
 
       });
@@ -2775,6 +2780,10 @@ function readUser(){
 
     });
 }
+function initEngine(){
+    var engine = new Engine();
+    engine.load3dObj();
+}
 
 
 
@@ -2902,5 +2911,5 @@ function verRecetas(){
 var aug;
 function showAR(){
     aug = new AR();
-    
+
 }

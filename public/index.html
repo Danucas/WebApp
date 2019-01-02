@@ -87,7 +87,8 @@
 
 </div>
 
-<button class="bigButton" onclick="showAR()"></button>
+<button class="bigButton" onclick="initEngine()"></button>
+
 
 
 
@@ -276,14 +277,20 @@
 
 </div>
 
-<div id="camera_cont">
+<div >
+	<div id="camera_cont"></div>
+	<ul id="canvasList" ></ul>
+	<h1 id="meta_AR">METADATA</h1>
+	<div id="cont3d">
+	<canvas id="canvas3d" width="300" height="300"></canvas>
+	</div>
 
 
 
 </div>
-<h1 id="toast">
 
-	</h1>
+<h1 id="toast">
+</h1>
 <div id="mainMenu" onmouseover="showMenuMain()">
 			<div style="display: flex">
 				<button class="btnbackconf" style="background-image: url('src/icons/btn_back_arrow.png');" onclick="closeMenuMain()"></button>

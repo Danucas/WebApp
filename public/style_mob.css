@@ -2891,20 +2891,31 @@ body{
 	background-image: url('src/icons/share.png');
 }
 
+
+
 #player{
 	width: 100vw;
-	height:100%;
+	height:140vw;
 	margin-top: 0vw;
-	background-color: transparent;
+	background-color: green;
 	position: absolute;
 	display: block;
 	object-fit: cover;
 
 }
+#marco{
+	width: 33.3vw;
+	height: 33.3vw;
+	margin-left: 33.3vw;
+	margin-top: 43.3vw;
+	position: absolute;
+	border-style: solid;
+	border-color: rgb(158, 234, 65);
+}
 
 #snapshot{
 	width: 100vw;
-	height: 100%;
+	height: 140vw;
 	margin-top: 0vw;
 	position: absolute;
 	display: none;
@@ -2912,8 +2923,53 @@ body{
 
 
 }
+#cont3d{
 
-
+}
+#canvas3d{
+	position: absolute;
+	width: 102vw;
+	height: 102vw;
+	object-fit: cover;
+	margin-top: -40vw;
+	margin-left: -3vw;
+	background-color: white;
+}
+#canvasList{
+	width: 100vw;
+	max-width: 100vw;
+	height: 28vw;
+	display: flex;
+	margin-top: 0;
+	margin-left: 0;
+	overflow-x: scroll;
+	overflow-y: hidden;
+	background-color: red;
+	padding: 0vw 0vw 0vw 0vw;
+}
+#meta_AR{
+	color: yellow;
+	width: 100vw;
+	height: 6vw;
+	font-size: 4vw;
+	text-align: left;
+	margin-top: 100vw;
+	padding-left: 10vw;
+	position: absolute;
+	display: block;
+	background-color: rgba(5, 5, 5, 0.4);
+}
+#canvasList li{
+	height: 28vw;
+	width: 28vw;
+	padding: 0;
+}
+#canvasList canvas{
+	height: 28vw;
+	width: 28vw;
+	object-fit: cover;
+	
+}
 #photoImg{
 
 	margin-top: 10vw;
@@ -2938,7 +2994,7 @@ body{
 	border-radius: 50vw;
 	position: absolute;
 	margin-left: 78vw;
-	margin-top: 140vw;
+	margin-top: 100vw;
 	display: block;
 
 }
@@ -3006,6 +3062,9 @@ body{
 	margin-left: 82vw;
 	margin-top:6vw;
 	display: block;
+}
+#camera_cont div{
+	padding: 0;
 }
 
 #camera_cont{
