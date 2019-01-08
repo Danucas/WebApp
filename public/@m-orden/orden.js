@@ -22,7 +22,7 @@ define([], function(){
     var prods;
 
     function print(){
-      
+
     }
     //Obtiene los datos de la orden
     function reserva(){
@@ -894,7 +894,13 @@ define([], function(){
                             ref.child('things/Direcciones/'+pos+'/lat').set(3.74564);
                             ref.child('things/Direcciones/'+pos+'/long').set(-72.756);
                             if(guardando||confirmar){
-                                getOrden();
+                              var toast = new Toasty();
+                              toast.show('Verifica tu pedido', 1600);
+                              var confButton = new ConfButton();
+                              confButton.setListener('click', function(){
+                                      confButton.hide();
+                                      getOrden();
+                              });
                             }else{
                                 reserva(dias[diaRequested-1].dia);
                             }
@@ -913,6 +919,21 @@ define([], function(){
             });
     }
     function borrarDir(pos){}
+
+
+    //elegir direccion
+    class ConfButton{
+         constructor(){
+            this.button = document.getElementById('okButton');
+            this.button.style.display = 'block';
+         }
+         setListener(type, callback){
+           this.button.addEventListener(type, callback);
+         }
+         hide(){
+           this.button.style.display = 'none';
+         }
+    }
     function selectDir(pos){
             document.getElementById("dirTxt").innerHTML = dirs[pos].direccion;
             document.getElementById("alert").style.display = "none";
@@ -921,7 +942,14 @@ define([], function(){
             ref.child('lat').set(dirs[pos].lat);
             ref.child('long').set(dirs[pos].long);
             if(guardando||confirmar){
-                getOrden();
+              var toast = new Toasty();
+              toast.show('Verifica tu pedido', 1600);
+              var confButton = new ConfButton();
+              confButton.setListener('click', function(){
+                      confButton.hide();
+                      getOrden();
+              });
+
 
             }else{
                 reserva(dias[diaRequested-1].dia);
@@ -1378,11 +1406,15 @@ define([], function(){
 
 
     function grabarOrden(ordenes){
-
+            console.log(id, user.displayName);
             var ref = database.ref('Usuarios/'+user.displayName);
+            var comp = false;
             for(var i = 0; i<ordenes.length;i++){
                 ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/estado").set(ordenes[i].orden.estado);
-                ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/Hora de entrega").set(ordenes[i].orden.hora);
+                if(ordenes[i].orden.hora!=false){
+                    ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/Hora de entrega").set(ordenes[i].orden.hora);
+                    comp  = ordenes[i].orden.hora;
+                }
                 ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/status").set(ordenes[i].orden.status);
                 ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/Total").set(ordenes[i].orden.total);
                 ref.child('Suscripcion/Dia/'+ordenes[i].dia+"/domicilio").set(ordenes[i].orden.domicilio);
@@ -1403,7 +1435,12 @@ define([], function(){
             var refAnon = database.ref('Usuarios/'+anon);
             refAnon.remove();
             id = user.displayName;
-            comprobarDireccion();
+            if(!comp){
+              comprobarHora();
+            }else{
+              comprobarDireccion();
+            }
+
     }
   }
 

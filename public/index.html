@@ -16,34 +16,33 @@
 </head>
 
 <body style="overflow: hidden;">
-
 	<script data-main="js/compiled.js" src="requirejs/require.js"></script>
 
 	<div id="redelpan">
 
-		<div id="pubLoading">
-			<img src="src/icons/wait.gif">
-			<h1>Cargando...</h1>
+			<div id="pubLoading">
+				<img src="src/icons/wait.gif">
+				<h1>Cargando...</h1>
+			</div>
+			<button id="addPub"></button>
+			<div id="addCont">
+				<img src="src/icons/add_img_icon.png" onclick="pubs.cargarImagen()">
+				<h1>Toma fotos y<br>Gana descuentos</h1>
+				<h2>Ver más</h2>
+				<img class="redCupon"src="src/icons/red_cupon.png">
+			</div>
+
+
+			<ul id="publicaciones">
+
+
+			</ul>
+
+
+
+
+
 		</div>
-		<button id="addPub"></button>
-		<div id="addCont">
-			<img src="src/icons/add_img_icon.png" onclick="pubs.cargarImagen()">
-			<h1>Toma fotos y<br>Gana descuentos</h1>
-			<h2>Ver más</h2>
-			<img class="redCupon"src="src/icons/red_cupon.png">
-		</div>
-
-
-		<ul id="publicaciones">
-
-
-		</ul>
-
-
-
-
-
-	</div>
 
 
 
@@ -52,7 +51,7 @@
 
 	<div id="promos">
 
-	</div>
+		</div>
 
 
 
@@ -63,37 +62,28 @@
 
 
 
-		<div id="main_logo"  ></div>
-		<h4 id="code_counter">1</h4>
+			<div id="main_logo"  ></div>
+			<h4 id="code_counter">1</h4>
 
 
-		<h1 id="salute">Te damos la bienvenida a tu panaderia</h1>
-		<div id="dias">
-			<h1>Dia de tu pedido</h1>
-			<h2 id="dia" onclick="verTallo(true)">Sábado</h2>
-			<h3 class="cambiarDia"  onclick="verTallo(true)">cambiar</h3>
+			<h1 id="salute">Te damos la bienvenida a tu panaderia</h1>
+			<div id="dias">
+				<h1>Dia de tu pedido</h1>
+				<h2 id="dia" onclick="verTallo(true)">Sábado</h2>
+				<h3 class="cambiarDia"  onclick="verTallo(true)">cambiar</h3>
+			</div>
+
+
+
+
+
 		</div>
 
 
 
-
-
-	</div>
-
-
-
-<div id="cats">
-
-
-</div>
-
-<button class="bigButton" onclick="initEngine()"></button>
-
-
-
-
-
+	<div id="cats"></div>
 	<div id="orden">
+
 
 
 
@@ -103,7 +93,7 @@
 
 
 		</div>
-		<h2 id="cateActual" onclick="verMuro()">Categoria</h2>
+		<h2 id="cateActual" >Categoria</h2>
 		<div  id="productos" class="productos">
 		</div>
 
@@ -128,15 +118,16 @@
 					<ul >
 						<li class="footerBtn" onclick="irFacebook()" style="background-image: url('src/icons/btn_facebook.png');"></li>
 						<li class="footerBtn" onclick="irInstagram()" style="
-						   background-image: url('src/icons/btn_instagram.png');"></li>
+							 background-image: url('+'"'+'src/icons/btn_instagram.png');"'></li>
 
 					</ul>
 			</div>
 
 		</div>
-		<a class="footerPlayBadge"href="https://goo.gl/V7Vfxk"></a>
+		<a class="footerPlayBadge" href="https://goo.gl/V7Vfxk"></a>
 
 		<h1 class="terminos" onclick="verTerminos()">Politicas de privacidad y Tratamiento de datos</h1>
+		<button class="bigButton" onclick="initEngine()">3d Engine</button>
 	</div>
 	</div>
 
@@ -248,20 +239,11 @@
 
 			</ul>
 		</div>
-
-
-
-
-
-
-
-
-
 </body>
 
 <header id="header" >
 	<button id="hamButton"></button>
-	<img id="logoHead" src="src/icons/orden_logo.png" ">
+	<img id="logoHead" src="src/icons/orden_logo.png">
 	<h3 id="notification"></h3>
 	<h1 id="mainTitle" >Medialuna | Panaderia a Domicilio</h1>
 	<button id="secondary" onclick="verTallo(true)"> </button>
@@ -272,25 +254,87 @@
 <div id="floatingCats"></div>
 <div id="alert" style="display:none;" >
 
+	<div id="drawing">
+		<div id="camera_cont"></div>
+		<ul id="canvasList" ></ul>
+		<canvas id="canvas3d"></canvas>
+		<h1 id="meta_AR">METADATA</h1>
+		<h1 id="console">log</h1>
+
+		<div id="controls_3d">
+			<div class="keyCont">
+				<button style="margin-left: 9vw;margin-top:0vw;background-image: url('src/control/up.png')"onclick="engine.mobileControl(38)"></button>
+				<button style="margin-left: 18vw;margin-top:9vw;background-image: url('src/control/right.png')"onclick="engine.mobileControl(39)"></button>
+				<button style="margin-left: 9vw;margin-top:18vw;background-image: url('src/control/down.png')"onclick="engine.mobileControl(40)"></button>
+				<button style="margin-left: 0vw;margin-top:9vw;background-image: url('src/control/left.png')"onclick="engine.mobileControl(37)"></button>
+			</div>
+			<div class="zaxis_cont">
+				<button style="margin-left: 0vw;margin-top:8vw;background-image: url('src/control/zMinus.png')" onclick="engine.mobileControl(77)"></button>
+				<button style="margin-left: 10vw;margin-top:0vw;background-image: url('src/control/zPlus.png')" onclick="engine.mobileControl(80)"></button>
+
+
+			</div>
+			<div class="modo_cont">
+
+				<button style="margin-left: 0vw;margin-top:0vw;background-image: url('src/control/tr.png')" onclick="engine.mobileControl(84)"></button>
+				<button style="margin-left: 12vw;margin-top:0vw;background-image: url('src/control/rot.png')"onclick="engine.mobileControl(82)"></button>
+				<button style="margin-left: 24vw;margin-top:0vw;background-image: url('src/control/scale.png')"onclick="engine.mobileControl(83)"></button>
+
+
+			</div>
+			<div class="focus">
+				<button id="camFocus" style="margin-left: 0vw;margin-top:0vw;background-image: url('src/control/camara.png')" onclick="engine.mobileControl(0)"></button>
+				<button id="objFocus"style="margin-left: 12vw;margin-top:0vw;background-image: url('src/control/obj.png')"onclick="engine.mobileControl(1)"></button>
+				<button style="margin-left: 24vw;margin-top:0vw;background-image: url('src/control/right.png')"onclick="engine.mobileControl(1000)"></button>
+			</div>
+			<div class="toEdit">
+				<button style="margin-left: 0vw;margin-top:0vw;background-image: url('src/control/vert.png')" onclick=""></button>
+				<button style="margin-left: 12vw;margin-top:0vw;background-image: url('src/control/face.png')"onclick=""></button>
+				<button style="margin-left: 24vw;margin-top:0vw;background-image: url('src/control/linea.png')"onclick=""></button>
+
+
+			</div>
+			<div class="material">
+
+				<button style="margin-left: 12vw;margin-top:0vw;background-image: url('src/control/right.png')"onclick="engine.aplicarColor()"></button>
+				<div id="actColor" onclick="initColorPicker()"></div>
+
+			</div>
 
 
 
-</div>
 
-<div >
-	<div id="camera_cont"></div>
-	<ul id="canvasList" ></ul>
-	<h1 id="meta_AR">METADATA</h1>
-	<div id="cont3d">
-	<canvas id="canvas3d" width="300" height="300"></canvas>
+
+	</div>
+	<div id="colorPicker">
+
+		<h1 id="pickerConsole"></h1>
+		<canvas id="saturation" ></canvas>
+		<div class="tonoCont">
+			<canvas id="tono" width="235" height="4"></canvas>
+			<input id="tonIn"type="range" step="1" min="0" max="1530" onchange="colorPicker.step(this.value)" oninput="colorPicker.step(this.value)"></input>
+
+		</div>
+
+		<img id="picked">
+		<button id="ok_color" onclick="colorPicker.setColor()"></button>
+
 	</div>
 
 
 
+
+
 </div>
 
-<h1 id="toast">
-</h1>
+
+
+
+
+</div>
+<h1 id="toast"></h1>
+<button id="okButton"></button>
+
 <div id="mainMenu" onmouseover="showMenuMain()">
 			<div style="display: flex">
 				<button class="btnbackconf" style="background-image: url('src/icons/btn_back_arrow.png');" onclick="closeMenuMain()"></button>
@@ -403,8 +447,8 @@
 
 
 			</ul>
-	</div>
-	<div id="notificaciones" onmouseover="showMenuMain(), verNotificaciones()" onmouseout="cerrarNotis()">
+</div>
+<div id="notificaciones" onmouseover="showMenuMain(), verNotificaciones()" onmouseout="cerrarNotis()">
 			<ul id="notifications_list">
 				<li>
 					<h1>Titulo</h1>
@@ -418,44 +462,16 @@
 				</li>
 			</ul>
 	</div>
-
-
-
-
-	<div id="loading" style="width: 102%;
-							 height: 102%;
-							 background-color: #fdf2f4;
-	 						 display: block;
-							 left: -1vw;
-							 top: -1vw;
-	                         position: absolute;
-	                         overflow: hidden;
-	                         ">
-		<div id="loadingImg" style="width: 12%;
-	                                             height: 12%;
-	                                             left: 44%;
+<div id="loading" style="width: 102%;height: 102%;background-color: #fdf2f4;display: block;left: -1vw;top: -1vw;position: absolute;overflow: hidden;">
+	<div id="loadingImg" style="width: 12%;height: 12%;left: 44%;
 	                                             top:44%;
                                                  size: contain;
                                                  position:absolute;
-                                                 background-image: url('src/icons/wait_gif.gif');
-                                                 background-repeat: no-repeat;
-                                                 background-size: contain;
-                                                 background-position: center center;
+                                                 background-image: url('src/icons/wait_gif.gif'); background-repeat: no-repeat;
+                                                 background-size: contain;background-position: center center;"></div>
+		<h1 id="loadingTitle" style="font-family: 'Assistant', sans-serif;color: #ff8d56;width: 102vw;font-size: 1.6vw;top: 54%;text-align: center;position: absolute;margin-left: 0;">Cargando...</h1>
 
-                                                 " ></div>
-		<h1 id="loadingTitle" style="font-family: 'Assistant', sans-serif;
-	               color: #ff8d56;
-	               width: 102vw;
-	               font-size: 1.6vw;
-	               top: 54%;
-	               text-align: center;
-	               position: absolute;
-
-	               margin-left: 0;
-	               ">Cargando...</h1>
-
-	</div>
-
+</div>
 <script type="text/javascript">
 			if( navigator.userAgent.match(/Android/i)
             	|| navigator.userAgent.match(/webOS/i)
@@ -509,9 +525,4 @@
         		return true;
     		}
 	</script>
-
-
-
-
-
 </html>

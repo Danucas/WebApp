@@ -51,13 +51,16 @@ define([], function(){
       var cont = getCategoriasView();
       catCont.innerHTML = "";
       catCont.innerHTML =cont;
-      if(floating){
+      if(floating&&fromMob){
         document.getElementById('floatingCats').style.display= 'block';
+        document.getElementById('container').addEventListener('scroll', bodyEventListener);
       }
-      document.getElementById('container').addEventListener('scroll', bodyEventListener);
 
-      clearAnimation();
-      setCategoriasAnimation(true);
+      if(fromMob){
+        clearAnimation();
+        setCategoriasAnimation(true);
+      }
+
       reference = ref;
       document.getElementById("cargandoProds").style.display="flex";
       categoria = reference;

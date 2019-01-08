@@ -4,6 +4,7 @@ var Orden = '../@m-orden/orden';
 var Publicaciones = '../@m-publicaciones/publicaciones';
 var AR = '../@m-AR/AR';
 var Engine = '../@m-3dengine/engine';
+var ColorPicker = '../@m-colorPicker/colorPicker';
 
 var tienda;
 var orden_dia;
@@ -60,14 +61,20 @@ var play_count = 3;
 var photoUrl;
 var pubs;
 var shooting = false;
+var autenticando = false;
+var ordenes;
 window.onblur = function(){
     window.onfocus = function(){
       tienda.setCategoriasAnimation(true);
       if(!focused){
           focused = true;
           console.log('retaking from suspended');
-          if(!shooting){
+          if(!shooting&&!autenticando){
              goMain();
+             autenticando= false;
+          }else{
+              console.log('autenticando');
+
           }
 
       }
@@ -117,14 +124,14 @@ function hi(){
     setDotListener();
 
 
-    setup();/*
+
     navigator.serviceWorker.register('service-worker.js')
         .then(function(reg){
         sw = reg;
         setup();
     }).catch(function(err) {
 
-    });*/
+    });
 }
 var anim_dot;
 var dot_timer;
@@ -143,6 +150,8 @@ function setDotListener(){
 
 
  }, true);
+
+
 function mouseDown(){
         console.log('setting timer');
         clearTimeout(dot_timer);
@@ -582,7 +591,7 @@ function setCss(filename){
 
 function autenticarGoogle(){
 
-
+            autenticando   = true
             document.getElementById("alert").style.display="none";
             var provider = new firebase.auth.GoogleAuthProvider();
             firebase.auth().signInWithPopup(provider).then(function(result) {
@@ -746,6 +755,7 @@ function checkFromDeleted(){
             if(snapshot.exists()){
                 regNewUser(false);
             }else{
+
                 regNewUser(true);
             }
         });
@@ -772,12 +782,8 @@ function regNewUser(darCupones){
                     ref.child('Marchante').set(marchante);
                 }
                 ref.child('things/PhotoUrl').set(user.photoURL);
-                if(guardando||confirmar){
+                getOrdenFromAnon();
 
-                    getOrdenFromAnon();
-                }else{
-                    checkForUser();
-                }
 }
 function getOrdenFromAnon(){
 
@@ -789,8 +795,11 @@ function getOrdenFromAnon(){
                     try{
                     var ordenesList = new Array();
                     snapshot.child('Suscripcion/Dia').forEach(function(dia){
+                        var hora = false;
+                        if(dia.child('Hora de entrega').exists()){
+                           hora = parseInt(dia.child('Hora de entrega').val(), 10);
+                        }
 
-                        var hora = parseInt(dia.child('Hora de entrega').val(), 10);
 
                         var total = parseInt(dia.child('Total').val(), 10);
                         var domicilio = parseInt(dia.child('domicilio').val(), 10);
@@ -845,6 +854,9 @@ function getOrdenFromAnon(){
 
 
 
+
+                }
+                else{
 
                 }
 
@@ -1376,6 +1388,28 @@ function verPerfil(){
        document.getElementById("sessionPhoto").src = user.photoURL;
 }
 function showMenuMain(){
+    if(user!=null){
+            photoUrl = user.photoURL;
+            document.getElementById("menuButton").style.backgroundSize = "cover";
+            document.getElementById("menuButton").style.backgroundImage = "url('"+photoUrl+"')";
+            document.getElementById("menuButton").addEventListener("click", showMenuMain);
+            document.getElementById("sessionUser").innerHTML = user.displayName;
+            document.getElementById("sessionHead").style.display = "block";
+            document.getElementById("cerrarSesion").style.display= "flex";
+            document.getElementById("removerCuenta").style.display = "flex";
+            document.getElementById("subTitle").addEventListener("click", showMenuMain);
+        }else{
+            document.getElementById("menuButton").style.backgroundSize = "cover";
+            if(fromMob){
+                document.getElementById("menuButton").style.backgroundImage = "url('src/icons/usu.png')";
+
+            }else{
+                document.getElementById("menuButton").style.backgroundImage = "url('src/icons/usu_orange.png')";
+
+            }
+
+            document.getElementById("menuButton").addEventListener("click", showAuthDialog);
+        }
         cancelCloseMain = false;
         if(fromMob){
             document.getElementById("alert").innerHTML = "";
@@ -1558,12 +1592,16 @@ function playQuery(){
 
                 abrirDiaDesdeNotificacion();
             }
-        break;
+            break;
         case '1':
             if(query!=null){
 
                 abrirPublicacion();
             }
+            break;
+        case '2':
+            initEngine();
+            break;
 
     }
 }
@@ -2624,7 +2662,12 @@ function s(){
                 AR = ARResult;
                 requirejs([Engine], function(engineR){
                     Engine = engineR;
-                    hi();
+                    requirejs([ColorPicker], function(picker){
+                      ColorPicker = picker;
+                      hi();
+                    })
+
+
                 });
 
             });
@@ -2780,10 +2823,22 @@ function readUser(){
 
     });
 }
+var engine;
 function initEngine(){
-    var engine = new Engine();
+    engine = new Engine();
     engine.load3dObj();
+    document.getElementById('drawing').style.display = 'grid';
+    document.getElementById('alert').style.display = 'block';
 }
+var colorPicker;
+function initColorPicker(){
+
+    colorPicker = new ColorPicker();
+    colorPicker.init();
+
+
+}
+
 
 
 
